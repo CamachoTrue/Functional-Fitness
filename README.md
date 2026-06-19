@@ -7,6 +7,7 @@ fitness. El proyecto se construira por fases con Vue 3, Supabase y Mercado Pago.
 
 - Fase 1 completada: definiciones tecnicas, entornos y despliegue.
 - Fase 2 completada: base Vue, sistema visual, layouts, rutas y vistas iniciales.
+- Fase 3 completada: esquema Supabase, RLS, Storage, seed y pruebas de base de datos.
 
 ## Desarrollo local
 
@@ -27,6 +28,7 @@ npm run build
 
 - [Decisiones tecnicas](docs/technical-decisions.md)
 - [Entornos y despliegue](docs/environments-and-deployment.md)
+- [Base de datos y Supabase](docs/database.md)
 
 ## Stack acordado
 
