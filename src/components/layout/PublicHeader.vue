@@ -1,11 +1,25 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+
+import { useAuthStore } from '../../stores/authStore'
+
+const auth = useAuthStore()
+const router = useRouter()
 
 const isMenuOpen = ref(false)
 
 const closeMenu = () => {
   isMenuOpen.value = false
+}
+
+const handleLogout = async () => {
+  closeMenu()
+  try {
+    await auth.logout()
+  } finally {
+    router.push('/')
+  }
 }
 </script>
 
@@ -43,20 +57,40 @@ const closeMenu = () => {
           >
             Paquetes
           </RouterLink>
-          <RouterLink
-            class="focus-ring rounded-sm py-2 text-sm font-medium"
-            to="/login"
-            @click="closeMenu"
-          >
-            Iniciar sesión
-          </RouterLink>
-          <RouterLink
-            class="focus-ring rounded-md bg-black px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-neutral-800"
-            to="/register"
-            @click="closeMenu"
-          >
-            Comenzar
-          </RouterLink>
+
+          <template v-if="auth.isAuthenticated">
+            <RouterLink
+              class="focus-ring rounded-sm py-2 text-sm font-medium"
+              :to="auth.homeRoute"
+              @click="closeMenu"
+            >
+              Mi panel
+            </RouterLink>
+            <button
+              class="focus-ring rounded-md border border-black px-4 py-2.5 text-center text-sm font-semibold transition hover:bg-neutral-100"
+              type="button"
+              @click="handleLogout"
+            >
+              Cerrar sesión
+            </button>
+          </template>
+
+          <template v-else>
+            <RouterLink
+              class="focus-ring rounded-sm py-2 text-sm font-medium"
+              to="/login"
+              @click="closeMenu"
+            >
+              Iniciar sesión
+            </RouterLink>
+            <RouterLink
+              class="focus-ring rounded-md bg-black px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-neutral-800"
+              to="/register"
+              @click="closeMenu"
+            >
+              Comenzar
+            </RouterLink>
+          </template>
         </div>
       </nav>
     </div>

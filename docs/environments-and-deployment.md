@@ -37,7 +37,48 @@ Se configuraran en Supabase y no se guardaran en Git:
 - `APP_URL`
 
 Los nombres exactos se mantendran iguales en desarrollo, staging y produccion;
-solo cambian sus valores.
+solo cambian sus valores. Ninguno lleva el prefijo `VITE_`: con ese prefijo se
+filtrarian al bundle del navegador. `SUPABASE_URL`, `SUPABASE_ANON_KEY` y
+`SUPABASE_SERVICE_ROLE_KEY` los inyecta Supabase automaticamente en las Edge
+Functions desplegadas; los tres restantes se configuran manualmente.
+
+### Configurar los secretos en Supabase (produccion / staging)
+
+```bash
+supabase secrets set MERCADO_PAGO_ACCESS_TOKEN=<token-de-mp>
+supabase secrets set MERCADO_PAGO_WEBHOOK_SECRET=<secreto-del-webhook>
+supabase secrets set APP_URL=https://tu-dominio.com
+```
+
+`MERCADO_PAGO_WEBHOOK_SECRET` es la clave que usa Mercado Pago para firmar la
+cabecera `x-signature`; el webhook la usa para verificar la firma HMAC y rechaza
+(401) cualquier notificacion no firmada. `APP_URL` es la URL publica del frontend
+y se usa para las `back_urls` de retorno del checkout.
+
+### Probar las Edge Functions en local (sin credenciales reales)
+
+Las funciones se pueden servir localmente sin tocar Mercado Pago real. Copia los
+nombres de secreto (nunca con prefijo `VITE_`) a `supabase/functions/.env.local`
+(archivo ignorado por Git):
+
+```bash
+# supabase/functions/.env.local  (NO se versiona)
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_ANON_KEY=<anon-key-local>
+SUPABASE_SERVICE_ROLE_KEY=<service-role-key-local>
+MERCADO_PAGO_ACCESS_TOKEN=TEST-xxxx        # token de prueba de MP
+MERCADO_PAGO_WEBHOOK_SECRET=un-secreto-de-prueba
+APP_URL=http://localhost:5173
+```
+
+```bash
+supabase functions serve --env-file supabase/functions/.env.local
+```
+
+Para la logica de negocio pura (mapeo de estados, firma, idempotencia,
+construccion del snapshot) no hace falta ni siquiera esto: los tests de Deno
+inyectan un cliente de Mercado Pago falso y un doble del client admin, y corren
+sin `MERCADO_PAGO_ACCESS_TOKEN` real (ver `docs/testing-and-harness.md`).
 
 ## Estrategia de despliegue
 

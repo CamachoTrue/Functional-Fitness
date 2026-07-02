@@ -13,14 +13,19 @@
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "db:reset": "supabase db reset",
-    "db:test": "supabase test db"
+    "db:test": "supabase test db",
+    "test:e2e": "playwright test",
+    "test:functions": "deno test --allow-env --allow-net --allow-read supabase/functions/",
+    "verify": "npm run build && npm run db:test && npm run test:e2e"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.38",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/vite": "^4.3.1",
     "@vitejs/plugin-vue": "^6.0.7",
     "supabase": "^2.107.0",

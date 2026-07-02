@@ -2,6 +2,12 @@
 node_modules/
 dist/
 
+# Playwright e2e artifacts
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
 # Local environment files
 .env
 .env.local
@@ -10,6 +16,10 @@ dist/
 # Supabase local state
 supabase/.branches/
 supabase/.temp/
+
+# Edge Function local secrets (never commit; used with `supabase functions serve --env-file`)
+supabase/functions/.env
+supabase/functions/.env.local
 
 # Editors and operating systems
 .DS_Store

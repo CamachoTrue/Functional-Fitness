@@ -47,6 +47,10 @@ PostgreSQL, REST, Storage, Studio y Edge Functions permanecen disponibles.
 - Los cuestionarios solo se crean para compras propias aprobadas.
 - Las compras solo se escriben desde operaciones privilegiadas.
 - Los administradores gestionan paquetes, ejercicios y rutinas mediante RLS.
+- El catalogo publico expone unicamente paquetes con `is_active = true` a traves
+  del rol `anon`: la policy `packages_read_active` (`using (is_active)`) y el
+  `grant select ... to anon` limitan la anon key a leer solo paquetes activos.
+  Los inactivos nunca se devuelven al visitante sin sesion.
 - Los videos viven en el bucket privado `exercise-videos`.
 
 ## Crear el primer administrador
@@ -62,6 +66,32 @@ on conflict (user_id, role) do nothing;
 
 Un administrador conserva tambien su rol `client`; `is_admin()` comprueba la
 existencia del rol administrativo sin depender de metadata editable por el usuario.
+
+## Área de administración (Fase 8, solo lectura)
+
+La Fase 8 añade el panel de administración en modo SOLO LECTURA. No introduce
+migraciones: se apoya por completo en la RLS ya existente.
+
+- Sin migraciones. `private.is_admin()` ya autoriza al administrador a leer
+  `profiles`, `user_roles`, `purchases`, `questionnaires`, `routines` y
+  `exercises`. La creación y asignación de rutinas llega en la Fase 9.
+- Lectura vía RLS. El admin lee cada tabla por separado con su propia sesión; no
+  hay endpoints privilegiados ni service key en el cliente.
+- Sin embedding `profiles` ↔ `purchases`/`questionnaires`/`routines`. Esas tablas
+  apuntan a `auth.users`, no a `profiles`, así que no existe FK directa que
+  PostgREST pueda embeber. Cada colección se lee por separado y se une **por
+  `user_id` en el cliente** (en los composables `useAdmin*`). Donde sí hay FK real
+  (por ejemplo `purchases.package_id → packages`) se podría embeber, pero para el
+  panel basta el snapshot `package_name` guardado en la propia compra.
+
+Criterios de negocio (documentados también en el JSDoc de `adminService` y los
+composables, y en la propia UI del panel):
+
+- **Cliente activo**: tiene al menos una compra con `payment_status = 'approved'`
+  vigente, es decir `end_date > now()` o `end_date` nulo (una compra aprobada sin
+  caducidad se considera vigente). La "venta" se cuenta por `created_at`.
+- **Rutina pendiente**: compra `approved` que aún no tiene una `routine` en estado
+  `assigned` para ese `user_id`/`purchase_id`.
 
 ## Videos
 

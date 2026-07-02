@@ -1,5 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+
+import CtaSection from '../../components/public/CtaSection.vue'
+import FaqSection from '../../components/public/FaqSection.vue'
+import TestimonialsSection from '../../components/public/TestimonialsSection.vue'
 </script>
 
 <template>
@@ -51,4 +55,8 @@ import { RouterLink } from 'vue-router'
       </div>
     </div>
   </section>
+
+  <TestimonialsSection />
+  <FaqSection />
+  <CtaSection />
 </template>
