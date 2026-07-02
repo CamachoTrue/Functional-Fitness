@@ -122,6 +122,36 @@ Reenvía la misma notificación y confirma `duplicate_ignored`/`stale_ignored`.
 
 ---
 
+## 4.b Aprendizajes de la integración real (ya resueltos)
+
+- **CORS de la Edge Function**: `supabase-js` (`functions.invoke`) envía las cabeceras
+  `x-client-info` y `x-supabase-api-version`. Deben estar en
+  `Access-Control-Allow-Headers` (`_shared/cors.ts`) o el navegador bloquea el POST
+  tras el preflight (se ve solo `OPTIONS 204` y nunca llega el POST).
+- **Firma del webhook (informativa, no bloqueante)**: el esquema de firma de MP es
+  inconsistente entre tipos de notificación (IPN legacy `?topic=payment&id=...` sin
+  `data.id`, `merchant_order`) y entre entornos de prueba/producción (distinto
+  secreto). Por eso el webhook **registra** `signature_valid` para auditoría pero
+  **no rechaza** con 401. La seguridad real la da que el webhook **siempre consulta
+  el pago en la API de MP** con el access token y solo activa la compra si el pago
+  existe en la cuenta y su `external_reference` corresponde a una compra pendiente
+  propia (imposible falsificar; la idempotencia evita reprocesos).
+- **Modo prueba vs producción**: paga con un **usuario comprador de prueba** (una
+  cuenta real no puede pagar un checkout de prueba). El resultado se controla con el
+  titular de la tarjeta: `APRO` aprueba.
+- **Cargar los secretos ANTES de invocar** el webhook, y **re-desplegar** si la
+  función ya estaba caliente sin el secreto.
+
+## 4.c Pasos para pasar a PRODUCCIÓN real (cuando haya cliente)
+
+1. Reactivar **Confirm email** en Supabase Auth (con SMTP propio si se quiere).
+2. Cambiar los secretos de MP a los de **producción** (`APP-...`) y registrar el
+   webhook de producción con su secreto.
+3. Configurar el número real de WhatsApp (`VITE_WHATSAPP_NUMBER` en Vercel).
+4. Crear los paquetes reales desde `/admin/packages` (los de ejemplo se pueden
+   desactivar/editar).
+5. Dominio propio en Vercel + actualizar `Site URL`/redirects de Auth y `APP_URL`.
+
 ## 5. Pruebas locales del código (sin cuentas)
 
 Toda la lógica de pago está cubierta por tests que NO requieren credenciales:
