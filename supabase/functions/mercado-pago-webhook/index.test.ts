@@ -172,19 +172,22 @@ function pendingPurchase(): PurchaseState {
   };
 }
 
-Deno.test("invalid signature returns 401 and does not change the purchase", async () => {
+Deno.test("firma inválida es informativa: se procesa igual vía API y se audita signature_valid=false", async () => {
+  // La firma de MP es inconsistente (IPN legacy, entornos prueba/prod), así que
+  // NO se rechaza por firma. La barrera real es la consulta a la API de MP: el
+  // pago existe (mock approved) y su external_reference corresponde a la compra.
   const admin = createFakeAdmin(pendingPurchase());
   const mp = createMpClient({ id: 1, status: "approved", external_reference: PURCHASE_ID });
 
   const res = await handleWebhook(makeRequest(paymentNotification), deps(admin, mp, alwaysInvalid));
 
-  assertEquals(res.status, 401);
-  assertEquals(admin.purchase?.payment_status, "pending");
-  assertEquals(admin.purchase?.start_date, null);
-  // Se audita el intento con firma inválida.
-  assertEquals(admin.events.length, 1);
-  assertEquals(admin.events[0].processing_result, "signature_invalid");
-  assertEquals(admin.events[0].signature_valid, false);
+  assertEquals(res.status, 200);
+  // El pago se aplica (la API es la autoridad), aunque la firma no validó.
+  assertEquals(admin.purchase?.payment_status, "approved");
+  const applied = admin.events.find((e) => e.processing_result === "applied");
+  assertExists(applied);
+  // La auditoría registra que la firma NO validó.
+  assertEquals(applied?.signature_valid, false);
 });
 
 Deno.test("non-payment event is ignored with 200", async () => {

@@ -123,17 +123,6 @@ export async function handleWebhook(
   const queryDataId = url.searchParams.get("data.id") ?? url.searchParams.get("id");
   const queryType = url.searchParams.get("type") ?? url.searchParams.get("topic");
 
-  // DEBUG TEMPORAL (quitar tras diagnosticar): URL completa y firma cruda para
-  // ver exactamente cómo firma MP el webhook.
-  console.log(
-    "URL_DEBUG " + JSON.stringify({
-      url: request.url,
-      xSignature: request.headers.get("x-signature"),
-      queryDataId,
-      queryType,
-    }),
-  );
-
   let payload: Record<string, unknown> = {};
   try {
     const parsed = await request.json();
@@ -151,28 +140,23 @@ export async function handleWebhook(
     ? String(bodyDataId)
     : (queryDataId ?? null);
 
-  // 1) Verificación de firma. La firma cubre data.id, así que es la referencia
-  //    para el manifest. Si es inválida: auditar y responder 401.
+  // 1) Verificación de firma (INFORMATIVA). Se registra en cada evento para
+  //    auditoría (signature_valid), pero NO se rechaza con 401. El esquema de
+  //    firma de Mercado Pago es inconsistente entre tipos de notificación (IPN
+  //    legacy con topic/id sin data.id, merchant_order) y entre los entornos de
+  //    prueba y producción (distinto secreto), por lo que exigir la firma
+  //    bloquearía notificaciones legítimas.
+  //    La BARRERA DE SEGURIDAD real está más abajo: SIEMPRE se consulta el pago
+  //    en la API de MP con el access token, y solo se activa si el pago existe
+  //    en la cuenta y su external_reference corresponde a una compra pendiente
+  //    propia. Un atacante no puede falsificar un pago aprobado (tendría que
+  //    existir de verdad en la cuenta), y la idempotencia evita reprocesos.
   const signatureValid = await verifySignature({
     xSignature,
     xRequestId,
     dataId: dataIdStr,
     secret: webhookSecret,
   });
-
-  if (!signatureValid) {
-    await recordEvent(supabaseAdmin, {
-      purchaseId: null,
-      paymentId: dataIdStr,
-      eventType,
-      action,
-      statusReceived: null,
-      signatureValid: false,
-      processingResult: "signature_invalid",
-      rawPayload: { id: dataIdStr, type: eventType, action },
-    });
-    return json(401, { error: "Invalid signature" });
-  }
 
   // 2) Sólo notificaciones de tipo 'payment'; el resto se ignora (200).
   if (eventType !== "payment") {
@@ -182,7 +166,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: null,
-      signatureValid: true,
+      signatureValid,
       processingResult: "ignored_type",
       rawPayload: { id: dataIdStr, type: eventType, action },
     });
@@ -196,7 +180,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: null,
-      signatureValid: true,
+      signatureValid,
       processingResult: "missing_payment_id",
       rawPayload: { id: null, type: eventType, action },
     });
@@ -217,7 +201,7 @@ export async function handleWebhook(
         eventType,
         action,
         statusReceived: null,
-        signatureValid: true,
+        signatureValid,
         processingResult: "payment_not_found",
         rawPayload: { id: dataIdStr, type: eventType, action },
       });
@@ -246,7 +230,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: mpStatus,
-      signatureValid: true,
+      signatureValid,
       processingResult: "purchase_not_found",
       rawPayload,
     });
@@ -271,7 +255,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: mpStatus,
-      signatureValid: true,
+      signatureValid,
       processingResult: "purchase_not_found",
       rawPayload,
     });
@@ -286,7 +270,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: mpStatus,
-      signatureValid: true,
+      signatureValid,
       processingResult: "unmapped_status",
       rawPayload,
     });
@@ -304,7 +288,7 @@ export async function handleWebhook(
       eventType,
       action,
       statusReceived: mpStatus,
-      signatureValid: true,
+      signatureValid,
       processingResult: "duplicate_ignored",
       rawPayload,
     });
@@ -322,7 +306,7 @@ export async function handleWebhook(
         eventType,
         action,
         statusReceived: mpStatus,
-        signatureValid: true,
+        signatureValid,
         processingResult: "stale_ignored",
         rawPayload,
       });
@@ -401,7 +385,7 @@ export async function handleWebhook(
     eventType,
     action,
     statusReceived: mpStatus,
-    signatureValid: true,
+    signatureValid,
     processingResult,
     rawPayload,
   });
