@@ -123,6 +123,17 @@ export async function handleWebhook(
   const queryDataId = url.searchParams.get("data.id") ?? url.searchParams.get("id");
   const queryType = url.searchParams.get("type") ?? url.searchParams.get("topic");
 
+  // DEBUG TEMPORAL (quitar tras diagnosticar): URL completa y firma cruda para
+  // ver exactamente cómo firma MP el webhook.
+  console.log(
+    "URL_DEBUG " + JSON.stringify({
+      url: request.url,
+      xSignature: request.headers.get("x-signature"),
+      queryDataId,
+      queryType,
+    }),
+  );
+
   let payload: Record<string, unknown> = {};
   try {
     const parsed = await request.json();
