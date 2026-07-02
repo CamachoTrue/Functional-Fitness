@@ -10,8 +10,11 @@ export function corsHeaders(): Record<string, string> {
   return {
     "Access-Control-Allow-Origin": getAllowedOrigin(),
     "Access-Control-Allow-Methods": "POST, OPTIONS",
+    // supabase-js (functions.invoke) envía también x-client-info y, en versiones
+    // recientes, x-supabase-api-version. Si no se permiten, el navegador bloquea
+    // el POST tras el preflight (se ve solo el OPTIONS 204 y nunca llega el POST).
     "Access-Control-Allow-Headers":
-      "authorization, content-type, apikey",
+      "authorization, content-type, apikey, x-client-info, x-supabase-api-version",
     "Vary": "Origin",
   };
 }
