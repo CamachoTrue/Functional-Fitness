@@ -98,5 +98,22 @@ export async function verifyWebhookSignature(
     await crypto.subtle.sign("HMAC", key, encoder.encode(manifest)),
   );
 
+  // DEBUG TEMPORAL (quitar tras diagnosticar): muestra el manifest y los hashes
+  // (no el secreto) para depurar la validación de firma del webhook de MP.
+  const computedHex = Array.from(computed)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  console.log(
+    "SIG_DEBUG " + JSON.stringify({
+      manifest,
+      computedHex,
+      expectedHex: v1,
+      ts,
+      xRequestId,
+      dataId,
+      secretLen: secret.length,
+    }),
+  );
+
   return timingSafeEqual(computed, expectedBytes);
 }
