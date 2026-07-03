@@ -4,6 +4,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 import BaseButton from '../../components/common/BaseButton.vue'
 import BaseInput from '../../components/common/BaseInput.vue'
+import GoogleAuthButton from '../../components/auth/GoogleAuthButton.vue'
 import { useAuthStore } from '../../stores/authStore'
 
 const auth = useAuthStore()
@@ -69,6 +70,16 @@ const handleSubmit = async () => {
           {{ auth.loading ? 'Entrando…' : 'Entrar' }}
         </BaseButton>
       </form>
+
+      <div class="mt-6 flex items-center gap-3" aria-hidden="true">
+        <span class="h-px flex-1 bg-border-subtle" />
+        <span class="text-xs font-medium text-muted">O inicia sesión con</span>
+        <span class="h-px flex-1 bg-border-subtle" />
+      </div>
+
+      <div class="mt-6">
+        <GoogleAuthButton />
+      </div>
 
       <p class="mt-6 text-center text-sm text-muted">
         ¿Aún no tienes cuenta?

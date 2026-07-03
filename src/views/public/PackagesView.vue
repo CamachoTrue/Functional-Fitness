@@ -1,14 +1,42 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import EmptyState from '../../components/common/EmptyState.vue'
 import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
 import PackageCard from '../../components/packages/PackageCard.vue'
 import { usePackages } from '../../composables/usePackages'
+import { useAuthStore } from '../../stores/authStore'
+import { fetchMyPurchases } from '../../services/paymentService'
 
 const { packages, loading, error, load } = usePackages()
+const auth = useAuthStore()
 
-onMounted(load)
+// Id del paquete del plan activo del usuario, para marcar su plan actual en la
+// comparación. Solo aplica a clientes autenticados con una compra vigente.
+const currentPackageId = ref(null)
+
+function isActiveApproved(purchase) {
+  if (purchase?.payment_status !== 'approved') return false
+  const now = Date.now()
+  if (purchase.start_date && new Date(purchase.start_date).getTime() > now) return false
+  if (purchase.end_date && new Date(purchase.end_date).getTime() <= now) return false
+  return true
+}
+
+async function loadCurrentPlan() {
+  if (!auth.isAuthenticated || auth.isAdmin) return
+  try {
+    const purchases = await fetchMyPurchases()
+    currentPackageId.value = purchases.find((p) => isActiveApproved(p))?.package_id ?? null
+  } catch {
+    currentPackageId.value = null
+  }
+}
+
+onMounted(() => {
+  load()
+  loadCurrentPlan()
+})
 </script>
 
 <template>
@@ -33,7 +61,12 @@ onMounted(load)
           v-else-if="packages.length"
           class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          <PackageCard v-for="pkg in packages" :key="pkg.id" :pkg="pkg" />
+          <PackageCard
+            v-for="pkg in packages"
+            :key="pkg.id"
+            :pkg="pkg"
+            :is-current="pkg.id === currentPackageId"
+          />
         </div>
 
         <EmptyState

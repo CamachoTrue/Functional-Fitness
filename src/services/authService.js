@@ -117,10 +117,39 @@ export async function changePassword({ email, currentPassword, newPassword }) {
   if (error) throw error
 }
 
+/**
+ * Inicia el flujo de OAuth con Google. Redirige a Google y, al volver, Supabase
+ * establece la sesión (detectSessionInUrl). Requiere que el proveedor Google esté
+ * habilitado en Supabase Auth; si no lo está, la llamada falla con un error claro
+ * y la UI lo muestra. El código queda listo para activarse en cuanto se configure.
+ */
+export async function signInWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${window.location.origin}/` },
+  })
+  if (error) throw error
+  return data
+}
+
 export async function getSession() {
   const { data, error } = await supabase.auth.getSession()
   if (error) throw error
   return data.session
+}
+
+/**
+ * Reenvía el correo de verificación de la cuenta. Solo tiene efecto cuando la
+ * confirmación por correo está activa en Supabase Auth (enable_confirmations);
+ * si no lo está, las cuentas ya nacen verificadas y no hace falta.
+ */
+export async function resendVerificationEmail(email) {
+  const { error } = await supabase.auth.resend({
+    type: 'signup',
+    email,
+    options: { emailRedirectTo: `${window.location.origin}/` },
+  })
+  if (error) throw error
 }
 
 export async function fetchProfile(userId) {

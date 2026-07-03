@@ -10,6 +10,11 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  // Marca esta tarjeta como el plan activo del usuario (comparación de planes).
+  isCurrent: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const { formatCurrency } = useCurrency()
@@ -38,6 +43,13 @@ const includes = computed(() => props.pkg.includes ?? [])
           Recomendado
         </span>
       </div>
+
+      <span
+        v-if="isCurrent"
+        class="mt-3 inline-flex w-fit items-center rounded-full border border-brand-green px-3 py-1 text-xs font-bold text-brand-green"
+      >
+        Tu plan actual
+      </span>
 
       <p class="mt-2 text-sm leading-6 text-muted">{{ pkg.description }}</p>
 

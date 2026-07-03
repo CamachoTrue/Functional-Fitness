@@ -20,6 +20,10 @@ export const useAuthStore = defineStore('auth', () => {
   const user = computed(() => session.value?.user ?? null)
   const isAuthenticated = computed(() => Boolean(session.value))
   const isAdmin = computed(() => roles.value.includes('admin'))
+  // Correo verificado. Con la confirmación por correo desactivada las cuentas
+  // nacen verificadas (email_confirmed_at presente), así que esto es true; al
+  // activarla en producción, refleja el estado real de verificación.
+  const emailVerified = computed(() => Boolean(user.value?.email_confirmed_at))
   const displayName = computed(
     () => profile.value?.full_name || user.value?.email || 'Tu cuenta',
   )
@@ -126,6 +130,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     isAuthenticated,
     isAdmin,
+    emailVerified,
     displayName,
     homeRoute,
     initialize,
