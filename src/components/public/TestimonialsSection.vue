@@ -41,17 +41,17 @@ function initials(name) {
 
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <BaseCard v-for="testimonial in testimonials" :key="testimonial.name" class="flex flex-col">
-          <p class="flex-1 text-base leading-7 text-neutral-700">“{{ testimonial.quote }}”</p>
+          <p class="flex-1 text-base leading-7 text-muted">“{{ testimonial.quote }}”</p>
           <div class="mt-6 flex items-center gap-3">
             <span
-              class="flex size-11 shrink-0 items-center justify-center rounded-full bg-surface-muted text-sm font-bold text-neutral-600"
+              class="flex size-11 shrink-0 items-center justify-center rounded-full bg-surface-muted text-sm font-bold text-muted"
               aria-hidden="true"
             >
               {{ initials(testimonial.name) }}
             </span>
             <div>
               <strong class="block text-sm">{{ testimonial.name }}</strong>
-              <span class="text-sm text-neutral-500">{{ testimonial.role }}</span>
+              <span class="text-sm text-faint">{{ testimonial.role }}</span>
             </div>
           </div>
         </BaseCard>

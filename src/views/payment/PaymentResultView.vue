@@ -97,20 +97,20 @@ onMounted(load)
 
             <dl class="mt-6 space-y-3 text-sm">
               <div class="flex justify-between gap-4">
-                <dt class="text-neutral-500">Paquete</dt>
+                <dt class="text-faint">Paquete</dt>
                 <dd class="font-semibold text-right">{{ purchase.package_name }}</dd>
               </div>
               <div class="flex justify-between gap-4">
-                <dt class="text-neutral-500">Importe</dt>
+                <dt class="text-faint">Importe</dt>
                 <dd class="font-semibold text-right">{{ formattedAmount }}</dd>
               </div>
               <div class="flex justify-between gap-4">
-                <dt class="text-neutral-500">Estado</dt>
+                <dt class="text-faint">Estado</dt>
                 <dd class="font-semibold text-right">{{ paymentStatusLabel }}</dd>
               </div>
             </dl>
 
-            <p v-if="isPending" class="mt-6 text-sm leading-6 text-neutral-600">
+            <p v-if="isPending" class="mt-6 text-sm leading-6 text-muted">
               Estamos confirmando tu pago. Esto puede tardar unos minutos; puedes recargar esta
               página para ver el estado actualizado.
             </p>
@@ -118,7 +118,7 @@ onMounted(load)
 
           <template v-else-if="error">
             <h1 class="text-2xl font-black tracking-tight">No pudimos consultar tu pago</h1>
-            <p class="mt-4 text-sm leading-6 text-neutral-600">
+            <p class="mt-4 text-sm leading-6 text-muted">
               Hubo un problema al consultar el estado de tu compra. Intenta recargar esta página en
               unos minutos.
             </p>
@@ -126,7 +126,7 @@ onMounted(load)
 
           <template v-else>
             <h1 class="text-2xl font-black tracking-tight">Gracias por tu compra</h1>
-            <p class="mt-4 text-sm leading-6 text-neutral-600">
+            <p class="mt-4 text-sm leading-6 text-muted">
               Si acabas de completar un pago, estamos confirmándolo. Inicia sesión para ver el estado
               de tu compra en tu panel.
             </p>
@@ -143,21 +143,21 @@ onMounted(load)
             </BaseButton>
 
             <RouterLink
-              class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+              class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
               to="/client/dashboard"
             >
               Ir a mi panel
             </RouterLink>
 
             <RouterLink
-              class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-neutral-100"
+              class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold text-body transition hover:bg-surface-muted"
               to="/packages"
             >
               Ver paquetes
             </RouterLink>
           </div>
 
-          <p v-if="!purchase && !error" class="mt-4 text-xs text-neutral-500">
+          <p v-if="!purchase && !error" class="mt-4 text-xs text-faint">
             ¿No ves tu compra?
             <RouterLink class="font-semibold underline underline-offset-4" :to="{ name: 'login' }">
               Inicia sesión

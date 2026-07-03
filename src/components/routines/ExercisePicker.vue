@@ -76,8 +76,8 @@ onMounted(loadExercises)
 </script>
 
 <template>
-  <div class="rounded-lg border border-dashed border-neutral-300 bg-neutral-50 p-4">
-    <p v-if="loadError" class="mb-3 text-sm text-red-700" role="alert">
+  <div class="rounded-lg border border-dashed border-border-strong bg-surface-muted p-4">
+    <p v-if="loadError" class="mb-3 text-sm text-danger" role="alert">
       {{ loadError }}
       <BaseButton class="ml-2" type="button" variant="ghost" @click="loadExercises">
         Reintentar

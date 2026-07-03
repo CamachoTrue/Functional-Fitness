@@ -1,11 +1,11 @@
 <script setup>
 import { computed } from 'vue'
 
-import BaseButton from '../common/BaseButton.vue'
 import BaseCard from '../common/BaseCard.vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseSelect from '../common/BaseSelect.vue'
 import BaseTextarea from '../common/BaseTextarea.vue'
+import SaveButton from '../common/SaveButton.vue'
 import {
   experienceOptions,
   objectiveOptions,
@@ -43,10 +43,9 @@ const daysOptions = Array.from({ length: 7 }, (_, index) => ({
   label: String(index + 1),
 }))
 
-const submitLabel = computed(() => {
-  if (props.saving) return 'Guardando…'
-  return props.isCompleted ? 'Actualizar cuestionario' : 'Guardar cuestionario'
-})
+const idleLabel = computed(() =>
+  props.isCompleted ? 'Actualizar cuestionario' : 'Guardar cuestionario',
+)
 
 function handleSubmit() {
   emit('submit')
@@ -57,7 +56,7 @@ function handleSubmit() {
   <form class="space-y-6" novalidate @submit.prevent="handleSubmit">
     <BaseCard>
       <h2 class="text-lg font-bold">Objetivo y nivel</h2>
-      <p class="mt-1 text-sm text-neutral-600">
+      <p class="mt-1 text-sm text-muted">
         Cuéntanos qué buscas y cuál es tu experiencia entrenando.
       </p>
       <div class="mt-5 grid gap-5 sm:grid-cols-2">
@@ -80,7 +79,7 @@ function handleSubmit() {
 
     <BaseCard>
       <h2 class="text-lg font-bold">Datos físicos</h2>
-      <p class="mt-1 text-sm text-neutral-600">Nos ayudan a ajustar cargas y progresiones.</p>
+      <p class="mt-1 text-sm text-muted">Nos ayudan a ajustar cargas y progresiones.</p>
       <div class="mt-5 grid gap-5 sm:grid-cols-3">
         <BaseInput
           id="age"
@@ -117,7 +116,7 @@ function handleSubmit() {
 
     <BaseCard>
       <h2 class="text-lg font-bold">Salud y lesiones</h2>
-      <p class="mt-1 text-sm text-neutral-600">
+      <p class="mt-1 text-sm text-muted">
         Indica cualquier condición que debamos tener en cuenta.
       </p>
       <div class="mt-5 space-y-5">
@@ -144,7 +143,7 @@ function handleSubmit() {
 
     <BaseCard>
       <h2 class="text-lg font-bold">Logística de entrenamiento</h2>
-      <p class="mt-1 text-sm text-neutral-600">Dónde, con qué y cuánto tiempo entrenas.</p>
+      <p class="mt-1 text-sm text-muted">Dónde, con qué y cuánto tiempo entrenas.</p>
       <div class="mt-5 grid gap-5 sm:grid-cols-2">
         <BaseSelect
           id="training_place"
@@ -190,7 +189,7 @@ function handleSubmit() {
 
     <BaseCard>
       <h2 class="text-lg font-bold">Notas adicionales</h2>
-      <p class="mt-1 text-sm text-neutral-600">Cualquier detalle extra que quieras compartir.</p>
+      <p class="mt-1 text-sm text-muted">Cualquier detalle extra que quieras compartir.</p>
       <div class="mt-5">
         <BaseTextarea
           id="additional_notes"
@@ -201,10 +200,17 @@ function handleSubmit() {
       </div>
     </BaseCard>
 
-    <p v-if="saveError" class="text-sm text-red-700" role="alert">{{ saveError }}</p>
+    <p v-if="saveError" class="text-sm text-danger" role="alert">{{ saveError }}</p>
 
     <div class="flex justify-end">
-      <BaseButton type="submit" :disabled="saving">{{ submitLabel }}</BaseButton>
+      <SaveButton
+        type="submit"
+        :saving="saving"
+        :has-error="Boolean(saveError)"
+        :idle-label="idleLabel"
+        saving-label="Guardando"
+        saved-label="Guardado"
+      />
     </div>
   </form>
 </template>

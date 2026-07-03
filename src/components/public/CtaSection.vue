@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <section class="bg-black py-18 text-white sm:py-24">
+  <section class="bg-surface-inverse py-18 text-on-inverse sm:py-24">
     <div class="page-container">
       <h2 class="max-w-2xl text-3xl font-black tracking-tight sm:text-4xl">¿Listo para empezar?</h2>
       <p class="mt-4 max-w-2xl text-base leading-7 text-neutral-300">

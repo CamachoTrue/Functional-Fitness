@@ -7,7 +7,7 @@ import TestimonialsSection from '../../components/public/TestimonialsSection.vue
 </script>
 
 <template>
-  <section class="bg-black py-20 text-white sm:py-28 lg:py-36">
+  <section class="bg-surface-inverse py-20 text-on-inverse sm:py-28 lg:py-36">
     <div class="page-container">
       <p class="text-sm font-bold tracking-[0.18em] text-brand-green uppercase">Entrenamiento online</p>
       <h1 class="mt-5 max-w-4xl text-4xl leading-tight font-black tracking-tight sm:text-6xl">
@@ -39,18 +39,18 @@ import TestimonialsSection from '../../components/public/TestimonialsSection.vue
         <p class="text-sm font-bold text-brand-green">UNA BASE CLARA</p>
         <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Todo lo necesario para avanzar.</h2>
       </div>
-      <div class="grid gap-px overflow-hidden rounded-xl border border-neutral-200 bg-neutral-200 sm:grid-cols-3">
-        <div class="bg-white p-6">
+      <div class="grid gap-px overflow-hidden rounded-xl border border-border-subtle bg-border-subtle sm:grid-cols-3">
+        <div class="bg-surface-raised p-6">
           <strong class="text-lg">Personalizado</strong>
-          <p class="mt-2 text-sm leading-6 text-neutral-600">Un plan alineado con tu objetivo y experiencia.</p>
+          <p class="mt-2 text-sm leading-6 text-muted">Un plan alineado con tu objetivo y experiencia.</p>
         </div>
-        <div class="bg-white p-6">
+        <div class="bg-surface-raised p-6">
           <strong class="text-lg">Visual</strong>
-          <p class="mt-2 text-sm leading-6 text-neutral-600">Videos de referencia para cada ejercicio.</p>
+          <p class="mt-2 text-sm leading-6 text-muted">Videos de referencia para cada ejercicio.</p>
         </div>
-        <div class="bg-white p-6">
+        <div class="bg-surface-raised p-6">
           <strong class="text-lg">Organizado</strong>
-          <p class="mt-2 text-sm leading-6 text-neutral-600">Sesiones claras, ordenadas por día.</p>
+          <p class="mt-2 text-sm leading-6 text-muted">Sesiones claras, ordenadas por día.</p>
         </div>
       </div>
     </div>

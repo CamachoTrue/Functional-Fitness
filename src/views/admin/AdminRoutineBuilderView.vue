@@ -172,14 +172,14 @@ onMounted(() => {
         <LoadingSpinner v-if="checkingExisting" label="Verificando compra" />
 
         <template v-else>
-          <p v-if="createError" class="mb-4 text-sm text-red-700" role="alert">
+          <p v-if="createError" class="mb-4 text-sm text-danger" role="alert">
             {{ createError }}
           </p>
-          <p v-if="error" class="mb-4 text-sm text-red-700" role="alert">{{ error }}</p>
+          <p v-if="error" class="mb-4 text-sm text-danger" role="alert">{{ error }}</p>
 
           <BaseCard v-if="createUserId">
             <h2 class="text-lg font-bold">Detalles de la rutina</h2>
-            <p class="mt-1 text-sm text-neutral-600">
+            <p class="mt-1 text-sm text-muted">
               Ponle un nombre para empezar a construir los días y ejercicios.
             </p>
             <div class="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -215,9 +215,9 @@ onMounted(() => {
 
         <div
           v-else-if="error && !routine"
-          class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+          class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm"
         >
-          <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+          <p class="text-sm text-danger" role="alert">{{ error }}</p>
           <BaseButton class="mt-4" type="button" variant="secondary" @click="loadRoutine">
             Recargar
           </BaseButton>
@@ -233,7 +233,7 @@ onMounted(() => {
           <BaseCard class="mb-6">
             <div class="flex flex-wrap items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <span class="text-sm font-semibold text-neutral-800">Estado:</span>
+                <span class="text-sm font-semibold text-body">Estado:</span>
                 <BaseBadge :variant="statusMeta(routine.status).variant">
                   {{ statusMeta(routine.status).label }}
                 </BaseBadge>
@@ -247,7 +247,7 @@ onMounted(() => {
                 Asignar rutina
               </BaseButton>
             </div>
-            <p v-if="error" class="mt-3 text-sm text-red-700" role="alert">{{ error }}</p>
+            <p v-if="error" class="mt-3 text-sm text-danger" role="alert">{{ error }}</p>
           </BaseCard>
 
           <RoutineBuilder

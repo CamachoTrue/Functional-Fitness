@@ -8,6 +8,7 @@ import BaseInput from '../common/BaseInput.vue'
 import BaseSelect from '../common/BaseSelect.vue'
 import BaseTextarea from '../common/BaseTextarea.vue'
 import FileUpload from '../common/FileUpload.vue'
+import SaveButton from '../common/SaveButton.vue'
 
 /**
  * Formulario de creación/edición de un ejercicio. Incluye la carga del video
@@ -31,6 +32,10 @@ const props = defineProps({
   submitLabel: {
     type: String,
     default: 'Guardar ejercicio',
+  },
+  hasError: {
+    type: Boolean,
+    default: false,
   },
   // Función que devuelve una Promise<string> con la signed URL de un path.
   getPreviewUrl: {
@@ -87,7 +92,6 @@ const hasSavedVideo = computed(() => Boolean(props.initialValue?.video_path))
 // En edición ofrecemos "Reemplazar video"; el input arranca oculto hasta pedirlo.
 const showUpload = ref(!hasSavedVideo.value)
 
-const buttonLabel = computed(() => (props.saving ? 'Guardando…' : props.submitLabel))
 
 function revokeLocalPreview() {
   if (localPreviewUrl.value) {
@@ -212,24 +216,24 @@ function handleSubmit() {
 
     <BaseCard>
       <h2 class="text-lg font-bold">Video demostrativo</h2>
-      <p class="mt-1 text-sm text-neutral-600">
+      <p class="mt-1 text-sm text-muted">
         Formatos permitidos: MP4, WebM o MOV. Tamaño máximo 50 MB.
       </p>
 
       <!-- Video guardado (edición) -->
       <div v-if="hasSavedVideo && !file" class="mt-5">
-        <p class="mb-2 text-sm font-semibold text-neutral-800">Video actual</p>
+        <p class="mb-2 text-sm font-semibold text-body">Video actual</p>
         <video
           v-if="savedPreviewUrl"
           :src="savedPreviewUrl"
           controls
           preload="metadata"
-          class="w-full max-w-md rounded-md border border-neutral-200"
+          class="w-full max-w-md rounded-md border border-border-subtle"
         />
-        <p v-else-if="savedPreviewError" class="text-sm text-red-700" role="alert">
+        <p v-else-if="savedPreviewError" class="text-sm text-danger" role="alert">
           {{ savedPreviewError }}
         </p>
-        <p v-else class="text-sm text-neutral-500">Cargando vista previa…</p>
+        <p v-else class="text-sm text-faint">Cargando vista previa…</p>
 
         <BaseButton
           v-if="!showUpload"
@@ -251,19 +255,26 @@ function handleSubmit() {
           @update:model-value="onFileSelected"
         />
         <div v-if="localPreviewUrl" class="mt-4">
-          <p class="mb-2 text-sm font-semibold text-neutral-800">Vista previa</p>
+          <p class="mb-2 text-sm font-semibold text-body">Vista previa</p>
           <video
             :src="localPreviewUrl"
             controls
             preload="metadata"
-            class="w-full max-w-md rounded-md border border-neutral-200"
+            class="w-full max-w-md rounded-md border border-border-subtle"
           />
         </div>
       </div>
     </BaseCard>
 
     <div class="flex justify-end">
-      <BaseButton type="submit" :disabled="saving">{{ buttonLabel }}</BaseButton>
+      <SaveButton
+        type="submit"
+        :saving="saving"
+        :has-error="hasError"
+        :idle-label="submitLabel"
+        saving-label="Guardando"
+        saved-label="Guardado"
+      />
     </div>
   </form>
 </template>

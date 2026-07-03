@@ -63,6 +63,8 @@ async function handleSubmit({ fields, file }) {
     } else {
       await createWithVideo({ fields, file })
     }
+    // Deja ver el estado "Guardado" del botón antes de volver a la lista.
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     router.push({ name: 'admin-exercises' })
   } catch {
     // useExercisesAdmin ya expone el mensaje en `error`; la vista lo muestra.
@@ -90,9 +92,9 @@ onMounted(loadExercise)
 
       <div
         v-else-if="loadError"
-        class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm"
       >
-        <p class="text-sm text-red-700" role="alert">{{ loadError }}</p>
+        <p class="text-sm text-danger" role="alert">{{ loadError }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="loadExercise">
           Recargar
         </BaseButton>
@@ -105,10 +107,11 @@ onMounted(loadExercise)
       />
 
       <template v-else>
-        <p v-if="error" class="mb-4 text-sm text-red-700" role="alert">{{ error }}</p>
+        <p v-if="error" class="mb-4 text-sm text-danger" role="alert">{{ error }}</p>
         <ExerciseForm
           :initial-value="initialValue"
           :saving="saving"
+          :has-error="Boolean(error)"
           :submit-label="isEdit ? 'Guardar cambios' : 'Crear ejercicio'"
           :get-preview-url="getPreviewUrl"
           @submit="handleSubmit"

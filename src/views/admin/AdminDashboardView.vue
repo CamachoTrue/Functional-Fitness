@@ -46,7 +46,7 @@ onMounted(load)
   <div class="mx-auto max-w-6xl">
     <p class="text-sm font-bold text-brand-green">CONTROL GENERAL</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Dashboard</h1>
-    <p class="mt-2 text-sm text-neutral-600">
+    <p class="mt-2 text-sm text-muted">
       Resumen de la actividad del negocio. Cliente activo: con compra aprobada vigente.
       Rutina pendiente: compra aprobada sin rutina asignada.
     </p>
@@ -54,8 +54,8 @@ onMounted(load)
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando el panel" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
@@ -64,24 +64,24 @@ onMounted(load)
       <template v-else>
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <BaseCard>
-            <p class="text-sm text-neutral-600">Ventas del mes</p>
+            <p class="text-sm text-muted">Ventas del mes</p>
             <p class="mt-3 text-3xl font-black">
               {{ formatCurrency(metrics.revenueThisMonth, metrics.revenueCurrency) }}
             </p>
-            <p class="mt-1 text-xs text-neutral-500">
+            <p class="mt-1 text-xs text-faint">
               {{ metrics.approvedThisMonth }} compras aprobadas
             </p>
           </BaseCard>
           <BaseCard>
-            <p class="text-sm text-neutral-600">Clientes activos</p>
+            <p class="text-sm text-muted">Clientes activos</p>
             <p class="mt-3 text-3xl font-black">{{ metrics.activeClients }}</p>
           </BaseCard>
           <BaseCard>
-            <p class="text-sm text-neutral-600">Compras pendientes</p>
+            <p class="text-sm text-muted">Compras pendientes</p>
             <p class="mt-3 text-3xl font-black">{{ metrics.pendingPurchases }}</p>
           </BaseCard>
           <BaseCard>
-            <p class="text-sm text-neutral-600">Rutinas pendientes</p>
+            <p class="text-sm text-muted">Rutinas pendientes</p>
             <p class="mt-3 text-3xl font-black">{{ metrics.pendingRoutines }}</p>
           </BaseCard>
         </div>
@@ -96,10 +96,10 @@ onMounted(load)
               empty-description="Cuando se registre una compra aparecerá aquí."
             >
               <template #cell-client="{ row }">
-                <span class="font-medium text-neutral-900">
+                <span class="font-medium text-body">
                   {{ row.package_name ?? '—' }}
                 </span>
-                <span class="block text-xs text-neutral-500">{{ row.user_id }}</span>
+                <span class="block text-xs text-faint">{{ row.user_id }}</span>
               </template>
               <template #cell-package_name="{ value }">{{ value ?? '—' }}</template>
               <template #cell-amount="{ row }">
@@ -127,9 +127,9 @@ onMounted(load)
               <li
                 v-for="pkg in topPackages"
                 :key="pkg.name"
-                class="flex items-center justify-between rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm"
+                class="flex items-center justify-between rounded-xl border border-border-subtle bg-surface-raised px-4 py-3 shadow-sm"
               >
-                <span class="font-medium text-neutral-900">{{ pkg.name }}</span>
+                <span class="font-medium text-body">{{ pkg.name }}</span>
                 <BaseBadge variant="neutral">{{ pkg.count }} vendidas</BaseBadge>
               </li>
             </ul>

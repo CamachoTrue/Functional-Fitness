@@ -141,7 +141,7 @@ function confirmRemoveExercise(exercise) {
     </div>
 
     <div class="mt-6">
-      <h4 class="text-sm font-semibold text-neutral-800">Ejercicios</h4>
+      <h4 class="text-sm font-semibold text-body">Ejercicios</h4>
 
       <div v-if="day.routine_exercises?.length" class="mt-3 space-y-3">
         <RoutineExerciseRow
@@ -157,7 +157,7 @@ function confirmRemoveExercise(exercise) {
           @remove="confirmRemoveExercise(exercise)"
         />
       </div>
-      <p v-else class="mt-3 text-sm text-neutral-500">
+      <p v-else class="mt-3 text-sm text-faint">
         Este día aún no tiene ejercicios. Añade uno desde la biblioteca.
       </p>
 

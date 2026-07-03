@@ -78,11 +78,11 @@ function exerciseLabel() {
 </script>
 
 <template>
-  <div class="rounded-lg border border-neutral-200 bg-white p-4">
+  <div class="rounded-lg border border-border-subtle bg-surface-raised p-4">
     <div class="flex items-start justify-between gap-3">
       <div>
-        <p class="font-semibold text-neutral-900">{{ exerciseLabel() }}</p>
-        <p v-if="exercise.exercises?.muscle_group" class="text-xs text-neutral-500">
+        <p class="font-semibold text-body">{{ exerciseLabel() }}</p>
+        <p v-if="exercise.exercises?.muscle_group" class="text-xs text-faint">
           {{ exercise.exercises.muscle_group }}
         </p>
       </div>

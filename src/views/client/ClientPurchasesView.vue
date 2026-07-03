@@ -45,15 +45,15 @@ onMounted(load)
   <div class="mx-auto max-w-4xl">
     <p class="text-sm font-bold text-brand-green">TU EVALUACIÓN</p>
     <h1 class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">Mi evaluación</h1>
-    <p class="mt-2 text-sm text-neutral-600">
+    <p class="mt-2 text-sm text-muted">
       Completa el cuestionario de cada compra confirmada para que preparemos tu rutina.
     </p>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tus compras" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">
           No pudimos cargar tus compras. Intenta de nuevo en unos minutos.
         </p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
@@ -67,7 +67,7 @@ onMounted(load)
         description="Cuando confirmemos un pago, aquí podrás completar tu cuestionario de evaluación."
       >
         <RouterLink
-          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
           to="/packages"
         >
           Ver paquetes
@@ -80,7 +80,7 @@ onMounted(load)
             <div class="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h2 class="text-lg font-bold">{{ purchase.package_name }}</h2>
-                <p class="mt-1 text-sm text-neutral-600">
+                <p class="mt-1 text-sm text-muted">
                   {{ formatCurrency(purchase.amount, purchase.currency) }}
                 </p>
                 <span
@@ -88,14 +88,14 @@ onMounted(load)
                   :class="
                     hasQuestionnaire(purchase)
                       ? 'bg-brand-green/10 text-brand-green'
-                      : 'bg-neutral-100 text-neutral-700'
+                      : 'bg-surface-muted text-muted'
                   "
                 >
                   Cuestionario: {{ hasQuestionnaire(purchase) ? 'COMPLETADO' : 'PENDIENTE' }}
                 </span>
               </div>
               <RouterLink
-                class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+                class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
                 :to="`/client/questionnaire/${purchase.id}`"
               >
                 {{ hasQuestionnaire(purchase) ? 'Editar cuestionario' : 'Completar cuestionario' }}

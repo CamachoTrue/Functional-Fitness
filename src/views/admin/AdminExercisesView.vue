@@ -26,7 +26,7 @@ onMounted(load)
       <div>
         <p class="text-sm font-bold text-brand-green">BIBLIOTECA</p>
         <h1 class="mt-2 text-3xl font-black tracking-tight">Ejercicios</h1>
-        <p class="mt-2 text-sm text-neutral-600">
+        <p class="mt-2 text-sm text-muted">
           Administra los ejercicios y sus videos demostrativos.
         </p>
       </div>
@@ -38,8 +38,8 @@ onMounted(load)
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando ejercicios" />
 
-      <div v-else-if="error && exercises.length === 0" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error && exercises.length === 0" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>

@@ -45,15 +45,15 @@ onMounted(load)
   <div class="mx-auto max-w-6xl">
     <p class="text-sm font-bold text-brand-green">EVALUACIONES</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Cuestionarios</h1>
-    <p class="mt-2 text-sm text-neutral-600">
+    <p class="mt-2 text-sm text-muted">
       Cuestionarios contestados por los clientes. Desde una compra aprobada puedes crear o asignar su rutina.
     </p>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando cuestionarios" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
@@ -67,8 +67,8 @@ onMounted(load)
         empty-description="Cuando un cliente complete su cuestionario aparecerá aquí."
       >
         <template #cell-client="{ row }">
-          <span class="font-medium text-neutral-900">{{ row.client_name ?? '—' }}</span>
-          <span class="block text-xs text-neutral-500">{{ row.client_email ?? '—' }}</span>
+          <span class="font-medium text-body">{{ row.client_name ?? '—' }}</span>
+          <span class="block text-xs text-faint">{{ row.client_email ?? '—' }}</span>
         </template>
         <template #cell-package_name="{ row }">
           <span>{{ row.package_name ?? '—' }}</span>

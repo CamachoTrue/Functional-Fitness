@@ -53,8 +53,8 @@ onMounted(reload)
       <LoadingSpinner v-if="loading" label="Cargando tu cuestionario" />
 
       <!-- Error de red al cargar: mensaje en español + posibilidad de recargar. -->
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="reload">
           Recargar
         </BaseButton>
@@ -68,7 +68,7 @@ onMounted(reload)
         description="Solo puedes completar el cuestionario de una compra confirmada. Revisa tus compras para continuar."
       >
         <RouterLink
-          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
           to="/client/dashboard"
         >
           Ir a mi panel
@@ -82,19 +82,19 @@ onMounted(reload)
             :class="
               isCompleted
                 ? 'bg-brand-green/10 text-brand-green'
-                : 'bg-neutral-100 text-neutral-700'
+                : 'bg-surface-muted text-muted'
             "
           >
             {{ isCompleted ? 'COMPLETADO' : 'PENDIENTE' }}
           </span>
-          <p class="text-sm text-neutral-600">
-            Paquete: <span class="font-semibold text-neutral-800">{{ purchase.package_name }}</span>
+          <p class="text-sm text-muted">
+            Paquete: <span class="font-semibold text-body">{{ purchase.package_name }}</span>
           </p>
         </div>
 
         <p
           v-if="saved"
-          class="mt-5 rounded-md border border-brand-green/30 bg-brand-green/10 px-4 py-3 text-sm text-neutral-800"
+          class="mt-5 rounded-md border border-brand-green/30 bg-brand-green/10 px-4 py-3 text-sm text-body"
           role="status"
         >
           Guardamos tu cuestionario. Puedes seguir editándolo cuando lo necesites.

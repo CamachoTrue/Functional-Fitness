@@ -142,7 +142,7 @@ function handleAddDay() {
           @remove-exercise="emit('remove-exercise', { dayId: day.id, exerciseRowId: $event })"
         />
       </div>
-      <p v-else class="mt-4 text-sm text-neutral-500">
+      <p v-else class="mt-4 text-sm text-faint">
         Esta rutina aún no tiene días. Añade el primero abajo.
       </p>
 

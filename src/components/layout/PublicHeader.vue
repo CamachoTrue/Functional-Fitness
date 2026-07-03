@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
 import { useAuthStore } from '../../stores/authStore'
+import ThemeToggle from '../common/ThemeToggle.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -24,25 +25,29 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <header class="border-b border-neutral-200 bg-white">
+  <header class="border-b border-border-subtle bg-surface-raised">
     <div class="page-container flex min-h-18 items-center justify-between gap-6">
       <RouterLink class="focus-ring rounded-sm text-sm font-black tracking-[0.14em] uppercase" to="/">
         Functional Fitness
       </RouterLink>
 
-      <button
-        class="focus-ring rounded-md border border-neutral-300 px-3 py-2 text-sm font-semibold md:hidden"
-        type="button"
-        :aria-expanded="isMenuOpen"
-        aria-controls="public-navigation"
-        @click="isMenuOpen = !isMenuOpen"
-      >
-        Menú
-      </button>
+      <!-- Controles siempre visibles en móvil (sin abrir el menú). -->
+      <div class="flex items-center gap-2 md:hidden">
+        <ThemeToggle />
+        <button
+          class="focus-ring rounded-md border border-border-strong px-3 py-2 text-sm font-semibold"
+          type="button"
+          :aria-expanded="isMenuOpen"
+          aria-controls="public-navigation"
+          @click="isMenuOpen = !isMenuOpen"
+        >
+          Menú
+        </button>
+      </div>
 
       <nav
         id="public-navigation"
-        class="absolute inset-x-0 top-18 z-10 border-b border-neutral-200 bg-white p-4 shadow-sm md:static md:block md:border-0 md:p-0 md:shadow-none"
+        class="absolute inset-x-0 top-18 z-10 border-b border-border-subtle bg-surface-raised p-4 shadow-sm md:static md:block md:border-0 md:p-0 md:shadow-none"
         :class="isMenuOpen ? 'block' : 'hidden md:block'"
         aria-label="Navegación principal"
       >
@@ -67,7 +72,7 @@ const handleLogout = async () => {
               Mi panel
             </RouterLink>
             <button
-              class="focus-ring rounded-md border border-black px-4 py-2.5 text-center text-sm font-semibold transition hover:bg-neutral-100"
+              class="focus-ring rounded-md border border-accent px-4 py-2.5 text-center text-sm font-semibold transition hover:bg-surface-muted"
               type="button"
               @click="handleLogout"
             >
@@ -84,13 +89,15 @@ const handleLogout = async () => {
               Iniciar sesión
             </RouterLink>
             <RouterLink
-              class="focus-ring rounded-md bg-black px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-neutral-800"
+              class="focus-ring rounded-md bg-accent px-4 py-2.5 text-center text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
               to="/register"
               @click="closeMenu"
             >
               Comenzar
             </RouterLink>
           </template>
+
+          <ThemeToggle class="mt-1 hidden md:mt-0 md:inline-flex" />
         </div>
       </nav>
     </div>

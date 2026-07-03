@@ -83,18 +83,18 @@ function handlePurchase() {
             </span>
           </div>
 
-          <p class="mt-4 leading-7 text-neutral-600">{{ pkg.description }}</p>
+          <p class="mt-4 leading-7 text-muted">{{ pkg.description }}</p>
 
           <div class="mt-6 flex items-baseline gap-2">
             <span class="text-4xl font-black tracking-tight">{{ formattedPrice }}</span>
-            <span class="text-sm text-neutral-500">/ {{ durationLabel }}</span>
+            <span class="text-sm text-faint">/ {{ durationLabel }}</span>
           </div>
 
           <div v-if="includes.length" class="mt-8">
-            <h2 class="text-sm font-bold tracking-wide text-neutral-500 uppercase">Incluye</h2>
-            <ul class="mt-3 space-y-2 text-sm text-neutral-700">
+            <h2 class="text-sm font-bold tracking-wide text-faint uppercase">Incluye</h2>
+            <ul class="mt-3 space-y-2 text-sm text-muted">
               <li v-for="item in includes" :key="item" class="flex items-start gap-2">
-                <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-neutral-400" aria-hidden="true" />
+                <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-border-strong" aria-hidden="true" />
                 <span>{{ item }}</span>
               </li>
             </ul>
@@ -105,7 +105,7 @@ function handlePurchase() {
               {{ purchasing ? 'Redirigiendo…' : 'Quiero este plan' }}
             </BaseButton>
 
-            <p v-if="purchaseError" class="mt-4 text-sm font-medium text-red-600" role="alert">
+            <p v-if="purchaseError" class="mt-4 text-sm font-medium text-danger" role="alert">
               {{ purchaseError }}
             </p>
           </div>

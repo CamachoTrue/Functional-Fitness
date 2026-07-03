@@ -5,6 +5,7 @@ import BaseButton from '../common/BaseButton.vue'
 import BaseCard from '../common/BaseCard.vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseTextarea from '../common/BaseTextarea.vue'
+import SaveButton from '../common/SaveButton.vue'
 
 /**
  * Formulario de creación/edición de un paquete. La validación de cliente está
@@ -25,6 +26,10 @@ const props = defineProps({
   submitLabel: {
     type: String,
     default: 'Guardar paquete',
+  },
+  hasError: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -54,8 +59,6 @@ const errors = reactive({
   currency: '',
   duration_days: '',
 })
-
-const buttonLabel = computed(() => (props.saving ? 'Guardando…' : props.submitLabel))
 
 function addInclude() {
   includes.value.push('')
@@ -120,7 +123,7 @@ function handleSubmit() {
   <form class="space-y-6" novalidate @submit.prevent="handleSubmit">
     <BaseCard>
       <h2 class="text-lg font-bold">Datos del paquete</h2>
-      <p class="mt-1 text-sm text-neutral-600">Información principal que verá el cliente.</p>
+      <p class="mt-1 text-sm text-muted">Información principal que verá el cliente.</p>
       <div class="mt-5 space-y-5">
         <BaseInput
           id="name"
@@ -167,7 +170,7 @@ function handleSubmit() {
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-bold">¿Qué incluye?</h2>
-          <p class="mt-1 text-sm text-neutral-600">Lista de beneficios que se mostrarán.</p>
+          <p class="mt-1 text-sm text-muted">Lista de beneficios que se mostrarán.</p>
         </div>
         <BaseButton type="button" variant="secondary" @click="addInclude">Agregar</BaseButton>
       </div>
@@ -177,7 +180,7 @@ function handleSubmit() {
             :id="`include-${index}`"
             v-model="includes[index]"
             type="text"
-            class="focus-ring min-h-11 w-full rounded-md border border-neutral-300 bg-white px-3.5 py-2.5 text-sm"
+            class="focus-ring min-h-11 w-full rounded-md border border-border-strong bg-surface-raised px-3.5 py-2.5 text-sm"
             :aria-label="`Beneficio ${index + 1}`"
             placeholder="Ej. Rutina personalizada"
           />
@@ -191,19 +194,19 @@ function handleSubmit() {
     <BaseCard>
       <h2 class="text-lg font-bold">Visibilidad</h2>
       <div class="mt-5 space-y-4">
-        <label class="flex items-center gap-3 text-sm font-medium text-neutral-800">
+        <label class="flex items-center gap-3 text-sm font-medium text-body">
           <input
             v-model="form.is_recommended"
             type="checkbox"
-            class="focus-ring size-4 rounded border-neutral-300 text-brand-green"
+            class="focus-ring size-4 rounded border-border-strong text-brand-green"
           />
           Marcar como recomendado
         </label>
-        <label class="flex items-center gap-3 text-sm font-medium text-neutral-800">
+        <label class="flex items-center gap-3 text-sm font-medium text-body">
           <input
             v-model="form.is_active"
             type="checkbox"
-            class="focus-ring size-4 rounded border-neutral-300 text-brand-green"
+            class="focus-ring size-4 rounded border-border-strong text-brand-green"
           />
           Activo (visible en el catálogo)
         </label>
@@ -211,7 +214,14 @@ function handleSubmit() {
     </BaseCard>
 
     <div class="flex justify-end">
-      <BaseButton type="submit" :disabled="saving">{{ buttonLabel }}</BaseButton>
+      <SaveButton
+        type="submit"
+        :saving="saving"
+        :has-error="hasError"
+        :idle-label="submitLabel"
+        saving-label="Guardando"
+        saved-label="Guardado"
+      />
     </div>
   </form>
 </template>

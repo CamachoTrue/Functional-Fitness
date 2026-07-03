@@ -18,11 +18,11 @@ const props = defineProps({
 })
 
 const VARIANT_CLASSES = {
-  neutral: 'bg-neutral-100 text-neutral-700',
+  neutral: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200',
   success: 'bg-brand-green/10 text-brand-green',
-  warning: 'bg-amber-100 text-amber-800',
-  danger: 'bg-red-100 text-red-700',
-  info: 'bg-blue-100 text-blue-700',
+  warning: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300',
+  danger: 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300',
+  info: 'bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300',
 }
 
 const variantClasses = computed(

@@ -1,25 +1,93 @@
 @import 'tailwindcss';
 
+/* Modo oscuro por clase: se activa cuando <html> (o un ancestro) tiene .dark. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-brand-green: #22c55e;
-  --color-ink: #0a0a0a;
-  --color-surface-muted: #f5f5f5;
   --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  /* El verde de marca es igual en ambos modos (se lee bien sobre claro y oscuro). */
+  --color-brand-green: #22c55e;
+
+  /* Tokens semánticos — valores de modo CLARO (los override de .dark están abajo).
+     Usar estos en la UI en vez de colores fijos: así el tema se voltea solo.
+       surface          → fondo de página
+       surface-muted    → fondo alterno sutil (shell de dashboards, filas hover)
+       surface-raised   → tarjetas, header, inputs, menús
+       surface-inverse  → bandas intencionalmente oscuras (hero, footer, sidebar)
+       body/muted/faint → texto principal / secundario / terciario
+       on-inverse       → texto sobre surface-inverse
+       border-subtle/strong → bordes
+       accent           → botón/CTA primario (se invierte en oscuro)
+       danger           → texto de error */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f5f5;
+  --color-surface-raised: #ffffff;
+  --color-surface-inverse: #0a0a0a;
+
+  --color-body: #0a0a0a;
+  --color-muted: #525252;
+  --color-faint: #737373;
+  --color-on-inverse: #ffffff;
+
+  --color-border-subtle: #e5e5e5;
+  --color-border-strong: #d4d4d4;
+
+  --color-accent: #0a0a0a;
+  --color-accent-foreground: #ffffff;
+  --color-accent-hover: #262626;
+
+  --color-danger: #b91c1c;
+
+  /* Mantener --color-ink por compatibilidad (equivale al texto principal). */
+  --color-ink: #0a0a0a;
+}
+
+/* Override de los mismos tokens en modo OSCURO. Como Tailwind emite los
+   --color-* en :root, redefinirlos bajo .dark hace que todas las utilidades
+   (bg-surface, text-body, border-border-subtle, …) se volteen por cascada. */
+.dark {
+  --color-surface: #0a0a0a;
+  --color-surface-muted: #161616;
+  --color-surface-raised: #1c1c1c;
+  --color-surface-inverse: #000000;
+
+  --color-body: #fafafa;
+  --color-muted: #a3a3a3;
+  --color-faint: #8a8a8a;
+  --color-on-inverse: #fafafa;
+
+  --color-border-subtle: #2a2a2a;
+  --color-border-strong: #3a3a3a;
+
+  --color-accent: #fafafa;
+  --color-accent-foreground: #0a0a0a;
+  --color-accent-hover: #e5e5e5;
+
+  --color-danger: #f87171;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     min-width: 320px;
     margin: 0;
-    background: #ffffff;
-    color: var(--color-ink);
+    background: var(--color-surface);
+    color: var(--color-body);
     font-family: var(--font-sans);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 
   button,

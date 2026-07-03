@@ -106,8 +106,8 @@ watch(
     <div class="mt-4">
       <LoadingSpinner v-if="loading" label="Cargando cliente" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load(props.id)">
           Recargar
         </BaseButton>
@@ -135,22 +135,22 @@ watch(
           </div>
           <dl class="mt-4 grid gap-4 sm:grid-cols-2">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Correo</dt>
-              <dd class="mt-1 text-sm text-neutral-900">{{ profile.email ?? '—' }}</dd>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Correo</dt>
+              <dd class="mt-1 text-sm text-body">{{ profile.email ?? '—' }}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Teléfono</dt>
-              <dd class="mt-1 text-sm text-neutral-900">{{ profile.phone ?? '—' }}</dd>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Teléfono</dt>
+              <dd class="mt-1 text-sm text-body">{{ profile.phone ?? '—' }}</dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Rol</dt>
-              <dd class="mt-1 text-sm text-neutral-900">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Rol</dt>
+              <dd class="mt-1 text-sm text-body">
                 {{ role === 'admin' ? 'Administrador' : 'Cliente' }}
               </dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Registro</dt>
-              <dd class="mt-1 text-sm text-neutral-900">{{ formatDate(profile.created_at) }}</dd>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Registro</dt>
+              <dd class="mt-1 text-sm text-body">{{ formatDate(profile.created_at) }}</dd>
             </div>
           </dl>
         </BaseCard>
@@ -166,7 +166,7 @@ watch(
               empty-description="Este cliente aún no tiene compras registradas."
             >
               <template #cell-package_name="{ value }">
-                <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+                <span class="font-medium text-body">{{ value ?? '—' }}</span>
               </template>
               <template #cell-amount="{ row }">
                 {{ formatCurrency(row.amount, row.currency) }}
@@ -196,32 +196,32 @@ watch(
                 <BaseCard>
                   <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <div>
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Objetivo</dt>
-                      <dd class="mt-1 text-sm text-neutral-900">{{ objectiveLabel(questionnaire.objective) }}</dd>
+                      <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Objetivo</dt>
+                      <dd class="mt-1 text-sm text-body">{{ objectiveLabel(questionnaire.objective) }}</dd>
                     </div>
                     <div>
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Nivel</dt>
-                      <dd class="mt-1 text-sm text-neutral-900">
+                      <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Nivel</dt>
+                      <dd class="mt-1 text-sm text-body">
                         {{ experienceLabel(questionnaire.experience_level) }}
                       </dd>
                     </div>
                     <div>
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                      <dt class="text-xs font-semibold uppercase tracking-wide text-faint">
                         Días por semana
                       </dt>
-                      <dd class="mt-1 text-sm text-neutral-900">
+                      <dd class="mt-1 text-sm text-body">
                         {{ questionnaire.days_per_week ?? '—' }}
                       </dd>
                     </div>
                     <div>
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Equipo</dt>
-                      <dd class="mt-1 text-sm text-neutral-900">
+                      <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Equipo</dt>
+                      <dd class="mt-1 text-sm text-body">
                         {{ questionnaire.equipment_available ?? '—' }}
                       </dd>
                     </div>
                     <div class="sm:col-span-2 lg:col-span-3">
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Lesiones</dt>
-                      <dd class="mt-1 text-sm text-neutral-900">{{ questionnaire.injuries ?? '—' }}</dd>
+                      <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Lesiones</dt>
+                      <dd class="mt-1 text-sm text-body">{{ questionnaire.injuries ?? '—' }}</dd>
                     </div>
                   </dl>
                 </BaseCard>
@@ -241,7 +241,7 @@ watch(
               empty-description="Este cliente aún no tiene rutinas."
             >
               <template #cell-name="{ value }">
-                <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+                <span class="font-medium text-body">{{ value ?? '—' }}</span>
               </template>
               <template #cell-status="{ value }">
                 <BaseBadge :variant="routineStatusMeta(value).variant">
@@ -256,17 +256,17 @@ watch(
         <!-- Estado actual: compras pendientes de rutina -->
         <BaseCard v-if="pendingRoutinePurchases.length > 0" class="mt-8">
           <h2 class="text-lg font-bold">Pendientes de asignar rutina</h2>
-          <p class="mt-1 text-sm text-neutral-600">
+          <p class="mt-1 text-sm text-muted">
             Compras aprobadas sin rutina asignada. Crea o asigna la rutina desde cada compra.
           </p>
           <ul class="mt-4 space-y-2">
             <li
               v-for="purchase in pendingRoutinePurchases"
               :key="purchase.id"
-              class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3"
+              class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border-subtle bg-surface-raised px-4 py-3"
             >
               <div class="flex items-center gap-3">
-                <span class="font-medium text-neutral-900">{{ purchase.package_name ?? '—' }}</span>
+                <span class="font-medium text-body">{{ purchase.package_name ?? '—' }}</span>
                 <BaseBadge variant="warning">Rutina pendiente</BaseBadge>
               </div>
               <!--

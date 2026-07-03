@@ -26,7 +26,7 @@ onMounted(load)
       <div>
         <p class="text-sm font-bold text-brand-green">CATÁLOGO</p>
         <h1 class="mt-2 text-3xl font-black tracking-tight">Paquetes</h1>
-        <p class="mt-2 text-sm text-neutral-600">
+        <p class="mt-2 text-sm text-muted">
           Crea, edita y activa o desactiva los paquetes del catálogo.
         </p>
       </div>
@@ -40,16 +40,16 @@ onMounted(load)
 
       <div
         v-else-if="error && packages.length === 0"
-        class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm"
       >
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
       </div>
 
       <template v-else>
-        <p v-if="error" class="mb-4 text-sm text-red-700" role="alert">{{ error }}</p>
+        <p v-if="error" class="mb-4 text-sm text-danger" role="alert">{{ error }}</p>
         <PackageTable :packages="packages" :saving="saving" @toggle-active="handleToggle" />
       </template>
     </div>

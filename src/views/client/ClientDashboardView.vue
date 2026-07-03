@@ -37,8 +37,8 @@ onMounted(load)
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tu panel" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
@@ -50,7 +50,7 @@ onMounted(load)
         description="Cuando confirmemos un pago, aquí verás el estado de tu cuestionario y tu rutina."
       >
         <RouterLink
-          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+          class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
           to="/packages"
         >
           Ver paquetes
@@ -62,13 +62,13 @@ onMounted(load)
         <BaseCard>
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+              <p class="text-xs font-semibold uppercase tracking-wide text-faint">
                 Tu plan
               </p>
               <h2 class="mt-1 text-xl font-black tracking-tight">
                 {{ activePurchase.package_name }}
               </h2>
-              <p class="mt-1 text-sm text-neutral-600">
+              <p class="mt-1 text-sm text-muted">
                 {{ formatCurrency(activePurchase.amount, activePurchase.currency) }}
               </p>
             </div>
@@ -77,18 +77,18 @@ onMounted(load)
 
           <dl class="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">
                 Inicio
               </dt>
-              <dd class="mt-0.5 font-medium text-neutral-900">
+              <dd class="mt-0.5 font-medium text-body">
                 {{ formatDate(activePurchase.start_date) ?? '—' }}
               </dd>
             </div>
             <div>
-              <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-faint">
                 Vencimiento
               </dt>
-              <dd class="mt-0.5 font-medium text-neutral-900">
+              <dd class="mt-0.5 font-medium text-body">
                 {{ formatDate(activePurchase.end_date) ?? 'Sin vencimiento' }}
               </dd>
             </div>
@@ -99,11 +99,11 @@ onMounted(load)
         <BaseCard>
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+              <p class="text-xs font-semibold uppercase tracking-wide text-faint">
                 Cuestionario
               </p>
               <h2 class="mt-1 text-lg font-bold">Evaluación inicial</h2>
-              <p class="mt-1 text-sm text-neutral-600">
+              <p class="mt-1 text-sm text-muted">
                 {{
                   questionnaireStatus === 'completed'
                     ? 'Ya completaste tu cuestionario. Puedes actualizarlo cuando quieras.'
@@ -117,7 +117,7 @@ onMounted(load)
           </div>
 
           <RouterLink
-            class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md border border-black bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-neutral-100"
+            class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md border border-accent bg-surface-raised px-5 py-2.5 text-sm font-semibold text-body transition hover:bg-surface-muted"
             :to="`/client/questionnaire/${activePurchase.id}`"
           >
             {{ questionnaireStatus === 'completed' ? 'Editar cuestionario' : 'Completar cuestionario' }}
@@ -128,11 +128,11 @@ onMounted(load)
         <BaseCard>
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+              <p class="text-xs font-semibold uppercase tracking-wide text-faint">
                 Rutina
               </p>
               <h2 class="mt-1 text-lg font-bold">Tu plan de entrenamiento</h2>
-              <p class="mt-1 text-sm text-neutral-600">
+              <p class="mt-1 text-sm text-muted">
                 {{
                   routineStatus === 'ready'
                     ? 'Tu rutina está lista. Consulta tus días de entrenamiento y los videos.'
@@ -147,7 +147,7 @@ onMounted(load)
 
           <RouterLink
             v-if="routineStatus === 'ready'"
-            class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+            class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
             to="/client/routine"
           >
             Ver mi rutina

@@ -49,7 +49,7 @@ function toggleActive(pkg) {
     empty-description="Crea tu primer paquete para mostrarlo en el catálogo."
   >
     <template #cell-name="{ value }">
-      <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+      <span class="font-medium text-body">{{ value ?? '—' }}</span>
     </template>
     <template #cell-price="{ row }">
       {{ formatCurrency(row.price, row.currency) }}

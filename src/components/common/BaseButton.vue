@@ -20,9 +20,9 @@ const props = defineProps({
 const variantClasses = computed(
   () =>
     ({
-      primary: 'bg-black text-white hover:bg-neutral-800',
-      secondary: 'border border-black bg-white text-black hover:bg-neutral-100',
-      ghost: 'bg-transparent text-black hover:bg-neutral-100',
+      primary: 'bg-accent text-accent-foreground hover:bg-accent-hover',
+      secondary: 'border border-accent bg-surface-raised text-body hover:bg-surface-muted',
+      ghost: 'bg-transparent text-body hover:bg-surface-muted',
     })[props.variant],
 )
 </script>

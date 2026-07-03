@@ -32,15 +32,15 @@ onMounted(load)
   <div class="mx-auto max-w-6xl">
     <p class="text-sm font-bold text-brand-green">GESTIÓN DE CLIENTES</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Clientes</h1>
-    <p class="mt-2 text-sm text-neutral-600">
+    <p class="mt-2 text-sm text-muted">
       Cliente activo: tiene una compra aprobada vigente. Plan actual: paquete de esa compra.
     </p>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando clientes" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
@@ -54,7 +54,7 @@ onMounted(load)
         empty-description="Cuando se registre un cliente aparecerá en esta lista."
       >
         <template #cell-full_name="{ value }">
-          <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+          <span class="font-medium text-body">{{ value ?? '—' }}</span>
         </template>
         <template #cell-email="{ value }">{{ value ?? '—' }}</template>
         <template #cell-phone="{ value }">{{ value ?? '—' }}</template>

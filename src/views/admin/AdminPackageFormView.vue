@@ -57,6 +57,8 @@ async function handleSubmit(payload) {
     } else {
       await create(payload)
     }
+    // Deja ver el estado "Guardado" del botón antes de volver a la lista.
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     router.push({ name: 'admin-packages' })
   } catch {
     // usePackagesAdmin ya expone el mensaje en `error`; la vista lo muestra.
@@ -84,9 +86,9 @@ onMounted(loadPackage)
 
       <div
         v-else-if="loadError"
-        class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm"
       >
-        <p class="text-sm text-red-700" role="alert">{{ loadError }}</p>
+        <p class="text-sm text-danger" role="alert">{{ loadError }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="loadPackage">
           Recargar
         </BaseButton>
@@ -99,10 +101,11 @@ onMounted(loadPackage)
       />
 
       <template v-else>
-        <p v-if="error" class="mb-4 text-sm text-red-700" role="alert">{{ error }}</p>
+        <p v-if="error" class="mb-4 text-sm text-danger" role="alert">{{ error }}</p>
         <PackageForm
           :initial-value="initialValue"
           :saving="saving"
+          :has-error="Boolean(error)"
           :submit-label="isEdit ? 'Guardar cambios' : 'Crear paquete'"
           @submit="handleSubmit"
         />

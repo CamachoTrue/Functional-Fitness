@@ -51,11 +51,11 @@ const columns = [
     empty-description="Crea una rutina o asígnala desde un cuestionario aprobado."
   >
     <template #cell-client="{ row }">
-      <span class="font-medium text-neutral-900">{{ row.client_name ?? '—' }}</span>
-      <span class="block text-xs text-neutral-500">{{ row.client_email ?? '—' }}</span>
+      <span class="font-medium text-body">{{ row.client_name ?? '—' }}</span>
+      <span class="block text-xs text-faint">{{ row.client_email ?? '—' }}</span>
     </template>
     <template #cell-name="{ value }">
-      <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+      <span class="font-medium text-body">{{ value ?? '—' }}</span>
     </template>
     <template #cell-status="{ value }">
       <BaseBadge :variant="statusMeta(value).variant">{{ statusMeta(value).label }}</BaseBadge>

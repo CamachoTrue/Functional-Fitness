@@ -39,16 +39,16 @@ const includes = computed(() => props.pkg.includes ?? [])
         </span>
       </div>
 
-      <p class="mt-2 text-sm leading-6 text-neutral-600">{{ pkg.description }}</p>
+      <p class="mt-2 text-sm leading-6 text-muted">{{ pkg.description }}</p>
 
       <div class="mt-5 flex items-baseline gap-2">
         <span class="text-3xl font-black tracking-tight">{{ formattedPrice }}</span>
-        <span class="text-sm text-neutral-500">/ {{ durationLabel }}</span>
+        <span class="text-sm text-faint">/ {{ durationLabel }}</span>
       </div>
 
-      <ul v-if="includes.length" class="mt-5 space-y-2 text-sm text-neutral-700">
+      <ul v-if="includes.length" class="mt-5 space-y-2 text-sm text-muted">
         <li v-for="item in includes" :key="item" class="flex items-start gap-2">
-          <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-neutral-400" aria-hidden="true" />
+          <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-faint" aria-hidden="true" />
           <span>{{ item }}</span>
         </li>
       </ul>

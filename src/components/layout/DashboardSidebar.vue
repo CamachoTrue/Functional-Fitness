@@ -2,6 +2,7 @@
 import { RouterLink, useRouter } from 'vue-router'
 
 import { useAuthStore } from '../../stores/authStore'
+import ThemeToggle from '../common/ThemeToggle.vue'
 
 defineProps({
   eyebrow: {
@@ -27,7 +28,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <aside class="flex flex-col bg-black p-5 text-white lg:min-h-screen lg:p-7">
+  <aside class="flex flex-col bg-surface-inverse p-5 text-on-inverse lg:min-h-screen lg:p-7">
     <RouterLink class="focus-ring block rounded-sm text-sm font-black tracking-[0.14em] uppercase" to="/">
       Functional Fitness
     </RouterLink>
@@ -46,7 +47,10 @@ const handleLogout = async () => {
     </nav>
 
     <div class="mt-6 border-t border-neutral-800 pt-5 lg:mt-auto">
-      <p class="truncate text-sm font-medium text-white">{{ auth.displayName }}</p>
+      <div class="mb-3 flex items-center justify-between gap-3">
+        <p class="min-w-0 truncate text-sm font-medium text-on-inverse">{{ auth.displayName }}</p>
+        <ThemeToggle class="shrink-0" />
+      </div>
       <button
         class="focus-ring mt-3 w-full rounded-md border border-neutral-700 px-3 py-2.5 text-left text-sm text-neutral-300 transition hover:bg-neutral-900 hover:text-white"
         type="button"

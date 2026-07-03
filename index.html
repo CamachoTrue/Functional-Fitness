@@ -8,6 +8,22 @@
       content="Entrenamientos personalizados de functional fitness para tu nivel y objetivos."
     />
     <title>Functional Fitness</title>
+    <script>
+      // Aplica el tema ANTES de pintar para evitar el parpadeo (FOUC).
+      // Prioridad: elección guardada del usuario > preferencia del sistema.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+          var isDark = stored ? stored === 'dark' : prefersDark
+          document.documentElement.classList.toggle('dark', isDark)
+        } catch (e) {
+          /* localStorage no disponible: se queda en claro */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>

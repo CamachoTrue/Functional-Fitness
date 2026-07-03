@@ -22,8 +22,8 @@ onMounted(load)
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tu rutina" />
 
-      <div v-else-if="error" class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <p class="text-sm text-red-700" role="alert">{{ error }}</p>
+      <div v-else-if="error" class="rounded-xl border border-border-subtle bg-surface-raised p-6 shadow-sm">
+        <p class="text-sm text-danger" role="alert">{{ error }}</p>
         <BaseButton class="mt-4" type="button" variant="secondary" @click="load">
           Recargar
         </BaseButton>
@@ -37,12 +37,12 @@ onMounted(load)
 
       <div v-else>
         <header v-if="routine.objective || routine.general_notes">
-          <p v-if="routine.objective" class="text-base font-semibold text-neutral-900">
+          <p v-if="routine.objective" class="text-base font-semibold text-body">
             {{ routine.objective }}
           </p>
           <p
             v-if="routine.general_notes"
-            class="mt-2 whitespace-pre-line text-sm leading-6 text-neutral-700"
+            class="mt-2 whitespace-pre-line text-sm leading-6 text-muted"
           >
             {{ routine.general_notes }}
           </p>

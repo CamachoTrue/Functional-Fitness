@@ -56,7 +56,7 @@ function confirmDelete(exercise) {
 
 <template>
   <div>
-    <p v-if="deleteError" class="mb-4 text-sm text-red-700" role="alert">{{ deleteError }}</p>
+    <p v-if="deleteError" class="mb-4 text-sm text-danger" role="alert">{{ deleteError }}</p>
 
     <BaseTable
       :columns="columns"
@@ -65,7 +65,7 @@ function confirmDelete(exercise) {
       empty-description="Crea tu primer ejercicio para construir rutinas."
     >
       <template #cell-name="{ value }">
-        <span class="font-medium text-neutral-900">{{ value ?? '—' }}</span>
+        <span class="font-medium text-body">{{ value ?? '—' }}</span>
       </template>
       <template #cell-category="{ value }">{{ value ?? '—' }}</template>
       <template #cell-muscle_group="{ value }">{{ value ?? '—' }}</template>

@@ -34,7 +34,7 @@ const props = defineProps({
       </div>
     </div>
 
-    <p v-if="day.notes" class="mt-3 whitespace-pre-line text-sm leading-6 text-neutral-700">
+    <p v-if="day.notes" class="mt-3 whitespace-pre-line text-sm leading-6 text-muted">
       {{ day.notes }}
     </p>
 
@@ -46,6 +46,6 @@ const props = defineProps({
         :get-video-url="props.getVideoUrl"
       />
     </div>
-    <p v-else class="mt-5 text-sm text-neutral-500">Este día aún no tiene ejercicios.</p>
+    <p v-else class="mt-5 text-sm text-faint">Este día aún no tiene ejercicios.</p>
   </BaseCard>
 </template>

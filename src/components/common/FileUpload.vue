@@ -55,19 +55,19 @@ function handleChange(event) {
 
 <template>
   <div>
-    <label class="mb-2 block text-sm font-semibold text-neutral-800" :for="id">{{ label }}</label>
+    <label class="mb-2 block text-sm font-semibold text-body" :for="id">{{ label }}</label>
     <input
       v-bind="$attrs"
       :id="id"
       type="file"
       :accept="accept"
-      class="focus-ring w-full rounded-md border bg-white px-3.5 py-2.5 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-neutral-900 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-neutral-800"
-      :class="error ? 'border-red-500' : 'border-neutral-300'"
+      class="focus-ring w-full rounded-md border bg-surface-raised px-3.5 py-2.5 text-sm text-body file:mr-3 file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-accent-foreground hover:file:bg-accent-hover"
+      :class="error ? 'border-red-500' : 'border-border-strong'"
       :aria-invalid="Boolean(error)"
       :aria-describedby="error ? `${id}-error` : undefined"
       @change="handleChange"
     />
-    <p v-if="selectedLabel" class="mt-1.5 text-sm text-neutral-600">{{ selectedLabel }}</p>
-    <p v-if="error" :id="`${id}-error`" class="mt-1.5 text-sm text-red-700">{{ error }}</p>
+    <p v-if="selectedLabel" class="mt-1.5 text-sm text-muted">{{ selectedLabel }}</p>
+    <p v-if="error" :id="`${id}-error`" class="mt-1.5 text-sm text-danger">{{ error }}</p>
   </div>
 </template>

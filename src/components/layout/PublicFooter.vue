@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-black py-10 text-white">
+  <footer class="bg-surface-inverse py-10 text-on-inverse">
     <div class="page-container flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p class="text-sm font-black tracking-[0.14em] uppercase">Functional Fitness</p>

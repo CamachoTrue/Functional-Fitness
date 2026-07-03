@@ -66,16 +66,16 @@ function rowIdentifier(row, index) {
 
     <div
       v-else
-      class="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm"
+      class="overflow-x-auto rounded-xl border border-border-subtle bg-surface-raised shadow-sm"
     >
       <table class="w-full min-w-full border-collapse text-sm">
         <thead>
-          <tr class="border-b border-neutral-200 bg-neutral-50">
+          <tr class="border-b border-border-subtle bg-surface-muted">
             <th
               v-for="column in columns"
               :key="column.key"
               scope="col"
-              class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-neutral-500"
+              class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-faint"
               :class="alignClass(column)"
             >
               {{ column.label }}
@@ -86,12 +86,12 @@ function rowIdentifier(row, index) {
           <tr
             v-for="(row, index) in rows"
             :key="rowIdentifier(row, index)"
-            class="border-b border-neutral-100 last:border-0 hover:bg-neutral-50"
+            class="border-b border-border-subtle last:border-0 hover:bg-surface-muted"
           >
             <td
               v-for="column in columns"
               :key="column.key"
-              class="px-4 py-3 text-neutral-800 align-middle"
+              class="px-4 py-3 text-body align-middle"
               :class="alignClass(column)"
             >
               <slot :name="`cell-${column.key}`" :row="row" :value="row[column.key]">

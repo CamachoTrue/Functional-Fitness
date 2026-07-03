@@ -58,7 +58,7 @@ async function playVideo() {
   <BaseCard>
     <div class="flex flex-wrap items-start justify-between gap-3">
       <div class="min-w-0">
-        <p class="font-semibold text-neutral-900">
+        <p class="font-semibold text-body">
           {{ exercise.exercises?.name ?? 'Ejercicio' }}
         </p>
         <div class="mt-1 flex flex-wrap items-center gap-2">
@@ -74,44 +74,44 @@ async function playVideo() {
 
     <dl class="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Series</dt>
-        <dd class="mt-0.5 font-medium text-neutral-900">{{ exercise.sets || '—' }}</dd>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Series</dt>
+        <dd class="mt-0.5 font-medium text-body">{{ exercise.sets || '—' }}</dd>
       </div>
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Repeticiones</dt>
-        <dd class="mt-0.5 font-medium text-neutral-900">{{ exercise.reps || '—' }}</dd>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Repeticiones</dt>
+        <dd class="mt-0.5 font-medium text-body">{{ exercise.reps || '—' }}</dd>
       </div>
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Descanso</dt>
-        <dd class="mt-0.5 font-medium text-neutral-900">
+        <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Descanso</dt>
+        <dd class="mt-0.5 font-medium text-body">
           {{ exercise.rest_seconds != null ? `${exercise.rest_seconds}s` : '—' }}
         </dd>
       </div>
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Tempo</dt>
-        <dd class="mt-0.5 font-medium text-neutral-900">{{ exercise.tempo || '—' }}</dd>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-faint">Tempo</dt>
+        <dd class="mt-0.5 font-medium text-body">{{ exercise.tempo || '—' }}</dd>
       </div>
     </dl>
 
     <div v-if="exercise.exercises?.description" class="mt-4">
-      <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Cómo se hace</p>
-      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-neutral-700">
+      <p class="text-xs font-semibold uppercase tracking-wide text-faint">Cómo se hace</p>
+      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-muted">
         {{ exercise.exercises.description }}
       </p>
     </div>
 
     <div v-if="exercise.exercises?.common_mistakes" class="mt-4">
-      <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">Errores comunes</p>
-      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-neutral-700">
+      <p class="text-xs font-semibold uppercase tracking-wide text-faint">Errores comunes</p>
+      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-muted">
         {{ exercise.exercises.common_mistakes }}
       </p>
     </div>
 
     <div v-if="exercise.notes" class="mt-4 rounded-lg bg-surface-muted p-3">
-      <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+      <p class="text-xs font-semibold uppercase tracking-wide text-faint">
         Notas del entrenador
       </p>
-      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-neutral-700">
+      <p class="mt-1 whitespace-pre-line text-sm leading-6 text-muted">
         {{ exercise.notes }}
       </p>
     </div>
@@ -124,11 +124,11 @@ async function playVideo() {
         :src="videoUrl"
       />
 
-      <p v-else-if="!exercise.exercises?.video_path" class="text-sm text-neutral-500">
+      <p v-else-if="!exercise.exercises?.video_path" class="text-sm text-faint">
         Sin video
       </p>
 
-      <p v-else-if="videoError" class="text-sm text-red-700" role="alert">Video no disponible</p>
+      <p v-else-if="videoError" class="text-sm text-danger" role="alert">Video no disponible</p>
 
       <BaseButton
         v-else

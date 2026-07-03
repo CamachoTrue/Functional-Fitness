@@ -43,20 +43,20 @@ const faqs = [
         <details
           v-for="faq in faqs"
           :key="faq.question"
-          class="group rounded-xl border border-neutral-200 bg-white"
+          class="group rounded-xl border border-border-subtle bg-surface-raised"
         >
           <summary
             class="focus-ring flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl px-5 py-4 font-semibold"
           >
             <span>{{ faq.question }}</span>
             <span
-              class="text-xl leading-none text-neutral-400 transition-transform group-open:rotate-45"
+              class="text-xl leading-none text-faint transition-transform group-open:rotate-45"
               aria-hidden="true"
             >
               +
             </span>
           </summary>
-          <p class="px-5 pb-5 text-sm leading-7 text-neutral-600">{{ faq.answer }}</p>
+          <p class="px-5 pb-5 text-sm leading-7 text-muted">{{ faq.answer }}</p>
         </details>
       </div>
     </div>
