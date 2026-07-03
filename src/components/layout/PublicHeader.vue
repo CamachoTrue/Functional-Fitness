@@ -1,26 +1,17 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 import { useAuthStore } from '../../stores/authStore'
 import ThemeToggle from '../common/ThemeToggle.vue'
+import UserMenu from './UserMenu.vue'
 
 const auth = useAuthStore()
-const router = useRouter()
 
 const isMenuOpen = ref(false)
 
 const closeMenu = () => {
   isMenuOpen.value = false
-}
-
-const handleLogout = async () => {
-  closeMenu()
-  try {
-    await auth.logout()
-  } finally {
-    router.push('/')
-  }
 }
 </script>
 
@@ -71,13 +62,11 @@ const handleLogout = async () => {
             >
               Mi panel
             </RouterLink>
-            <button
-              class="focus-ring rounded-md border border-accent px-4 py-2.5 text-center text-sm font-semibold transition hover:bg-surface-muted"
-              type="button"
-              @click="handleLogout"
-            >
-              Cerrar sesión
-            </button>
+            <UserMenu
+              align="down"
+              trigger-class="rounded-md border border-border-strong px-4 py-2.5 text-sm font-semibold text-body transition hover:bg-surface-muted"
+              @click="closeMenu"
+            />
           </template>
 
           <template v-else>

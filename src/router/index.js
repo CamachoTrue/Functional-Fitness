@@ -39,6 +39,26 @@ const router = createRouter({
           meta: { guestOnly: true },
         },
         {
+          path: 'forgot-password',
+          name: 'forgot-password',
+          component: () => import('../views/auth/ForgotPasswordView.vue'),
+          meta: { guestOnly: true },
+        },
+        {
+          // Sin guestOnly: el enlace del correo crea una sesión de recuperación
+          // temporal, así que el usuario llega "autenticado" y no debe ser
+          // redirigido fuera de esta pantalla.
+          path: 'reset-password',
+          name: 'reset-password',
+          component: () => import('../views/auth/ResetPasswordView.vue'),
+        },
+        {
+          path: 'account',
+          name: 'account',
+          component: () => import('../views/account/AccountView.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
           path: 'payment/success',
           name: 'payment-success',
           component: () => import('../views/payment/PaymentResultView.vue'),

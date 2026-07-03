@@ -52,6 +52,15 @@ const handleSubmit = async () => {
           required
         />
 
+        <div class="text-right">
+          <RouterLink
+            class="focus-ring rounded-sm text-sm font-semibold text-body underline"
+            to="/forgot-password"
+          >
+            ¿Olvidaste tu contraseña?
+          </RouterLink>
+        </div>
+
         <p v-if="errorMessage" class="text-sm text-danger" role="alert">
           {{ errorMessage }}
         </p>

@@ -1,8 +1,8 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
-import { useAuthStore } from '../../stores/authStore'
 import ThemeToggle from '../common/ThemeToggle.vue'
+import UserMenu from './UserMenu.vue'
 
 defineProps({
   eyebrow: {
@@ -14,17 +14,6 @@ defineProps({
     required: true,
   },
 })
-
-const auth = useAuthStore()
-const router = useRouter()
-
-const handleLogout = async () => {
-  try {
-    await auth.logout()
-  } finally {
-    router.push('/')
-  }
-}
 </script>
 
 <template>
@@ -47,17 +36,13 @@ const handleLogout = async () => {
     </nav>
 
     <div class="mt-6 border-t border-neutral-800 pt-5 lg:mt-auto">
-      <div class="mb-3 flex items-center justify-between gap-3">
-        <p class="min-w-0 truncate text-sm font-medium text-on-inverse">{{ auth.displayName }}</p>
+      <div class="mb-3 flex justify-end">
         <ThemeToggle class="shrink-0" />
       </div>
-      <button
-        class="focus-ring mt-3 w-full rounded-md border border-neutral-700 px-3 py-2.5 text-left text-sm text-neutral-300 transition hover:bg-neutral-900 hover:text-white"
-        type="button"
-        @click="handleLogout"
-      >
-        Cerrar sesión
-      </button>
+      <UserMenu
+        align="up"
+        trigger-class="w-full justify-between rounded-md border border-neutral-700 px-3 py-2.5 text-sm text-neutral-300 transition hover:bg-neutral-900 hover:text-white"
+      />
     </div>
   </aside>
 </template>

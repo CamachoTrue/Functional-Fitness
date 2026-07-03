@@ -75,7 +75,10 @@ test('cerrar sesión regresa al inicio y reprotege el área de cliente', async (
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
   await expect(page).toHaveURL(/\/client\/dashboard/)
-  await page.getByRole('button', { name: /Cerrar sesión/ }).click()
+  // Cerrar sesión vive en el menú de usuario y pide confirmación.
+  await page.locator('button[aria-haspopup="menu"]').first().click()
+  await page.getByRole('menuitem', { name: 'Cerrar sesión' }).click()
+  await page.getByRole('button', { name: /Sí, cerrar/ }).click()
   await expect(page).toHaveURL(/http:\/\/localhost:5173\/$/)
   await page.goto('/client/dashboard')
   await expect(page).toHaveURL(/\/login/)
