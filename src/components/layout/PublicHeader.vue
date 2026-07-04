@@ -86,7 +86,12 @@ const closeMenu = () => {
             </RouterLink>
           </template>
 
-          <ThemeToggle class="mt-1 hidden md:mt-0 md:inline-flex" />
+          <!-- Toggle solo en desktop; en móvil ya está arriba junto a "Menú".
+               Va en un wrapper para que `hidden` no choque con el display propio
+               del ThemeToggle (ambos controlan display y se pisaban). -->
+          <div class="mt-1 hidden md:mt-0 md:inline-flex">
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
     </div>
