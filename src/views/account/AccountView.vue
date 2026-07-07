@@ -1,18 +1,72 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import AvatarUpload from '../../components/common/AvatarUpload.vue'
 import BaseButton from '../../components/common/BaseButton.vue'
 import BaseInput from '../../components/common/BaseInput.vue'
 import SaveButton from '../../components/common/SaveButton.vue'
 import { useAuthStore } from '../../stores/authStore'
 import { useCurrency } from '../../composables/useCurrency'
 import { changePassword, resendVerificationEmail } from '../../services/authService'
+import { updateMyProfile } from '../../services/profileService'
 import { fetchMyPurchases } from '../../services/paymentService'
 import { validateNewPassword } from '../../utils/validators'
 
 const auth = useAuthStore()
 const { formatCurrency } = useCurrency()
+
+// ----- Perfil (nombre, teléfono, foto) -----
+const fullName = ref('')
+const phone = ref('')
+const profileError = ref('')
+const profileSuccess = ref(false)
+const profileSaving = ref(false)
+
+// Prellenar el formulario en cuanto el perfil esté disponible y re-sincronizar
+// tras guardar (refreshProfile actualiza auth.profile con los valores nuevos).
+watch(
+  () => auth.profile,
+  (profile) => {
+    fullName.value = profile?.full_name ?? ''
+    phone.value = profile?.phone ?? ''
+  },
+  { immediate: true },
+)
+
+const handleSaveProfile = async () => {
+  profileError.value = ''
+  profileSuccess.value = false
+
+  const name = fullName.value.trim()
+  if (!name) {
+    profileError.value = 'Escribe tu nombre.'
+    return
+  }
+  if (name.length > 120) {
+    profileError.value = 'El nombre no puede superar los 120 caracteres.'
+    return
+  }
+  if (phone.value.trim().length > 30) {
+    profileError.value = 'El teléfono no puede superar los 30 caracteres.'
+    return
+  }
+
+  profileSaving.value = true
+  try {
+    await updateMyProfile({
+      userId: auth.user?.id,
+      fullName: name,
+      phone: phone.value.trim() || null,
+    })
+    await auth.refreshProfile()
+    profileSuccess.value = true
+  } catch {
+    profileError.value = 'No pudimos guardar tus datos. Inténtalo de nuevo.'
+  } finally {
+    profileSaving.value = false
+  }
+}
 
 // ----- Verificación de correo -----
 const resending = ref(false)
@@ -122,6 +176,55 @@ const handleChangePassword = async () => {
       <p class="mt-2 text-sm leading-6 text-muted">
         {{ auth.displayName }} · <span class="text-body">{{ auth.user?.email }}</span>
       </p>
+
+      <!-- Tu perfil (foto, nombre, teléfono) -->
+      <div class="mt-8 rounded-2xl border border-border-subtle bg-surface-raised p-6 sm:p-8">
+        <h2 class="text-lg font-bold tracking-tight">Tu perfil</h2>
+        <p class="mt-1 text-sm text-muted">
+          Actualiza tu foto y tus datos de contacto.
+        </p>
+
+        <div class="mt-6">
+          <AvatarUpload :user-id="auth.user?.id" :name="auth.displayName" />
+        </div>
+
+        <form class="mt-6 space-y-5" @submit.prevent="handleSaveProfile">
+          <BaseInput
+            id="account-full-name"
+            v-model="fullName"
+            label="Nombre completo"
+            type="text"
+            autocomplete="name"
+            maxlength="120"
+            required
+          />
+          <BaseInput
+            id="account-phone"
+            v-model="phone"
+            label="Teléfono"
+            type="tel"
+            autocomplete="tel"
+            maxlength="30"
+          />
+
+          <p v-if="profileError" class="text-sm text-danger" role="alert">
+            {{ profileError }}
+          </p>
+          <p v-if="profileSuccess" class="text-sm text-brand-green" role="status">
+            Datos actualizados correctamente.
+          </p>
+
+          <div class="flex justify-end">
+            <SaveButton
+              type="submit"
+              :saving="profileSaving"
+              :has-error="Boolean(profileError)"
+              idle-label="Guardar cambios"
+              saved-label="Guardado"
+            />
+          </div>
+        </form>
+      </div>
 
       <!-- Verificación de correo (solo si NO está verificado) -->
       <div

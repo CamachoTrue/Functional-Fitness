@@ -3,6 +3,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
 import { useAuthStore } from '../../stores/authStore'
+import UserAvatar from '../common/UserAvatar.vue'
 
 /**
  * Menú de usuario (dropdown). Agrupa el acceso a la configuración de cuenta y el
@@ -20,6 +21,13 @@ const props = defineProps({
     type: String,
     default: 'down',
     validator: (v) => ['down', 'up'].includes(v),
+  },
+  // El disparador puede vivir sobre una superficie oscura (sidebar). En ese caso
+  // el avatar de respaldo necesita el tratamiento inverso para contrastar. El
+  // panel del dropdown usa surface-raised (tema normal), así que su avatar NO.
+  onInverse: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -82,6 +90,7 @@ onBeforeUnmount(() => {
       aria-haspopup="menu"
       @click.stop="toggle"
     >
+      <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="sm" :on-inverse="onInverse" />
       <span class="min-w-0 truncate">{{ auth.displayName }}</span>
       <svg
         class="size-4 shrink-0 transition-transform"
@@ -105,9 +114,12 @@ onBeforeUnmount(() => {
       role="menu"
       @click.stop
     >
-      <div class="px-3 py-2">
-        <p class="truncate text-sm font-semibold text-body">{{ auth.displayName }}</p>
-        <p class="truncate text-xs text-muted">{{ auth.user?.email }}</p>
+      <div class="flex items-center gap-3 px-3 py-2">
+        <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="sm" />
+        <div class="min-w-0">
+          <p class="truncate text-sm font-semibold text-body">{{ auth.displayName }}</p>
+          <p class="truncate text-xs text-muted">{{ auth.user?.email }}</p>
+        </div>
       </div>
       <div class="my-1 border-t border-border-subtle" />
 

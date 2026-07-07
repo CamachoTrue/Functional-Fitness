@@ -9,11 +9,13 @@ import {
   signOut,
   signUp,
 } from '../services/authService'
+import { createSignedAvatarUrl } from '../services/storageService'
 
 export const useAuthStore = defineStore('auth', () => {
   const session = ref(null)
   const profile = ref(null)
   const roles = ref([])
+  const avatarUrl = ref(null)
   const initialized = ref(false)
   const loading = ref(false)
 
@@ -31,10 +33,29 @@ export const useAuthStore = defineStore('auth', () => {
     isAdmin.value ? '/admin/dashboard' : '/client/dashboard',
   )
 
+  /**
+   * Resuelve la URL firmada del avatar a partir del profile cargado. Degrada
+   * ante fallos (un error al firmar deja avatarUrl en null, sin propagar): el
+   * avatar es decorativo y nunca debe abortar el arranque.
+   */
+  async function resolveAvatarUrl() {
+    const path = profile.value?.avatar_path
+    if (!path) {
+      avatarUrl.value = null
+      return
+    }
+    try {
+      avatarUrl.value = await createSignedAvatarUrl(path)
+    } catch {
+      avatarUrl.value = null
+    }
+  }
+
   async function loadUserData() {
     if (!user.value) {
       profile.value = null
       roles.value = []
+      avatarUrl.value = null
       return
     }
 
@@ -44,6 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
     ])
     profile.value = profileData
     roles.value = roleData
+    await resolveAvatarUrl()
   }
 
   /**
@@ -56,7 +78,19 @@ export const useAuthStore = defineStore('auth', () => {
     } catch {
       profile.value = null
       roles.value = []
+      avatarUrl.value = null
     }
+  }
+
+  /**
+   * Recarga el perfil (nombre/teléfono/avatar_path) y recalcula la URL firmada
+   * del avatar. Se usa tras editar el perfil o cambiar la foto. Degrada igual
+   * que loadUserData: un fallo al firmar deja avatarUrl en null sin romper nada.
+   */
+  async function refreshProfile() {
+    if (!user.value) return
+    profile.value = await fetchProfile(user.value.id)
+    await resolveAvatarUrl()
   }
 
   /**
@@ -125,6 +159,7 @@ export const useAuthStore = defineStore('auth', () => {
     session,
     profile,
     roles,
+    avatarUrl,
     initialized,
     loading,
     user,
@@ -138,5 +173,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     loadUserData,
+    refreshProfile,
   }
 })

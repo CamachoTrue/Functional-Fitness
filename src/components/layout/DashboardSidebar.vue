@@ -41,6 +41,7 @@ defineProps({
       </div>
       <UserMenu
         align="up"
+        on-inverse
         trigger-class="w-full justify-between rounded-md border border-neutral-700 px-3 py-2.5 text-sm text-neutral-300 transition hover:bg-neutral-900 hover:text-white"
       />
     </div>

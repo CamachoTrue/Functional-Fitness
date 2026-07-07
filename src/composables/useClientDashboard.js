@@ -62,6 +62,49 @@ export function useClientDashboard() {
   // 'preparing' en caso contrario (aún en preparación / no accesible).
   const routineStatus = computed(() => (routine.value ? 'ready' : 'preparing'))
 
+  // MÉTRICAS DERIVADAS (honestas). Solo se calcula lo que sale directamente de
+  // las compras y de la rutina ya cargadas. Racha, sesiones completadas y
+  // adherencia (%) NO se calculan aquí a propósito: dependen de un registro de
+  // entrenamientos que aún no existe (llega en la Fase D). Fabricarlas mostraría
+  // datos falsos, así que se omiten hasta tener esa fuente real.
+
+  // Días que faltan hasta el vencimiento del plan vigente. null si el plan no
+  // vence (end_date null) o no hay plan. Nunca negativo: la compra vigente por
+  // definición aún no ha vencido, pero se acota por seguridad.
+  const daysRemaining = computed(() => {
+    const end = activePurchase.value?.end_date
+    if (!end) return null
+    const diffMs = new Date(end).getTime() - Date.now()
+    return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)))
+  })
+
+  // Número de días de entrenamiento de la rutina lista. 0 si aún no hay rutina.
+  const trainingDaysCount = computed(() => {
+    if (routineStatus.value !== 'ready') return 0
+    return routine.value?.routine_days?.length ?? 0
+  })
+
+  // "Tu sesión de hoy": heurística DOCUMENTADA. Como todavía no hay registro de
+  // entrenamientos ni calendario asignado, no sabemos qué día "toca" realmente,
+  // así que rotamos por la rutina de forma estable dentro de la semana: se
+  // ordenan los días por day_number y se elige el índice
+  // (new Date().getDay()) % totalDias — getDay() es 0=domingo..6=sábado. Es un
+  // puntero de conveniencia hacia un día REAL de la rutina, no una sesión
+  // planificada. Devuelve null si no hay rutina lista o no tiene días.
+  const todaySession = computed(() => {
+    if (routineStatus.value !== 'ready') return null
+    const days = (routine.value?.routine_days ?? [])
+      .slice()
+      .sort((a, b) => a.day_number - b.day_number)
+    if (days.length === 0) return null
+    const day = days[new Date().getDay() % days.length]
+    return {
+      title: day.title,
+      dayNumber: day.day_number,
+      exerciseCount: day.routine_exercises?.length ?? 0,
+    }
+  })
+
   async function load() {
     loading.value = true
     error.value = null
@@ -93,6 +136,9 @@ export function useClientDashboard() {
     hasActivePlan,
     questionnaireStatus,
     routineStatus,
+    daysRemaining,
+    trainingDaysCount,
+    todaySession,
     load,
   }
 }

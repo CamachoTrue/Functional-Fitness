@@ -1,11 +1,12 @@
 import { supabase } from './supabaseClient'
 
 /**
- * Único módulo que toca supabase.storage. Encapsula el bucket privado
- * `exercise-videos`: construcción y validación de paths, subida, borrado y
- * URLs firmadas. Sigue el patrón de los demás services (importa `supabase` de
- * supabaseClient y lanza ante error). Los componentes/composables NUNCA deben
- * acceder a supabase.storage directamente: usan estas funciones.
+ * Único módulo que toca supabase.storage. Encapsula dos buckets privados:
+ * `exercise-videos` (videos de ejercicios) y `avatars` (fotos de perfil del
+ * cliente). Para cada uno cubre construcción y validación de paths, subida,
+ * borrado y URLs firmadas. Sigue el patrón de los demás services (importa
+ * `supabase` de supabaseClient y lanza ante error). Los componentes/composables
+ * NUNCA deben acceder a supabase.storage directamente: usan estas funciones.
  */
 
 export const BUCKET = 'exercise-videos'
@@ -119,6 +120,92 @@ export async function removeExerciseVideo(path) {
 export async function createSignedVideoUrl(path, ttl = SIGNED_URL_TTL) {
   const { data, error } = await supabase.storage
     .from(BUCKET)
+    .createSignedUrl(path, ttl)
+
+  if (error) throw error
+  return data.signedUrl
+}
+
+// --- Avatares (foto de perfil del cliente) --------------------------------
+
+export const AVATAR_BUCKET = 'avatars'
+
+// 5 MB. Coincide con el límite del bucket (file_size_limit).
+export const AVATAR_MAX_SIZE = 5242880
+
+export const AVATAR_ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
+
+/**
+ * Construye el path del avatar de un usuario, RELATIVO al bucket `avatars` (el
+ * bucket ya se selecciona con .from(AVATAR_BUCKET), así que NO se repite en el
+ * path). El path tiene la forma `<uid>/<filename>`: la primera carpeta es el uid,
+ * de modo que las policies de storage (dueño-por-carpeta, foldername(name)[1] =
+ * auth.uid()) permiten al cliente escribir/leer solo bajo su propia carpeta.
+ * Reutiliza sanitizeFilename para que el último segmento nunca contenga '/'.
+ * @param {string} userId UUID del dueño (auth.uid())
+ * @param {string} filename
+ * @returns {string} p.ej. <uuid>/mi-foto.jpg
+ */
+export function buildAvatarPath(userId, filename) {
+  return `${userId}/${sanitizeFilename(filename)}`
+}
+
+/**
+ * Valida en el cliente tamaño y tipo del archivo de avatar. Devuelve un mensaje
+ * en español si es inválido, o null si es válido. No sustituye a las políticas
+ * del bucket, solo da feedback inmediato.
+ * @param {File} file
+ * @returns {string|null}
+ */
+export function validateAvatarFile(file) {
+  if (!file) {
+    return 'Selecciona una imagen.'
+  }
+  if (!AVATAR_ALLOWED_MIME.includes(file.type)) {
+    return 'Formato no permitido. Usa JPG, PNG o WebP.'
+  }
+  if (file.size > AVATAR_MAX_SIZE) {
+    return 'La imagen supera el límite de 5 MB.'
+  }
+  return null
+}
+
+/**
+ * Sube (o reemplaza, con upsert=true por defecto) el avatar del usuario. El
+ * upsert permite reutilizar el mismo nombre al actualizar la foto.
+ * @param {string} path
+ * @param {File} file
+ * @param {{ upsert?: boolean }} [options]
+ * @returns {Promise<{ path: string }>}
+ */
+export async function uploadAvatar(path, file, { upsert = true } = {}) {
+  const { data, error } = await supabase.storage
+    .from(AVATAR_BUCKET)
+    .upload(path, file, { upsert, contentType: file.type })
+
+  if (error) throw error
+  return data
+}
+
+/**
+ * Borra el objeto del avatar. Se usa para rollback y al eliminar la foto.
+ * @param {string} path
+ * @returns {Promise<void>}
+ */
+export async function removeAvatar(path) {
+  const { error } = await supabase.storage.from(AVATAR_BUCKET).remove([path])
+  if (error) throw error
+}
+
+/**
+ * Crea una URL firmada temporal para mostrar el avatar (bucket privado).
+ * @param {string} path
+ * @param {number} [ttl=SIGNED_URL_TTL] segundos de validez
+ * @returns {Promise<string>} signedUrl
+ */
+export async function createSignedAvatarUrl(path, ttl = SIGNED_URL_TTL) {
+  const { data, error } = await supabase.storage
+    .from(AVATAR_BUCKET)
     .createSignedUrl(path, ttl)
 
   if (error) throw error

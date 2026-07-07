@@ -155,7 +155,7 @@ export async function resendVerificationEmail(email) {
 export async function fetchProfile(userId) {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, full_name, email, phone')
+    .select('id, full_name, email, phone, avatar_path')
     .eq('id', userId)
     .maybeSingle()
 

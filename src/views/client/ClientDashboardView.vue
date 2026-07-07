@@ -7,9 +7,12 @@ import BaseButton from '../../components/common/BaseButton.vue'
 import BaseCard from '../../components/common/BaseCard.vue'
 import EmptyState from '../../components/common/EmptyState.vue'
 import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
+import UserAvatar from '../../components/common/UserAvatar.vue'
 import { useClientDashboard } from '../../composables/useClientDashboard'
 import { useCurrency } from '../../composables/useCurrency'
+import { useAuthStore } from '../../stores/authStore'
 
+const auth = useAuthStore()
 const { formatCurrency } = useCurrency()
 const {
   loading,
@@ -18,6 +21,9 @@ const {
   hasActivePlan,
   questionnaireStatus,
   routineStatus,
+  daysRemaining,
+  trainingDaysCount,
+  todaySession,
   load,
 } = useClientDashboard()
 
@@ -31,8 +37,16 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-4xl">
-    <p class="text-sm font-bold text-brand-green">TU ENTRENAMIENTO</p>
-    <h1 class="mt-2 text-3xl font-black tracking-tight">Resumen</h1>
+    <!-- Saludo con avatar -->
+    <div class="flex items-center gap-4">
+      <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="lg" />
+      <div class="min-w-0">
+        <p class="text-sm font-bold text-brand-green">TU ENTRENAMIENTO</p>
+        <h1 class="mt-1 truncate text-3xl font-black tracking-tight">
+          Hola, {{ auth.displayName }}
+        </h1>
+      </div>
+    </div>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tu panel" />
@@ -58,6 +72,63 @@ onMounted(load)
       </EmptyState>
 
       <div v-else class="space-y-6">
+        <!-- Tiles de métricas (honestas: derivadas del plan y la rutina) -->
+        <div class="grid gap-4 sm:grid-cols-3">
+          <BaseCard>
+            <p class="text-xs font-semibold uppercase tracking-wide text-faint">Días restantes</p>
+            <p class="mt-2 text-3xl font-black tracking-tight">
+              {{ daysRemaining ?? '∞' }}
+            </p>
+            <p class="mt-1 text-xs text-muted">
+              {{ daysRemaining === null ? 'Sin vencimiento' : 'de tu plan' }}
+            </p>
+          </BaseCard>
+
+          <BaseCard>
+            <p class="text-xs font-semibold uppercase tracking-wide text-faint">
+              Días de entrenamiento
+            </p>
+            <p class="mt-2 text-3xl font-black tracking-tight">{{ trainingDaysCount }}</p>
+            <p class="mt-1 text-xs text-muted">
+              {{ routineStatus === 'ready' ? 'en tu rutina' : 'rutina en preparación' }}
+            </p>
+          </BaseCard>
+
+          <BaseCard>
+            <p class="text-xs font-semibold uppercase tracking-wide text-faint">Cuestionario</p>
+            <div class="mt-2">
+              <BaseBadge :variant="questionnaireStatus === 'completed' ? 'success' : 'warning'">
+                {{ questionnaireStatus === 'completed' ? 'Completado' : 'Pendiente' }}
+              </BaseBadge>
+            </div>
+            <p class="mt-2 text-xs text-muted">evaluación inicial</p>
+          </BaseCard>
+        </div>
+
+        <!-- Tu sesión de hoy -->
+        <BaseCard v-if="todaySession">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wide text-brand-green">
+                Tu sesión de hoy
+              </p>
+              <h2 class="mt-1 text-xl font-black tracking-tight">
+                Día {{ todaySession.dayNumber }} — {{ todaySession.title }}
+              </h2>
+              <p class="mt-1 text-sm text-muted">
+                {{ todaySession.exerciseCount }}
+                {{ todaySession.exerciseCount === 1 ? 'ejercicio' : 'ejercicios' }}
+              </p>
+            </div>
+          </div>
+          <RouterLink
+            class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
+            to="/client/routine"
+          >
+            Comenzar sesión
+          </RouterLink>
+        </BaseCard>
+
         <!-- Plan vigente -->
         <BaseCard>
           <div class="flex flex-wrap items-start justify-between gap-3">
