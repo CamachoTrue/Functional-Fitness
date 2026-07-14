@@ -36,8 +36,8 @@ function initials(name) {
 <template>
   <section class="py-18 sm:py-24">
     <div class="page-container">
-      <p class="text-sm font-bold text-brand-green">LO QUE DICEN</p>
-      <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Historias de quienes entrenan.</h2>
+      <p class="text-sm font-bold text-brand-blue">LO QUE DICEN</p>
+      <h2 class="mt-3 text-3xl font-black tracking-tight uppercase sm:text-4xl">Historias de quienes entrenan.</h2>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <BaseCard v-for="testimonial in testimonials" :key="testimonial.name" class="flex flex-col">

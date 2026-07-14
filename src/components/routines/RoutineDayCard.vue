@@ -89,7 +89,7 @@ function confirmRemoveExercise(exercise) {
 <template>
   <BaseCard>
     <div class="flex items-start justify-between gap-3">
-      <p class="text-sm font-bold text-brand-green">DÍA {{ position }}</p>
+      <p class="text-sm font-bold text-brand-blue">DÍA {{ position }}</p>
       <div class="flex items-center gap-1.5">
         <BaseButton
           type="button"

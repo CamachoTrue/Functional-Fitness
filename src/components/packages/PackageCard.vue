@@ -38,7 +38,7 @@ const includes = computed(() => props.pkg.includes ?? [])
         <h2 class="text-lg font-bold tracking-tight">{{ pkg.name }}</h2>
         <span
           v-if="pkg.is_recommended"
-          class="shrink-0 rounded-full bg-brand-green px-3 py-1 text-xs font-bold text-white"
+          class="shrink-0 rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
         >
           Recomendado
         </span>
@@ -46,7 +46,7 @@ const includes = computed(() => props.pkg.includes ?? [])
 
       <span
         v-if="isCurrent"
-        class="mt-3 inline-flex w-fit items-center rounded-full border border-brand-green px-3 py-1 text-xs font-bold text-brand-green"
+        class="mt-3 inline-flex w-fit items-center rounded-full border border-brand-blue px-3 py-1 text-xs font-bold text-brand-blue"
       >
         Tu plan actual
       </span>

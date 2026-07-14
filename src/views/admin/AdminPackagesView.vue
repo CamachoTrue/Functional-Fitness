@@ -24,7 +24,7 @@ onMounted(load)
   <div class="mx-auto max-w-6xl">
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div>
-        <p class="text-sm font-bold text-brand-green">CATÁLOGO</p>
+        <p class="text-sm font-bold text-brand-blue">CATÁLOGO</p>
         <h1 class="mt-2 text-3xl font-black tracking-tight">Paquetes</h1>
         <p class="mt-2 text-sm text-muted">
           Crea, edita y activa o desactiva los paquetes del catálogo.

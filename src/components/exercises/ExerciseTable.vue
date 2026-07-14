@@ -80,7 +80,7 @@ function confirmDelete(exercise) {
       <template #cell-actions="{ row }">
         <div class="flex items-center justify-end gap-2">
           <RouterLink
-            class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-green transition hover:underline"
+            class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-blue transition hover:underline"
             :to="{ name: 'admin-exercise-edit', params: { id: row.id } }"
           >
             Editar

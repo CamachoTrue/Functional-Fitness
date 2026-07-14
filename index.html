@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Entrenamientos personalizados de functional fitness para tu nivel y objetivos."
+      content="SERA TRAINER — entrenamiento personalizado para tu nivel y tus objetivos. Método, disciplina y resultados."
     />
-    <title>Functional Fitness</title>
+    <title>SERA TRAINER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <script>
       // Aplica el tema ANTES de pintar para evitar el parpadeo (FOUC).
-      // Prioridad: elección guardada del usuario > preferencia del sistema.
+      // Marca oscura por defecto: si el usuario no ha elegido, arranca en oscuro
+      // (el toggle sigue disponible y su elección se respeta y persiste).
       (function () {
         try {
           var stored = localStorage.getItem('theme')
-          var prefersDark =
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches
-          var isDark = stored ? stored === 'dark' : prefersDark
+          var isDark = stored ? stored === 'dark' : true
           document.documentElement.classList.toggle('dark', isDark)
         } catch (e) {
-          /* localStorage no disponible: se queda en claro */
+          /* localStorage no disponible: se queda en oscuro (default) */
         }
       })()
     </script>

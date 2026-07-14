@@ -1,17 +1,8 @@
 import { expect, test } from '@playwright/test'
 
-// Cobertura e2e de las secciones públicas estáticas de la Home (Fase 11).
-// 100% anónimo: no usa la service key, no crea usuarios ni toca la base.
-// Los selectores se anclan por TEXTO visible (headings) y, cuando un texto se
-// repite en la página (hero vs. CTA final), se acota la búsqueda a la sección
-// correspondiente por su heading para evitar coincidencias ambiguas.
-
-// El hero y el CtaSection final comparten los textos "Ver paquetes" y
-// "Quiero comenzar". Esta helper devuelve la banda del CtaSection (la <section>
-// que contiene el heading "¿Listo para empezar?") para acotar los clicks.
-function ctaSection(page) {
-  return page.locator('section').filter({ hasText: '¿Listo para empezar?' })
-}
+// Cobertura e2e de las secciones públicas estáticas de la Home (rebrand Sera
+// Trainer). 100% anónimo: no usa la service key, no crea usuarios ni toca la base.
+// Los selectores se anclan por TEXTO visible (headings / nombres de enlaces).
 
 test('la sección de FAQ muestra el heading y las preguntas se pueden expandir', async ({
   page,
@@ -33,35 +24,25 @@ test('la sección de FAQ muestra el heading y las preguntas se pueden expandir',
   await expect(answer).toBeVisible()
 })
 
-test('la sección de testimonios muestra el heading y las 3 tarjetas', async ({ page }) => {
+test('la sección de reseñas muestra el heading y una reseña', async ({ page }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('heading', { name: /historias de quienes entrenan/i })).toBeVisible()
-
-  // Los 3 testimonios placeholder se identifican por el nombre de cada autor.
+  await expect(page.getByRole('heading', { name: /^reseñas$/i })).toBeVisible()
   await expect(page.getByText('Ana Ramírez')).toBeVisible()
-  await expect(page.getByText('Carlos Méndez')).toBeVisible()
-  await expect(page.getByText('Lucía Torres')).toBeVisible()
 })
 
-test('el CTA final "Quiero comenzar" navega a /register', async ({ page }) => {
+test('el CTA del hero "Quiero comenzar" navega a /register', async ({ page }) => {
   await page.goto('/')
 
-  await expect(ctaSection(page).getByRole('heading', { name: '¿Listo para empezar?' })).toBeVisible()
-
-  // Acotamos al CtaSection para no chocar con el mismo texto del hero.
-  await ctaSection(page).getByRole('link', { name: 'Quiero comenzar' }).click()
-
+  // "Quiero comenzar" solo existe en el hero.
+  await page.getByRole('link', { name: 'Quiero comenzar' }).click()
   await expect(page).toHaveURL(/\/register/)
 })
 
-test('el CTA final "Ver paquetes" navega a /packages', async ({ page }) => {
+test('el CTA del hero "Ver paquetes" navega a /packages', async ({ page }) => {
   await page.goto('/')
 
-  await expect(ctaSection(page).getByRole('heading', { name: '¿Listo para empezar?' })).toBeVisible()
-
-  await ctaSection(page).getByRole('link', { name: 'Ver paquetes' }).click()
-
+  await page.getByRole('link', { name: 'Ver paquetes' }).click()
   await expect(page).toHaveURL(/\/packages/)
 })
 

@@ -34,12 +34,14 @@ const faqs = [
 </script>
 
 <template>
-  <section class="bg-surface-muted py-18 sm:py-24">
-    <div class="page-container max-w-3xl">
-      <p class="text-sm font-bold text-brand-green">DUDAS COMUNES</p>
-      <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Preguntas frecuentes</h2>
+  <section class="bg-surface-muted py-24 sm:py-28">
+    <div class="page-container max-w-3xl text-center">
+      <p class="text-xs font-medium tracking-[0.2em] text-muted uppercase">Dudas comunes</p>
+      <h2 class="mt-4 font-display text-3xl font-light tracking-[0.06em] uppercase sm:text-4xl">
+        Preguntas frecuentes
+      </h2>
 
-      <div class="mt-8 space-y-3">
+      <div class="mt-10 space-y-3 text-left">
         <details
           v-for="faq in faqs"
           :key="faq.question"

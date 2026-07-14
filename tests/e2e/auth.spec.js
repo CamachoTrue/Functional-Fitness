@@ -4,7 +4,7 @@ import { createUser, hasServiceRole, loginViaUi, promoteToAdmin, uniqueEmail } f
 
 test('la landing carga', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('link', { name: 'Functional Fitness' }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: 'SERA TRAINER' }).first()).toBeVisible()
 })
 
 test('registro redirige al panel de cliente', async ({ page }) => {

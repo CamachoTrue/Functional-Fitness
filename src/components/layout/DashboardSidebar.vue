@@ -19,9 +19,9 @@ defineProps({
 <template>
   <aside class="flex flex-col bg-surface-inverse p-5 text-on-inverse lg:min-h-screen lg:p-7">
     <RouterLink class="focus-ring block rounded-sm text-sm font-black tracking-[0.14em] uppercase" to="/">
-      Functional Fitness
+      SERA TRAINER
     </RouterLink>
-    <p class="mt-2 text-xs font-semibold tracking-wider text-brand-green uppercase">{{ eyebrow }}</p>
+    <p class="mt-2 text-xs font-semibold tracking-wider text-brand-blue uppercase">{{ eyebrow }}</p>
 
     <nav class="mt-7 flex gap-2 overflow-x-auto lg:flex-col" :aria-label="eyebrow">
       <RouterLink

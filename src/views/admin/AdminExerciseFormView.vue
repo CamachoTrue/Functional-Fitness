@@ -77,7 +77,7 @@ onMounted(loadExercise)
 <template>
   <div class="mx-auto max-w-3xl">
     <RouterLink
-      class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-green transition hover:underline"
+      class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-blue transition hover:underline"
       :to="{ name: 'admin-exercises' }"
     >
       ← Volver a ejercicios

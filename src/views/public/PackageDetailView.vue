@@ -77,7 +77,7 @@ function handlePurchase() {
             <h1 class="text-3xl font-black tracking-tight sm:text-4xl">{{ pkg.name }}</h1>
             <span
               v-if="pkg.is_recommended"
-              class="shrink-0 rounded-full bg-brand-green px-3 py-1 text-xs font-bold text-white"
+              class="shrink-0 rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
             >
               Recomendado
             </span>

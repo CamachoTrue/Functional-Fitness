@@ -166,7 +166,7 @@ const handleChangePassword = async () => {
   <section class="py-12 sm:py-16">
     <div class="page-container max-w-2xl">
       <RouterLink
-        class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-green transition hover:underline"
+        class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-blue transition hover:underline"
         :to="auth.homeRoute"
       >
         ← Volver a mi panel
@@ -210,7 +210,7 @@ const handleChangePassword = async () => {
           <p v-if="profileError" class="text-sm text-danger" role="alert">
             {{ profileError }}
           </p>
-          <p v-if="profileSuccess" class="text-sm text-brand-green" role="status">
+          <p v-if="profileSuccess" class="text-sm text-brand-blue" role="status">
             Datos actualizados correctamente.
           </p>
 
@@ -239,7 +239,7 @@ const handleChangePassword = async () => {
           <BaseButton type="button" variant="secondary" :disabled="resending" @click="handleResend">
             {{ resending ? 'Enviando…' : 'Reenviar correo de verificación' }}
           </BaseButton>
-          <span v-if="resendState === 'sent'" class="text-sm text-brand-green" role="status">
+          <span v-if="resendState === 'sent'" class="text-sm text-brand-blue" role="status">
             Correo enviado. Revisa tu bandeja.
           </span>
           <span v-else-if="resendState === 'error'" class="text-sm text-danger" role="alert">
@@ -318,7 +318,7 @@ const handleChangePassword = async () => {
           <p v-if="errorMessage" class="text-sm text-danger" role="alert">
             {{ errorMessage }}
           </p>
-          <p v-if="success" class="text-sm text-brand-green" role="status">
+          <p v-if="success" class="text-sm text-brand-blue" role="status">
             Contraseña actualizada correctamente.
           </p>
 

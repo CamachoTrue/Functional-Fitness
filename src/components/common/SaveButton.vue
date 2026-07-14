@@ -126,7 +126,7 @@ const isDisabled = computed(
     <!-- Check verde tras guardar. -->
     <span
       v-else-if="state === 'saved'"
-      class="inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-green text-white"
+      class="inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-blue text-white"
       aria-hidden="true"
     >
       <svg

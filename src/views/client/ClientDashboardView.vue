@@ -41,7 +41,7 @@ onMounted(load)
     <div class="flex items-center gap-4">
       <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="lg" />
       <div class="min-w-0">
-        <p class="text-sm font-bold text-brand-green">TU ENTRENAMIENTO</p>
+        <p class="text-sm font-bold text-brand-blue">TU ENTRENAMIENTO</p>
         <h1 class="mt-1 truncate text-3xl font-black tracking-tight">
           Hola, {{ auth.displayName }}
         </h1>
@@ -109,7 +109,7 @@ onMounted(load)
         <BaseCard v-if="todaySession">
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-wide text-brand-green">
+              <p class="text-xs font-semibold uppercase tracking-wide text-brand-blue">
                 Tu sesión de hoy
               </p>
               <h2 class="mt-1 text-xl font-black tracking-tight">

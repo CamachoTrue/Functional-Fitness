@@ -43,7 +43,7 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-6xl">
-    <p class="text-sm font-bold text-brand-green">EVALUACIONES</p>
+    <p class="text-sm font-bold text-brand-blue">EVALUACIONES</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Cuestionarios</h1>
     <p class="mt-2 text-sm text-muted">
       Cuestionarios contestados por los clientes. Desde una compra aprobada puedes crear o asignar su rutina.

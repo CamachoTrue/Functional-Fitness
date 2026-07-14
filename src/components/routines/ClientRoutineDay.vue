@@ -27,7 +27,7 @@ const props = defineProps({
   <BaseCard>
     <div class="flex flex-wrap items-baseline justify-between gap-2">
       <div>
-        <p class="text-sm font-bold text-brand-green">DÍA {{ position }}</p>
+        <p class="text-sm font-bold text-brand-blue">DÍA {{ position }}</p>
         <h2 class="mt-1 text-xl font-black tracking-tight">
           {{ day.title || `Día ${position}` }}
         </h2>

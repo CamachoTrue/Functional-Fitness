@@ -43,7 +43,7 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-4xl">
-    <p class="text-sm font-bold text-brand-green">TU EVALUACIÓN</p>
+    <p class="text-sm font-bold text-brand-blue">TU EVALUACIÓN</p>
     <h1 class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">Mi evaluación</h1>
     <p class="mt-2 text-sm text-muted">
       Completa el cuestionario de cada compra confirmada para que preparemos tu rutina.
@@ -87,7 +87,7 @@ onMounted(load)
                   class="mt-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
                   :class="
                     hasQuestionnaire(purchase)
-                      ? 'bg-brand-green/10 text-brand-green'
+                      ? 'bg-brand-blue/10 text-brand-blue'
                       : 'bg-surface-muted text-muted'
                   "
                 >

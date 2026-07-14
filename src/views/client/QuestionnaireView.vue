@@ -46,7 +46,7 @@ onMounted(reload)
 
 <template>
   <div class="mx-auto max-w-3xl">
-    <p class="text-sm font-bold text-brand-green">TU EVALUACIÓN</p>
+    <p class="text-sm font-bold text-brand-blue">TU EVALUACIÓN</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Cuestionario de evaluación</h1>
 
     <div class="mt-8">
@@ -81,7 +81,7 @@ onMounted(reload)
             class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
             :class="
               isCompleted
-                ? 'bg-brand-green/10 text-brand-green'
+                ? 'bg-brand-blue/10 text-brand-blue'
                 : 'bg-surface-muted text-muted'
             "
           >
@@ -94,7 +94,7 @@ onMounted(reload)
 
         <p
           v-if="saved"
-          class="mt-5 rounded-md border border-brand-green/30 bg-brand-green/10 px-4 py-3 text-sm text-body"
+          class="mt-5 rounded-md border border-brand-blue/30 bg-brand-blue/10 px-4 py-3 text-sm text-body"
           role="status"
         >
           Guardamos tu cuestionario. Puedes seguir editándolo cuando lo necesites.

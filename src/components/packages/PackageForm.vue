@@ -198,7 +198,7 @@ function handleSubmit() {
           <input
             v-model="form.is_recommended"
             type="checkbox"
-            class="focus-ring size-4 rounded border-border-strong text-brand-green"
+            class="focus-ring size-4 rounded border-border-strong text-brand-blue"
           />
           Marcar como recomendado
         </label>
@@ -206,7 +206,7 @@ function handleSubmit() {
           <input
             v-model="form.is_active"
             type="checkbox"
-            class="focus-ring size-4 rounded border-border-strong text-brand-green"
+            class="focus-ring size-4 rounded border-border-strong text-brand-blue"
           />
           Activo (visible en el catálogo)
         </label>

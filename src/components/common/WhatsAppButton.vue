@@ -4,7 +4,7 @@ import { computed } from 'vue'
 const number = import.meta.env.VITE_WHATSAPP_NUMBER
 
 const href = computed(() => {
-  const text = encodeURIComponent('Hola, tengo una duda sobre los planes de Functional Fitness')
+  const text = encodeURIComponent('Hola, tengo una duda sobre los planes de SERA TRAINER')
   return `https://wa.me/${number}?text=${text}`
 })
 </script>
@@ -13,7 +13,7 @@ const href = computed(() => {
   <a
     v-if="Boolean(number)"
     :href="href"
-    class="focus-ring fixed right-5 bottom-5 z-40 flex size-14 items-center justify-center rounded-full bg-brand-green text-black shadow-lg transition hover:brightness-95"
+    class="focus-ring fixed right-5 bottom-5 z-40 flex size-14 items-center justify-center rounded-full bg-brand-blue text-black shadow-lg transition hover:brightness-95"
     aria-label="Escríbenos por WhatsApp"
     target="_blank"
     rel="noopener noreferrer"

@@ -82,7 +82,7 @@ const handleSubmit = async () => {
         <p v-if="errorMessage" class="text-sm text-danger" role="alert">
           {{ errorMessage }}
         </p>
-        <p v-if="infoMessage" class="text-sm text-brand-green" role="status">
+        <p v-if="infoMessage" class="text-sm text-brand-blue" role="status">
           {{ infoMessage }}
         </p>
 

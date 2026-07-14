@@ -65,7 +65,7 @@ const columns = [
     </template>
     <template #cell-actions="{ row }">
       <RouterLink
-        class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-green transition hover:underline"
+        class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-blue transition hover:underline"
         :to="{ name: 'admin-routine-edit', params: { id: row.id } }"
       >
         Editar

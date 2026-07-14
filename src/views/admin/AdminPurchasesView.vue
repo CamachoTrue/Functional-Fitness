@@ -44,7 +44,7 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-6xl">
-    <p class="text-sm font-bold text-brand-green">REGISTRO DE COMPRAS</p>
+    <p class="text-sm font-bold text-brand-blue">REGISTRO DE COMPRAS</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Compras</h1>
     <p class="mt-2 text-sm text-muted">
       Historial completo de compras en modo solo lectura.

@@ -97,7 +97,7 @@ watch(
 <template>
   <div class="mx-auto max-w-5xl">
     <RouterLink
-      class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-green transition hover:underline"
+      class="focus-ring inline-flex items-center rounded-sm text-sm font-semibold text-brand-blue transition hover:underline"
       :to="{ name: 'admin-clients' }"
     >
       ← Volver a clientes
@@ -120,7 +120,7 @@ watch(
       />
 
       <template v-else>
-        <p class="text-sm font-bold text-brand-green">FICHA DEL CLIENTE</p>
+        <p class="text-sm font-bold text-brand-blue">FICHA DEL CLIENTE</p>
         <h1 class="mt-2 text-3xl font-black tracking-tight">
           {{ profile.full_name ?? 'Cliente sin nombre' }}
         </h1>

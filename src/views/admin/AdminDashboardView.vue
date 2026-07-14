@@ -44,7 +44,7 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-6xl">
-    <p class="text-sm font-bold text-brand-green">CONTROL GENERAL</p>
+    <p class="text-sm font-bold text-brand-blue">CONTROL GENERAL</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Dashboard</h1>
     <p class="mt-2 text-sm text-muted">
       Resumen de la actividad del negocio. Cliente activo: con compra aprobada vigente.

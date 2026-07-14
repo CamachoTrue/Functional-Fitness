@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 <template>
   <main class="grid min-h-screen place-items-center bg-surface-inverse px-5 text-center text-on-inverse">
     <div>
-      <p class="text-sm font-bold text-brand-green">ERROR 404</p>
+      <p class="text-sm font-bold text-brand-blue">ERROR 404</p>
       <h1 class="mt-3 text-4xl font-black">Esta página no existe.</h1>
       <RouterLink
         class="focus-ring mt-8 inline-flex min-h-11 items-center rounded-md bg-surface-raised px-5 text-sm font-semibold text-body"

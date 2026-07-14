@@ -42,10 +42,10 @@ onMounted(() => {
 <template>
   <section class="py-16 sm:py-24">
     <div class="page-container">
-      <p class="text-sm font-bold text-brand-green">PAQUETES</p>
-      <h1 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Elige cómo quieres entrenar.</h1>
+      <p class="text-sm font-bold text-brand-blue">PAQUETES</p>
+      <h1 class="mt-3 text-3xl font-black tracking-tight uppercase sm:text-4xl">Elige cómo quieres entrenar.</h1>
       <p class="mt-4 max-w-2xl leading-7 text-muted">
-        Planes de functional fitness pensados para acompañarte según tu nivel y tus objetivos.
+        Planes de entrenamiento pensados para acompañarte según tu nivel y tus objetivos.
       </p>
 
       <div class="mt-10">

@@ -30,7 +30,7 @@ onMounted(load)
 
 <template>
   <div class="mx-auto max-w-6xl">
-    <p class="text-sm font-bold text-brand-green">GESTIÓN DE CLIENTES</p>
+    <p class="text-sm font-bold text-brand-blue">GESTIÓN DE CLIENTES</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Clientes</h1>
     <p class="mt-2 text-sm text-muted">
       Cliente activo: tiene una compra aprobada vigente. Plan actual: paquete de esa compra.
@@ -67,7 +67,7 @@ onMounted(load)
         <template #cell-created_at="{ value }">{{ formatDate(value) }}</template>
         <template #cell-actions="{ row }">
           <RouterLink
-            class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-green transition hover:underline"
+            class="focus-ring inline-flex items-center rounded-md px-3 py-1.5 text-sm font-semibold text-brand-blue transition hover:underline"
             :to="{ name: 'admin-client-detail', params: { id: row.id } }"
           >
             Ver detalle

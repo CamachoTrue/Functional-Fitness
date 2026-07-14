@@ -6,17 +6,12 @@ import { computed, readonly, ref } from 'vue'
  *
  * Reglas:
  *  - Si el usuario eligió manualmente, se respeta y persiste en localStorage.
- *  - Si no, se sigue la preferencia del sistema (prefers-color-scheme) en vivo.
+ *  - Si no, la marca arranca en OSCURO por defecto (el toggle sigue disponible).
  * El `index.html` ya aplica la clase `.dark` antes de pintar (anti-FOUC); aquí
- * solo sincronizamos el estado reactivo y reaccionamos a los cambios.
+ * solo sincronizamos el estado reactivo.
  */
 
 const STORAGE_KEY = 'theme'
-
-const prefersDark = () =>
-  typeof window !== 'undefined' &&
-  window.matchMedia &&
-  window.matchMedia('(prefers-color-scheme: dark)').matches
 
 function storedPreference() {
   try {
@@ -39,17 +34,9 @@ function initTheme() {
   if (initialized) return
   initialized = true
 
-  // Alinea el estado reactivo con lo que ya aplicó el script anti-FOUC.
-  apply(storedPreference() ? storedPreference() === 'dark' : prefersDark())
-
-  // Si el usuario no ha elegido manualmente, seguir el cambio del sistema.
-  if (window.matchMedia) {
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', (event) => {
-        if (!storedPreference()) apply(event.matches)
-      })
-  }
+  // Alinea el estado reactivo con lo que ya aplicó el script anti-FOUC:
+  // elección guardada del usuario, o OSCURO por defecto de la marca.
+  apply(storedPreference() ? storedPreference() === 'dark' : true)
 }
 
 function setTheme(theme) {
