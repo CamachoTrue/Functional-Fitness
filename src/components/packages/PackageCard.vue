@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 
 import BaseCard from '../common/BaseCard.vue'
 import { useCurrency } from '../../composables/useCurrency'
+import { coverFor } from '../../utils/packageCovers'
 
 const props = defineProps({
   pkg: {
@@ -18,6 +19,8 @@ const props = defineProps({
 })
 
 const { formatCurrency } = useCurrency()
+
+const cover = computed(() => coverFor(props.pkg.name))
 
 const formattedPrice = computed(() =>
   formatCurrency(props.pkg.price, props.pkg.currency),
@@ -34,6 +37,14 @@ const includes = computed(() => props.pkg.includes ?? [])
 <template>
   <BaseCard>
     <div class="flex h-full flex-col">
+      <!-- Portada del programa (si existe), a sangre en la parte superior. -->
+      <div
+        v-if="cover"
+        class="relative -mx-6 -mt-6 mb-5 flex aspect-[3/4] items-center justify-center overflow-hidden rounded-t-xl bg-neutral-900"
+      >
+        <img :src="cover" :alt="`Portada del ${pkg.name}`" loading="lazy" class="h-full w-full object-contain" />
+      </div>
+
       <div class="flex items-start justify-between gap-3">
         <h2 class="text-lg font-bold tracking-tight">{{ pkg.name }}</h2>
         <span

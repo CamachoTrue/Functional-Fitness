@@ -5,20 +5,9 @@ import { RouterLink } from 'vue-router'
 import FaqSection from '../../components/public/FaqSection.vue'
 import { fetchActivePackages } from '../../services/packagesService'
 import { useCurrency } from '../../composables/useCurrency'
+import { coverFor } from '../../utils/packageCovers'
 
 const { formatCurrency } = useCurrency()
-
-// Portadas de programa (estilo "producto"), mapeadas por nombre de paquete. Los
-// paquetes sin portada aún muestran un placeholder oscuro con el nombre. A medida
-// que el cliente envíe cada portada se agrega aquí (o, más adelante, en la DB).
-const covers = {
-  'plan personalizado': '/images/covers/personalizado.jpg',
-  'plan basico': '/images/covers/basico.jpg',
-  'plan premium': '/images/covers/premium.jpg',
-}
-function coverFor(name) {
-  return covers[String(name ?? '').trim().toLowerCase()] ?? null
-}
 
 // Programas destacados: los paquetes activos reales (hasta 3), al estilo de la
 // grilla de productos de la referencia.

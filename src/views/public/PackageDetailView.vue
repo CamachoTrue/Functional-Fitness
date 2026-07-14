@@ -10,6 +10,7 @@ import { usePackage } from '../../composables/usePackage'
 import { useCurrency } from '../../composables/useCurrency'
 import { useCheckout } from '../../composables/useCheckout'
 import { useAuthStore } from '../../stores/authStore'
+import { coverFor } from '../../utils/packageCovers'
 
 const props = defineProps({
   id: {
@@ -39,6 +40,8 @@ const durationLabel = computed(() => {
 })
 
 const includes = computed(() => pkg.value?.includes ?? [])
+
+const cover = computed(() => (pkg.value ? coverFor(pkg.value.name) : null))
 
 function handlePurchase() {
   if (!auth.isAuthenticated) {
@@ -73,41 +76,52 @@ function handlePurchase() {
         />
 
         <BaseCard v-else>
-          <div class="flex items-start justify-between gap-3">
-            <h1 class="text-3xl font-black tracking-tight sm:text-4xl">{{ pkg.name }}</h1>
-            <span
-              v-if="pkg.is_recommended"
-              class="shrink-0 rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
-            >
-              Recomendado
-            </span>
-          </div>
+          <div class="flex flex-col gap-8 sm:flex-row sm:gap-10">
+            <!-- Portada del programa (si existe). -->
+            <div v-if="cover" class="sm:w-2/5 sm:shrink-0">
+              <div class="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg bg-neutral-900">
+                <img :src="cover" :alt="`Portada del ${pkg.name}`" class="h-full w-full object-contain" />
+              </div>
+            </div>
 
-          <p class="mt-4 leading-7 text-muted">{{ pkg.description }}</p>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-3">
+                <h1 class="text-3xl font-black tracking-tight sm:text-4xl">{{ pkg.name }}</h1>
+                <span
+                  v-if="pkg.is_recommended"
+                  class="shrink-0 rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
+                >
+                  Recomendado
+                </span>
+              </div>
 
-          <div class="mt-6 flex items-baseline gap-2">
-            <span class="text-4xl font-black tracking-tight">{{ formattedPrice }}</span>
-            <span class="text-sm text-faint">/ {{ durationLabel }}</span>
-          </div>
+              <p class="mt-4 leading-7 text-muted">{{ pkg.description }}</p>
 
-          <div v-if="includes.length" class="mt-8">
-            <h2 class="text-sm font-bold tracking-wide text-faint uppercase">Incluye</h2>
-            <ul class="mt-3 space-y-2 text-sm text-muted">
-              <li v-for="item in includes" :key="item" class="flex items-start gap-2">
-                <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-border-strong" aria-hidden="true" />
-                <span>{{ item }}</span>
-              </li>
-            </ul>
-          </div>
+              <div class="mt-6 flex items-baseline gap-2">
+                <span class="text-4xl font-black tracking-tight">{{ formattedPrice }}</span>
+                <span class="text-sm text-faint">/ {{ durationLabel }}</span>
+              </div>
 
-          <div class="mt-10">
-            <BaseButton type="button" :disabled="purchasing" @click="handlePurchase">
-              {{ purchasing ? 'Redirigiendo…' : 'Quiero este plan' }}
-            </BaseButton>
+              <div v-if="includes.length" class="mt-8">
+                <h2 class="text-sm font-bold tracking-wide text-faint uppercase">Incluye</h2>
+                <ul class="mt-3 space-y-2 text-sm text-muted">
+                  <li v-for="item in includes" :key="item" class="flex items-start gap-2">
+                    <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-border-strong" aria-hidden="true" />
+                    <span>{{ item }}</span>
+                  </li>
+                </ul>
+              </div>
 
-            <p v-if="purchaseError" class="mt-4 text-sm font-medium text-danger" role="alert">
-              {{ purchaseError }}
-            </p>
+              <div class="mt-10">
+                <BaseButton type="button" :disabled="purchasing" @click="handlePurchase">
+                  {{ purchasing ? 'Redirigiendo…' : 'Quiero este plan' }}
+                </BaseButton>
+
+                <p v-if="purchaseError" class="mt-4 text-sm font-medium text-danger" role="alert">
+                  {{ purchaseError }}
+                </p>
+              </div>
+            </div>
           </div>
         </BaseCard>
       </div>
