@@ -39,10 +39,10 @@ onMounted(load)
   <div class="mx-auto max-w-4xl">
     <!-- Saludo con avatar -->
     <div class="flex items-center gap-4">
-      <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="lg" />
+      <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="lg" class="shrink-0" />
       <div class="min-w-0">
         <p class="text-sm font-bold text-brand-blue">TU ENTRENAMIENTO</p>
-        <h1 class="mt-1 truncate text-3xl font-black tracking-tight">
+        <h1 class="mt-1 text-2xl font-black tracking-tight break-words sm:text-3xl">
           Hola, {{ auth.displayName }}
         </h1>
       </div>

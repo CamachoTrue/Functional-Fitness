@@ -56,9 +56,9 @@ const ghostBtnClass = computed(() =>
       solid ? 'border-b border-border-subtle bg-surface-raised' : 'border-b border-transparent bg-transparent',
     ]"
   >
-    <div class="page-container grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4">
+    <div class="page-container relative flex h-16 items-center justify-between gap-3">
       <!-- Izquierda: navegación (desktop) / botón menú (móvil) -->
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-3 md:gap-6">
         <button
           class="focus-ring -ml-1 rounded-md p-2 md:hidden"
           :class="solid ? 'text-body' : 'text-white'"
@@ -72,28 +72,30 @@ const ghostBtnClass = computed(() =>
             <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
+
+        <!-- Marca: a la izquierda en móvil; centrada de forma absoluta en desktop. -->
+        <RouterLink
+          class="focus-ring rounded-sm font-display text-base font-semibold tracking-[0.14em] whitespace-nowrap uppercase transition-colors md:absolute md:left-1/2 md:-translate-x-1/2 md:text-xl md:tracking-[0.28em]"
+          :class="solid ? 'text-body' : 'text-white'"
+          to="/"
+        >
+          Sera Trainer
+        </RouterLink>
+
         <nav class="hidden items-center gap-7 md:flex" aria-label="Navegación principal">
           <RouterLink :class="navLinkClass" to="/">Inicio</RouterLink>
           <RouterLink :class="navLinkClass" to="/packages">Paquetes</RouterLink>
         </nav>
       </div>
 
-      <!-- Centro: marca -->
-      <RouterLink
-        class="focus-ring rounded-sm font-display text-lg font-semibold tracking-[0.28em] uppercase transition-colors sm:text-xl"
-        :class="solid ? 'text-body' : 'text-white'"
-        to="/"
-      >
-        Sera Trainer
-      </RouterLink>
-
       <!-- Derecha: acciones -->
-      <div class="flex items-center justify-end gap-3">
+      <div class="flex items-center gap-2 sm:gap-3">
         <ThemeToggle />
         <template v-if="auth.isAuthenticated">
           <RouterLink :class="[navLinkClass, 'hidden lg:inline']" :to="auth.homeRoute">Mi panel</RouterLink>
           <UserMenu
             align="down"
+            compact
             :trigger-class="
               solid
                 ? 'rounded-md border border-border-strong px-3 py-2 text-xs font-medium tracking-wide text-body transition hover:bg-surface-muted'

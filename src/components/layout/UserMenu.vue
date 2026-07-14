@@ -29,6 +29,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // En espacios estrechos (header en móvil) oculta el nombre en el disparador y
+  // deja solo el avatar, para que no se desborde. El nombre reaparece en sm+.
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const auth = useAuthStore()
@@ -91,7 +97,7 @@ onBeforeUnmount(() => {
       @click.stop="toggle"
     >
       <UserAvatar :src="auth.avatarUrl" :name="auth.displayName" size="sm" :on-inverse="onInverse" />
-      <span class="min-w-0 truncate">{{ auth.displayName }}</span>
+      <span class="min-w-0 truncate" :class="compact ? 'hidden sm:inline' : ''">{{ auth.displayName }}</span>
       <svg
         class="size-4 shrink-0 transition-transform"
         :class="open ? 'rotate-180' : ''"
