@@ -30,13 +30,11 @@ const durationLabel = computed(() => {
   const days = props.pkg.duration_days
   return `${days} ${days === 1 ? 'día' : 'días'}`
 })
-
-const includes = computed(() => props.pkg.includes ?? [])
 </script>
 
 <template>
   <BaseCard>
-    <div class="flex h-full flex-col">
+    <div class="flex h-full flex-col text-center">
       <!-- Portada del programa (si existe), a sangre en la parte superior. -->
       <div
         v-if="cover"
@@ -45,43 +43,33 @@ const includes = computed(() => props.pkg.includes ?? [])
         <img :src="cover" :alt="`Portada del ${pkg.name}`" loading="lazy" class="h-full w-full object-contain" />
       </div>
 
-      <div class="flex items-start justify-between gap-3">
-        <h2 class="text-lg font-bold tracking-tight">{{ pkg.name }}</h2>
-        <span
-          v-if="pkg.is_recommended"
-          class="shrink-0 rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
+      <div class="flex flex-1 flex-col items-center">
+        <div v-if="pkg.is_recommended || isCurrent" class="mb-3 flex flex-wrap justify-center gap-2">
+          <span
+            v-if="pkg.is_recommended"
+            class="rounded-full bg-brand-blue px-3 py-1 text-xs font-bold text-white"
+          >
+            Recomendado
+          </span>
+          <span
+            v-if="isCurrent"
+            class="rounded-full border border-brand-blue px-3 py-1 text-xs font-bold text-brand-blue"
+          >
+            Tu plan actual
+          </span>
+        </div>
+
+        <h2 class="font-display text-sm font-medium tracking-[0.16em] uppercase">{{ pkg.name }}</h2>
+        <p class="mt-1 text-xs tracking-[0.12em] text-faint uppercase">{{ durationLabel }}</p>
+        <p class="mt-3 text-base text-muted">{{ formattedPrice }}</p>
+
+        <RouterLink
+          class="focus-ring mt-5 inline-flex rounded-sm text-xs font-medium tracking-[0.14em] uppercase underline underline-offset-4"
+          :to="{ name: 'package-detail', params: { id: pkg.id } }"
         >
-          Recomendado
-        </span>
+          Ver detalle
+        </RouterLink>
       </div>
-
-      <span
-        v-if="isCurrent"
-        class="mt-3 inline-flex w-fit items-center rounded-full border border-brand-blue px-3 py-1 text-xs font-bold text-brand-blue"
-      >
-        Tu plan actual
-      </span>
-
-      <p class="mt-2 text-sm leading-6 text-muted">{{ pkg.description }}</p>
-
-      <div class="mt-5 flex items-baseline gap-2">
-        <span class="text-3xl font-black tracking-tight">{{ formattedPrice }}</span>
-        <span class="text-sm text-faint">/ {{ durationLabel }}</span>
-      </div>
-
-      <ul v-if="includes.length" class="mt-5 space-y-2 text-sm text-muted">
-        <li v-for="item in includes" :key="item" class="flex items-start gap-2">
-          <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-faint" aria-hidden="true" />
-          <span>{{ item }}</span>
-        </li>
-      </ul>
-
-      <RouterLink
-        class="focus-ring mt-6 inline-flex rounded-sm text-sm font-semibold underline underline-offset-4"
-        :to="{ name: 'package-detail', params: { id: pkg.id } }"
-      >
-        Ver detalle
-      </RouterLink>
     </div>
   </BaseCard>
 </template>
