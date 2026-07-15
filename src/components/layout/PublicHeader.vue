@@ -15,15 +15,15 @@ const closeMenu = () => {
   isMenuOpen.value = false
 }
 
-// Solo la Home tiene un hero a pantalla completa detrás del header: ahí el header
-// FLOTA transparente sobre la imagen y se vuelve sólido al hacer scroll (estilo
-// referencia). En el resto de páginas el header es sólido desde el inicio.
-const isHome = computed(() => route.path === '/')
+// Las páginas con un hero a pantalla completa detrás del header (Home y catálogo
+// de Paquetes) hacen que el header FLOTE transparente sobre la imagen y se vuelva
+// sólido al hacer scroll (estilo referencia). En el resto es sólido desde el inicio.
+const overlayHero = computed(() => route.path === '/' || route.path === '/packages')
 
-// El header se muestra SÓLIDO (fondo + borde + colores normales) cuando: no es la
-// Home, o ya se hizo scroll, o el menú móvil está abierto. TRANSPARENTE (texto
-// blanco sobre la imagen) solo en el tope de la Home.
-const solid = computed(() => !isHome.value || scrolled.value || isMenuOpen.value)
+// El header se muestra SÓLIDO (fondo + borde + colores normales) cuando: no hay
+// hero detrás, o ya se hizo scroll, o el menú móvil está abierto. TRANSPARENTE
+// (texto blanco sobre la imagen) solo en el tope de esas páginas.
+const solid = computed(() => !overlayHero.value || scrolled.value || isMenuOpen.value)
 
 function onScroll() {
   scrolled.value = window.scrollY > 24
@@ -52,7 +52,7 @@ const ghostBtnClass = computed(() =>
   <header
     class="top-0 left-0 z-30 w-full transition-colors duration-300"
     :class="[
-      isHome ? 'fixed' : 'relative',
+      overlayHero ? 'fixed' : 'relative',
       solid ? 'border-b border-border-subtle bg-surface-raised' : 'border-b border-transparent bg-transparent',
     ]"
   >

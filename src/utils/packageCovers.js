@@ -17,11 +17,13 @@ const COVERS = {
 /**
  * Normaliza un nombre para emparejar: minúsculas, sin espacios extra y SIN
  * acentos. Así "Plan Básico" (como puede estar en la base de datos de la nube) y
- * "Plan Basico" (seed local) coinciden con la misma clave del mapa.
+ * "Plan Basico" (seed local) coinciden con la misma clave del mapa. Exportada
+ * para reutilizarla en otros mapeos por nombre de paquete (p. ej. las
+ * diapositivas del slider).
  * @param {string} name
  * @returns {string}
  */
-function normalize(name) {
+export function normalizeName(name) {
   return String(name ?? '')
     .trim()
     .toLowerCase()
@@ -38,5 +40,5 @@ function normalize(name) {
  * @returns {string|null}
  */
 export function coverFor(name) {
-  return COVERS[normalize(name)] ?? null
+  return COVERS[normalizeName(name)] ?? null
 }
