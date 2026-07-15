@@ -57,15 +57,17 @@ const reviews = [
       <h1 class="font-display text-sm font-light tracking-[0.35em] text-white uppercase sm:text-base">
         Entrenamiento personalizado
       </h1>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+      <!-- Botones siempre en una fila (también en móvil): comparten el ancho y
+           reducen padding/tracking en pantallas chicas para caber en una línea. -->
+      <div class="mt-8 flex w-full max-w-md gap-3 sm:w-auto sm:max-w-none sm:gap-4">
         <RouterLink
-          class="focus-ring inline-flex min-h-12 items-center justify-center border border-white/70 px-10 text-xs font-medium tracking-[0.18em] text-white uppercase transition hover:bg-white hover:text-black"
+          class="focus-ring inline-flex min-h-12 flex-1 items-center justify-center border border-white/70 px-3 text-[11px] font-medium tracking-[0.1em] whitespace-nowrap text-white uppercase transition hover:bg-white hover:text-black sm:flex-none sm:px-10 sm:text-xs sm:tracking-[0.18em]"
           to="/packages"
         >
           Ver paquetes
         </RouterLink>
         <RouterLink
-          class="focus-ring inline-flex min-h-12 items-center justify-center border border-white/40 px-10 text-xs font-medium tracking-[0.18em] text-white uppercase transition hover:bg-white hover:text-black"
+          class="focus-ring inline-flex min-h-12 flex-1 items-center justify-center border border-white/40 px-3 text-[11px] font-medium tracking-[0.1em] whitespace-nowrap text-white uppercase transition hover:bg-white hover:text-black sm:flex-none sm:px-10 sm:text-xs sm:tracking-[0.18em]"
           to="/register"
         >
           Quiero comenzar
