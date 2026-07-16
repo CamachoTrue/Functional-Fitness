@@ -105,7 +105,7 @@ const reviews = [
         v-for="pkg in featured"
         :key="pkg.id"
         class="focus-ring group block"
-        :to="`/packages/${pkg.id}`"
+        :to="{ name: 'package-detail', params: { id: pkg.id } }"
       >
         <!-- PORTADA: imagen del programa si existe; si no, placeholder oscuro con el nombre. -->
         <div class="relative flex aspect-[3/4] items-center justify-center overflow-hidden bg-neutral-900">

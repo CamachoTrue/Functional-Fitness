@@ -24,6 +24,21 @@ test('la sección de FAQ muestra el heading y las preguntas se pueden expandir',
   await expect(answer).toBeVisible()
 })
 
+test('desde el inicio, un programa destacado navega a su detalle', async ({ page }) => {
+  await page.goto('/')
+
+  // La sección "Programas" lista los paquetes activos como enlaces (cada tarjeta
+  // contiene un <h3> con el nombre del plan). Debe llevar a /package/<id>, no a 404.
+  const programLink = page
+    .getByRole('link')
+    .filter({ has: page.getByRole('heading', { level: 3 }) })
+    .first()
+  await expect(programLink).toBeVisible()
+  await programLink.click()
+
+  await expect(page).toHaveURL(/\/package\/[0-9a-f-]+$/)
+})
+
 test('la sección de reseñas muestra el heading y una reseña', async ({ page }) => {
   await page.goto('/')
 
