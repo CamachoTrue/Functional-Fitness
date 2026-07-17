@@ -103,7 +103,7 @@ const handleSubmit = async () => {
 
       <p class="mt-6 text-center text-sm text-muted">
         ¿Ya tienes cuenta?
-        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/login">
+        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/entrar">
           Inicia sesión
         </RouterLink>
       </p>

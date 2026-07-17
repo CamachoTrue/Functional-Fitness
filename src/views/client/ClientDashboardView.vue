@@ -123,7 +123,7 @@ onMounted(load)
           </div>
           <RouterLink
             class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-            to="/client/routine"
+            to="/cliente/rutina"
           >
             Comenzar sesión
           </RouterLink>
@@ -189,7 +189,7 @@ onMounted(load)
 
           <RouterLink
             class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md border border-accent bg-surface-raised px-5 py-2.5 text-sm font-semibold text-body transition hover:bg-surface-muted"
-            :to="`/client/questionnaire/${activePurchase.id}`"
+            :to="`/cliente/cuestionario/${activePurchase.id}`"
           >
             {{ questionnaireStatus === 'completed' ? 'Editar cuestionario' : 'Completar cuestionario' }}
           </RouterLink>
@@ -219,7 +219,7 @@ onMounted(load)
           <RouterLink
             v-if="routineStatus === 'ready'"
             class="focus-ring mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-            to="/client/routine"
+            to="/cliente/rutina"
           >
             Ver mi rutina
           </RouterLink>

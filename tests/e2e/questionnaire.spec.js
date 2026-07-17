@@ -38,9 +38,9 @@ test('crear: el cliente completa y guarda el cuestionario de una compra approved
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'approved' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
-  await page.goto(`/client/questionnaire/${purchaseId}`)
+  await page.goto(`/cliente/cuestionario/${purchaseId}`)
 
   // Estado inicial: PENDIENTE y boton de creacion.
   await expect(page.getByText('PENDIENTE')).toBeVisible()
@@ -70,9 +70,9 @@ test('editar: el cliente actualiza un campo (upsert) y persiste', async ({ page 
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'approved' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
-  await page.goto(`/client/questionnaire/${purchaseId}`)
+  await page.goto(`/cliente/cuestionario/${purchaseId}`)
   await fillValidQuestionnaire(page)
   await page.getByRole('button', { name: 'Guardar cuestionario' }).click()
   await expect(page.getByRole('status')).toContainText('Guardamos tu cuestionario')
@@ -98,9 +98,9 @@ test('validacion: una edad fuera de rango muestra el error en español y no guar
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'approved' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
-  await page.goto(`/client/questionnaire/${purchaseId}`)
+  await page.goto(`/cliente/cuestionario/${purchaseId}`)
   await page.getByLabel('Edad (años)').fill('5')
   await page.getByRole('button', { name: 'Guardar cuestionario' }).click()
 
@@ -125,9 +125,9 @@ test('compra no approved: la vista muestra el EmptyState y no el formulario', as
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'pending' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
-  await page.goto(`/client/questionnaire/${purchaseId}`)
+  await page.goto(`/cliente/cuestionario/${purchaseId}`)
 
   // Compra no confirmada: EmptyState (refleja la barrera RLS) y sin formulario.
   await expect(page.getByText('Esta compra no admite cuestionario')).toBeVisible()
@@ -146,18 +146,18 @@ test('entrada: la vista de compras lista la compra approved con su estado y enla
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'approved' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
-  await page.goto('/client/purchases')
+  await page.goto('/cliente/compras')
 
   // La compra approved aparece con estado PENDIENTE y enlace a su cuestionario.
   await expect(page.getByRole('heading', { name: 'Plan Basico' })).toBeVisible()
   await expect(page.getByText('Cuestionario: PENDIENTE')).toBeVisible()
 
   const link = page.getByRole('link', { name: 'Completar cuestionario' })
-  await expect(link).toHaveAttribute('href', `/client/questionnaire/${purchaseId}`)
+  await expect(link).toHaveAttribute('href', `/cliente/cuestionario/${purchaseId}`)
 
   await link.click()
-  await expect(page).toHaveURL(new RegExp(`/client/questionnaire/${purchaseId}`))
+  await expect(page).toHaveURL(new RegExp(`/cliente/cuestionario/${purchaseId}`))
   await expect(page.getByLabel('Objetivo principal')).toBeVisible()
 })

@@ -28,15 +28,15 @@ const CORS_HEADERS = {
   'access-control-allow-methods': 'POST, OPTIONS',
 }
 
-test('sin sesión, el CTA de compra redirige a /login con redirect', async ({ page }) => {
+test('sin sesión, el CTA de compra redirige a /entrar con redirect', async ({ page }) => {
   await page.goto(BASIC_DETAIL_PATH)
   await expect(page.getByRole('heading', { name: 'Plan Basico' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Quiero este plan' }).click()
 
-  await expect(page).toHaveURL(/\/login/)
+  await expect(page).toHaveURL(/\/entrar/)
   const loginUrl = new URL(page.url())
-  expect(loginUrl.pathname).toBe('/login')
+  expect(loginUrl.pathname).toBe('/entrar')
   expect(loginUrl.searchParams.get('redirect')).toBe(BASIC_DETAIL_PATH)
 })
 
@@ -44,7 +44,7 @@ test('con sesión, el CTA arranca el checkout y redirige al init_point de Mercad
   const email = uniqueEmail('checkout')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   const fakeInitPoint = 'https://mp.example.test/checkout/fake-init-point'
 
@@ -87,7 +87,7 @@ test('con sesión, un error de la Edge Function muestra el mensaje en español',
   const email = uniqueEmail('checkout-err')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   await page.route(CREATE_PREFERENCE_GLOB, async (route) => {
     if (route.request().method() === 'OPTIONS') {
@@ -133,7 +133,7 @@ test('la vista de éxito muestra el estado approved leído desde la base', async
 
   // El dueño debe estar autenticado para que RLS le permita leer su compra.
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   await page.goto(`/payment/success?external_reference=${purchaseId}`)
 
@@ -153,7 +153,7 @@ test('la vista de retorno muestra "confirmando" para una compra pending', async 
   const purchaseId = await seedPurchase({ userId, paymentStatus: 'pending' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   await page.goto(`/payment/pending?external_reference=${purchaseId}`)
 

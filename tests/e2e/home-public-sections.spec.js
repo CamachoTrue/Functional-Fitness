@@ -46,12 +46,12 @@ test('la sección de reseñas muestra el heading y una reseña', async ({ page }
   await expect(page.getByText('Ana Ramírez')).toBeVisible()
 })
 
-test('el CTA del hero "Quiero comenzar" navega a /register', async ({ page }) => {
+test('el CTA del hero "Quiero comenzar" navega a /registro', async ({ page }) => {
   await page.goto('/')
 
   // "Quiero comenzar" solo existe en el hero.
   await page.getByRole('link', { name: 'Quiero comenzar' }).click()
-  await expect(page).toHaveURL(/\/register/)
+  await expect(page).toHaveURL(/\/registro/)
 })
 
 test('el CTA del hero "Ver paquetes" navega a /planes', async ({ page }) => {

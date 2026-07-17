@@ -11,7 +11,7 @@ test('la vista de cuenta muestra el perfil y guarda el nombre', async ({ page })
   await createUser({ email, password: 'secret123', fullName: 'Cuenta Cliente' })
   await loginViaUi(page, email, 'secret123')
 
-  await page.goto('/account')
+  await page.goto('/cuenta')
   await expect(page.getByRole('heading', { name: 'Configuración de cuenta' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Tu perfil' })).toBeVisible()
 
@@ -27,7 +27,7 @@ test('el cliente sube su avatar y persiste tras recargar', async ({ page }) => {
   await createUser({ email, password: 'secret123', fullName: 'Avatar Cliente' })
   await loginViaUi(page, email, 'secret123')
 
-  await page.goto('/account')
+  await page.goto('/cuenta')
 
   // Sin foto, el avatar de respaldo dibuja las iniciales (no hay <img>).
   await expect(page.getByRole('button', { name: 'Cambiar foto' })).toBeVisible()

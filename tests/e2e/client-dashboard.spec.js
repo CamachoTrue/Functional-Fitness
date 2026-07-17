@@ -13,7 +13,7 @@ test('sin plan, el panel saluda al cliente y muestra el estado vacío', async ({
   await createUser({ email, password: 'secret123', fullName: 'Panel Cliente' })
   await loginViaUi(page, email, 'secret123')
 
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
   await expect(page.getByRole('heading', { name: /Hola, Panel Cliente/ })).toBeVisible()
 
   // Un cliente recién registrado no tiene compra approved: el panel muestra el
@@ -33,7 +33,7 @@ test('con un plan vigente, el panel muestra las métricas y el estado del plan',
   await seedPurchase({ userId })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   // Tiles de métricas honestas + tarjeta del plan vigente.
   await expect(page.getByText('Días restantes')).toBeVisible()

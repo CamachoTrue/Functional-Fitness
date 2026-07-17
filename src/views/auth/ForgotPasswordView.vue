@@ -77,7 +77,7 @@ const handleSubmit = async () => {
       </div>
 
       <p class="mt-6 text-center text-sm text-muted">
-        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/login">
+        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/entrar">
           Volver a iniciar sesión
         </RouterLink>
       </p>

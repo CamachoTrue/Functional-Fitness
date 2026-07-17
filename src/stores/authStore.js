@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
     () => profile.value?.full_name || user.value?.email || 'Tu cuenta',
   )
   const homeRoute = computed(() =>
-    isAdmin.value ? '/admin/dashboard' : '/client/dashboard',
+    isAdmin.value ? '/admin/dashboard' : '/cliente/panel',
   )
 
   /**

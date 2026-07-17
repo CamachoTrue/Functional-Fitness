@@ -64,7 +64,7 @@ test.describe('cliente: rutina asignada y video (requiere service role)', () => 
     // Dashboard: la rutina está lista → aparece el botón único "Ver mi rutina"
     // (que solo se muestra cuando el estado es "Lista"; assert robusto sin
     // depender del texto suelto "Lista", que puede coincidir en varios lugares).
-    await page.goto('/client/dashboard')
+    await page.goto('/cliente/panel')
     await expect(page.getByRole('heading', { name: 'Resumen' })).toBeVisible()
 
     const verRutina = page.getByRole('link', { name: 'Ver mi rutina' })
@@ -72,7 +72,7 @@ test.describe('cliente: rutina asignada y video (requiere service role)', () => 
     await verRutina.click()
 
     // Vista de rutina: se muestra el día y el ejercicio (sin :routineId en la URL).
-    await expect(page).toHaveURL(/\/client\/routine$/)
+    await expect(page).toHaveURL(/\/cliente\/rutina$/)
     await expect(page.getByRole('heading', { name: 'Mi rutina' })).toBeVisible()
     await expect(page.getByText('DÍA 1', { exact: true })).toBeVisible()
     await expect(page.getByText(exerciseName, { exact: true })).toBeVisible()
@@ -110,14 +110,14 @@ test.describe('cliente: rutina asignada y video (requiere service role)', () => 
 
     // La rutina no aparece: se muestra el estado "en preparación" (refleja la RLS
     // sin fuga de datos), no los días ni el ejercicio.
-    await page.goto('/client/routine')
+    await page.goto('/cliente/rutina')
     await expect(page.getByRole('heading', { name: 'Mi rutina' })).toBeVisible()
     await expect(page.getByText('Tu rutina aún está en preparación')).toBeVisible()
     await expect(page.getByText('DÍA 1', { exact: true })).toHaveCount(0)
 
     // El dashboard tampoco marca la rutina como "Lista": sin compra vigente no hay
     // plan activo, así que se muestra el estado vacío del panel.
-    await page.goto('/client/dashboard')
+    await page.goto('/cliente/panel')
     await expect(page.getByRole('heading', { name: 'Resumen' })).toBeVisible()
     await expect(page.getByText('Aún no tienes un plan activo')).toBeVisible()
     await expect(page.getByText('Lista')).toHaveCount(0)

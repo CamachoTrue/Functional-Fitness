@@ -9,33 +9,33 @@ test('la landing carga', async ({ page }) => {
 
 test('registro redirige al panel de cliente', async ({ page }) => {
   const email = uniqueEmail('register')
-  await page.goto('/register')
+  await page.goto('/registro')
   await page.getByLabel('Nombre completo').fill('Nuevo Cliente')
   await page.getByLabel('Correo electrónico').fill(email)
   await page.getByLabel('Contraseña').fill('secret123')
   await page.getByRole('button', { name: /^Crear cuenta$/ }).click()
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 })
 
 test('login lleva al panel de cliente', async ({ page }) => {
   const email = uniqueEmail('login')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 })
 
 test('guard: usuario no autenticado es enviado a login', async ({ page }) => {
-  await page.goto('/client/dashboard')
-  await expect(page).toHaveURL(/\/login/)
+  await page.goto('/cliente/panel')
+  await expect(page).toHaveURL(/\/entrar/)
 })
 
 test('guard: un cliente no puede entrar al área admin', async ({ page }) => {
   const email = uniqueEmail('client-guard')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
   await page.goto('/admin/dashboard')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 })
 
 test('guard: un admin entra al área admin y su home es el panel admin', async ({ page }) => {
@@ -52,34 +52,34 @@ test('guard: un admin entra al área admin y su home es el panel admin', async (
   await expect(page).toHaveURL(/\/admin\/dashboard/)
 })
 
-test('guestOnly: un usuario autenticado no ve /login', async ({ page }) => {
+test('guestOnly: un usuario autenticado no ve /entrar', async ({ page }) => {
   const email = uniqueEmail('guest')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
-  await page.goto('/login')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
+  await page.goto('/entrar')
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 })
 
 test('la sesión persiste tras recargar', async ({ page }) => {
   const email = uniqueEmail('session')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
   await page.reload()
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 })
 
 test('cerrar sesión regresa al inicio y reprotege el área de cliente', async ({ page }) => {
   const email = uniqueEmail('logout')
   await createUser({ email, password: 'secret123' })
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
   // Cerrar sesión vive en el menú de usuario y pide confirmación.
   await page.locator('button[aria-haspopup="menu"]').first().click()
   await page.getByRole('menuitem', { name: 'Cerrar sesión' }).click()
   await page.getByRole('button', { name: /Sí, cerrar/ }).click()
   await expect(page).toHaveURL(/http:\/\/localhost:5173\/$/)
-  await page.goto('/client/dashboard')
-  await expect(page).toHaveURL(/\/login/)
+  await page.goto('/cliente/panel')
+  await expect(page).toHaveURL(/\/entrar/)
 })

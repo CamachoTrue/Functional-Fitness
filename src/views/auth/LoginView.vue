@@ -56,7 +56,7 @@ const handleSubmit = async () => {
         <div class="text-right">
           <RouterLink
             class="focus-ring rounded-sm text-sm font-semibold text-body underline"
-            to="/forgot-password"
+            to="/recuperar-contrasena"
           >
             ¿Olvidaste tu contraseña?
           </RouterLink>
@@ -83,7 +83,7 @@ const handleSubmit = async () => {
 
       <p class="mt-6 text-center text-sm text-muted">
         ¿Aún no tienes cuenta?
-        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/register">
+        <RouterLink class="focus-ring rounded-sm font-semibold text-body underline" to="/registro">
           Regístrate
         </RouterLink>
       </p>

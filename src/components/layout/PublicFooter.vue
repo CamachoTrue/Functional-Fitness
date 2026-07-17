@@ -19,10 +19,10 @@ import { RouterLink } from 'vue-router'
         <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/planes">
           Paquetes
         </RouterLink>
-        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/register">
+        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/registro">
           Comenzar
         </RouterLink>
-        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/login">
+        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/entrar">
           Entrar
         </RouterLink>
       </nav>

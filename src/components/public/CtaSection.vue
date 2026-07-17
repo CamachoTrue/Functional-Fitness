@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router'
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <RouterLink
           class="focus-ring inline-flex min-h-12 items-center justify-center rounded-md bg-brand-blue px-6 font-semibold text-black transition hover:brightness-95"
-          to="/register"
+          to="/registro"
         >
           Quiero comenzar
         </RouterLink>

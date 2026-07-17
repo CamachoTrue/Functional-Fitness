@@ -68,7 +68,7 @@ const reviews = [
         </RouterLink>
         <RouterLink
           class="focus-ring inline-flex min-h-12 flex-1 items-center justify-center border border-white/40 px-3 text-[11px] font-medium tracking-[0.1em] whitespace-nowrap text-white uppercase transition hover:bg-white hover:text-black sm:flex-none sm:px-10 sm:text-xs sm:tracking-[0.18em]"
-          to="/register"
+          to="/registro"
         >
           Quiero comenzar
         </RouterLink>
@@ -140,7 +140,7 @@ const reviews = [
       v-for="tile in [
         { label: 'Paquetes', to: '/planes', img: '/images/paquetes.jpg' },
         { label: 'Nuestra misión', to: '/#mission', img: '/images/mision.jpg' },
-        { label: 'Comenzar', to: '/register', img: '/images/comenzar.jpg' },
+        { label: 'Comenzar', to: '/registro', img: '/images/comenzar.jpg' },
       ]"
       :key="tile.label"
       class="focus-ring group relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-black"

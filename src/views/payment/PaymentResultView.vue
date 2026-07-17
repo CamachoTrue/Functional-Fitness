@@ -144,7 +144,7 @@ onMounted(load)
 
             <RouterLink
               class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-              to="/client/dashboard"
+              to="/cliente/panel"
             >
               Ir a mi panel
             </RouterLink>

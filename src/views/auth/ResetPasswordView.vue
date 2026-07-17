@@ -66,7 +66,7 @@ const handleSubmit = async () => {
       >
         <p class="text-sm font-semibold text-body">Contraseña actualizada correctamente.</p>
         <p class="mt-2 text-sm leading-6 text-muted">Ya puedes iniciar sesión con tu nueva contraseña.</p>
-        <BaseButton class="mt-5 w-full" type="button" @click="router.push('/login')">
+        <BaseButton class="mt-5 w-full" type="button" @click="router.push('/entrar')">
           Ir a iniciar sesión
         </BaseButton>
       </div>
@@ -82,7 +82,7 @@ const handleSubmit = async () => {
         </p>
         <RouterLink
           class="focus-ring mt-5 inline-flex rounded-sm font-semibold text-body underline"
-          to="/forgot-password"
+          to="/recuperar-contrasena"
         >
           Solicitar un enlace nuevo
         </RouterLink>

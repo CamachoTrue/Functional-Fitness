@@ -162,12 +162,12 @@ test('guard: un cliente no-admin es redirigido y no ve el área de administraci�
   await createUser({ email, password: 'secret123', fullName: 'No Admin' })
 
   await loginViaUi(page, email, 'secret123')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
 
   // Al intentar entrar al área admin, el guard (meta role:'admin') lo devuelve a
   // su homeRoute de cliente y no se muestra ningún contenido de administración.
   await page.goto('/admin/dashboard')
-  await expect(page).toHaveURL(/\/client\/dashboard/)
+  await expect(page).toHaveURL(/\/cliente\/panel/)
   await expect(page.getByText('CONTROL GENERAL')).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Dashboard', exact: true })).toHaveCount(0)
 })

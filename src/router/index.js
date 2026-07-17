@@ -34,19 +34,19 @@ const router = createRouter({
           redirect: (to) => ({ name: 'package-detail', params: to.params }),
         },
         {
-          path: 'login',
+          path: 'entrar',
           name: 'login',
           component: () => import('../views/auth/LoginView.vue'),
           meta: { guestOnly: true },
         },
         {
-          path: 'register',
+          path: 'registro',
           name: 'register',
           component: () => import('../views/auth/RegisterView.vue'),
           meta: { guestOnly: true },
         },
         {
-          path: 'forgot-password',
+          path: 'recuperar-contrasena',
           name: 'forgot-password',
           component: () => import('../views/auth/ForgotPasswordView.vue'),
           meta: { guestOnly: true },
@@ -60,11 +60,17 @@ const router = createRouter({
           component: () => import('../views/auth/ResetPasswordView.vue'),
         },
         {
-          path: 'account',
+          path: 'cuenta',
           name: 'account',
           component: () => import('../views/account/AccountView.vue'),
           meta: { requiresAuth: true },
         },
+        // Redirecciones de las URLs antiguas en inglés (por si alguien tiene el
+        // enlace guardado). Mantienen el mismo destino por nombre de ruta.
+        { path: 'login', redirect: { name: 'login' } },
+        { path: 'register', redirect: { name: 'register' } },
+        { path: 'forgot-password', redirect: { name: 'forgot-password' } },
+        { path: 'account', redirect: { name: 'account' } },
         {
           path: 'payment/success',
           name: 'payment-success',
@@ -86,32 +92,40 @@ const router = createRouter({
       ],
     },
     {
-      path: '/client',
+      path: '/cliente',
       component: () => import('../layouts/ClientLayout.vue'),
       meta: { requiresAuth: true, role: 'client' },
       children: [
         {
-          path: 'dashboard',
+          path: 'panel',
           name: 'client-dashboard',
           component: () => import('../views/client/ClientDashboardView.vue'),
         },
         {
-          path: 'purchases',
+          path: 'compras',
           name: 'client-purchases',
           component: () => import('../views/client/ClientPurchasesView.vue'),
         },
         {
-          path: 'routine',
+          path: 'rutina',
           name: 'client-routine',
           component: () => import('../views/client/ClientRoutineView.vue'),
         },
         {
-          path: 'questionnaire/:purchaseId',
+          path: 'cuestionario/:purchaseId',
           name: 'client-questionnaire',
           component: () => import('../views/client/QuestionnaireView.vue'),
           props: true,
         },
       ],
+    },
+    // Redirecciones de las URLs antiguas del área de cliente en inglés.
+    { path: '/client/dashboard', redirect: { name: 'client-dashboard' } },
+    { path: '/client/purchases', redirect: { name: 'client-purchases' } },
+    { path: '/client/routine', redirect: { name: 'client-routine' } },
+    {
+      path: '/client/questionnaire/:purchaseId',
+      redirect: (to) => ({ name: 'client-questionnaire', params: to.params }),
     },
     {
       path: '/admin',

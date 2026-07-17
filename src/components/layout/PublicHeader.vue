@@ -104,8 +104,8 @@ const ghostBtnClass = computed(() =>
           />
         </template>
         <template v-else>
-          <RouterLink :class="[navLinkClass, 'hidden sm:inline']" to="/login">Entrar</RouterLink>
-          <RouterLink :class="ghostBtnClass" to="/register">Comenzar</RouterLink>
+          <RouterLink :class="[navLinkClass, 'hidden sm:inline']" to="/entrar">Entrar</RouterLink>
+          <RouterLink :class="ghostBtnClass" to="/registro">Comenzar</RouterLink>
         </template>
       </div>
     </div>
@@ -124,8 +124,8 @@ const ghostBtnClass = computed(() =>
           <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" :to="auth.homeRoute" @click="closeMenu">Mi panel</RouterLink>
         </template>
         <template v-else>
-          <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/login" @click="closeMenu">Entrar</RouterLink>
-          <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/register" @click="closeMenu">Comenzar</RouterLink>
+          <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/entrar" @click="closeMenu">Entrar</RouterLink>
+          <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/registro" @click="closeMenu">Comenzar</RouterLink>
         </template>
       </div>
     </nav>

@@ -439,11 +439,11 @@ export async function uploadExerciseVideoAsService(path, filePath) {
 
 /** Inicia sesión a través de la UI. */
 export async function loginViaUi(page, email, password) {
-  await page.goto('/login')
+  await page.goto('/entrar')
   await page.getByLabel('Correo electrónico').fill(email)
   await page.getByLabel('Contraseña').fill(password)
   await page.getByRole('button', { name: /^Entrar$/ }).click()
-  // Espera a que el login termine y redirija fuera de /login (sesión persistida),
+  // Espera a que el login termine y redirija fuera de /entrar (sesión persistida),
   // para que un page.goto posterior no corra antes de establecerse la sesión.
-  await page.waitForURL((url) => !url.pathname.startsWith('/login'))
+  await page.waitForURL((url) => !url.pathname.startsWith('/entrar'))
 }

@@ -96,7 +96,7 @@ onMounted(load)
               </div>
               <RouterLink
                 class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-                :to="`/client/questionnaire/${purchase.id}`"
+                :to="`/cliente/cuestionario/${purchase.id}`"
               >
                 {{ hasQuestionnaire(purchase) ? 'Editar cuestionario' : 'Completar cuestionario' }}
               </RouterLink>

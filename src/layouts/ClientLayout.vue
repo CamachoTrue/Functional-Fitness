@@ -4,9 +4,9 @@ import { RouterView } from 'vue-router'
 import DashboardSidebar from '../components/layout/DashboardSidebar.vue'
 
 const navigation = [
-  { label: 'Resumen', to: '/client/dashboard' },
-  { label: 'Mi rutina', to: '/client/routine' },
-  { label: 'Mi evaluación', to: '/client/purchases' },
+  { label: 'Resumen', to: '/cliente/panel' },
+  { label: 'Mi rutina', to: '/cliente/rutina' },
+  { label: 'Mi evaluación', to: '/cliente/compras' },
 ]
 </script>
 

@@ -71,7 +71,7 @@ test('Ver detalle navega al detalle del paquete con nombre y precio', async ({ p
   await expect(page.getByText('499')).toBeVisible()
 })
 
-test('sin sesión, el CTA de compra redirige a /login con redirect', async ({ page }) => {
+test('sin sesión, el CTA de compra redirige a /entrar con redirect', async ({ page }) => {
   await page.goto('/planes')
 
   await packageCard(page, 'Plan Personalizado')
@@ -85,9 +85,9 @@ test('sin sesión, el CTA de compra redirige a /login con redirect', async ({ pa
   // Usuario anónimo: el CTA lleva a login preservando el return path.
   await page.getByRole('button', { name: 'Quiero este plan' }).click()
 
-  await expect(page).toHaveURL(/\/login/)
+  await expect(page).toHaveURL(/\/entrar/)
   const loginUrl = new URL(page.url())
-  expect(loginUrl.pathname).toBe('/login')
+  expect(loginUrl.pathname).toBe('/entrar')
   // El query redirect preserva la ruta del detalle para volver tras autenticar.
   expect(loginUrl.searchParams.get('redirect')).toBe(detailPath)
 })
