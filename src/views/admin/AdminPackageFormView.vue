@@ -8,6 +8,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
 import PackageForm from '../../components/packages/PackageForm.vue'
 import { usePackagesAdmin } from '../../composables/usePackagesAdmin'
 import { fetchPackageByIdAdmin } from '../../services/packagesService'
+import { buildPackageCoverPath, uploadPackageCover } from '../../services/storageService'
 
 /**
  * Vista de creación y edición de paquetes. Detecta el modo por la presencia de
@@ -25,6 +26,10 @@ const router = useRouter()
 const { saving, error, create, update } = usePackagesAdmin()
 
 const isEdit = computed(() => Boolean(props.id))
+
+// Estado propio de la subida de portada (aparte del create/update del service).
+const uploadingCover = ref(false)
+const coverError = ref('')
 
 const initialValue = ref(null)
 const loading = ref(false)
@@ -50,7 +55,29 @@ async function loadPackage() {
   }
 }
 
-async function handleSubmit(payload) {
+async function handleSubmit({ values, coverFile, removeCover }) {
+  coverError.value = ''
+
+  // 1) Portada: si hay archivo nuevo, se sube y se anota su path; si se pidió
+  //    quitarla, cover_path pasa a null; si no, no se toca (mantiene la actual).
+  let payload = values
+  try {
+    if (coverFile) {
+      uploadingCover.value = true
+      const path = buildPackageCoverPath(coverFile.name)
+      await uploadPackageCover(path, coverFile)
+      payload = { ...values, cover_path: path }
+    } else if (removeCover) {
+      payload = { ...values, cover_path: null }
+    }
+  } catch {
+    coverError.value = 'No pudimos subir la portada. Inténtalo de nuevo.'
+    return
+  } finally {
+    uploadingCover.value = false
+  }
+
+  // 2) Crear o actualizar el paquete con el payload (ya con cover_path si cambió).
   try {
     if (isEdit.value) {
       await update(props.id, payload)
@@ -101,11 +128,13 @@ onMounted(loadPackage)
       />
 
       <template v-else>
-        <p v-if="error" class="mb-4 text-sm text-danger" role="alert">{{ error }}</p>
+        <p v-if="error || coverError" class="mb-4 text-sm text-danger" role="alert">
+          {{ error || coverError }}
+        </p>
         <PackageForm
           :initial-value="initialValue"
-          :saving="saving"
-          :has-error="Boolean(error)"
+          :saving="saving || uploadingCover"
+          :has-error="Boolean(error || coverError)"
           :submit-label="isEdit ? 'Guardar cambios' : 'Crear paquete'"
           @submit="handleSubmit"
         />

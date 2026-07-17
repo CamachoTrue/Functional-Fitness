@@ -1,13 +1,13 @@
 import { supabase } from './supabaseClient'
 
 const PACKAGE_FIELDS =
-  'id, name, description, price, currency, duration_days, includes, is_recommended'
+  'id, name, description, price, currency, duration_days, includes, is_recommended, cover_path'
 
 // Campos para el área de administración: incluye is_active y timestamps, que el
 // catálogo público no necesita. El admin puede leer inactivos vía la policy
 // packages_admin_all.
 const ADMIN_PACKAGE_FIELDS =
-  'id, name, description, price, currency, duration_days, includes, is_recommended, is_active, created_at, updated_at'
+  'id, name, description, price, currency, duration_days, includes, is_recommended, cover_path, is_active, created_at, updated_at'
 
 /**
  * Devuelve el catalogo publico: solo paquetes activos. El rol anon esta limitado

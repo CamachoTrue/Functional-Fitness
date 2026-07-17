@@ -211,3 +211,82 @@ export async function createSignedAvatarUrl(path, ttl = SIGNED_URL_TTL) {
   if (error) throw error
   return data.signedUrl
 }
+
+// --- Portadas de plan (imagen "producto" del paquete) --------------------
+
+// Bucket PÚBLICO: las portadas se ven en el catálogo anónimo, así que se sirven
+// por URL pública (sin firmar). La escritura la restringe la RLS a admin.
+export const PACKAGE_COVER_BUCKET = 'package-covers'
+
+// 5 MB. Coincide con el límite del bucket (file_size_limit).
+export const PACKAGE_COVER_MAX_SIZE = 5242880
+
+export const PACKAGE_COVER_ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
+
+/**
+ * Construye el path de una portada, RELATIVO al bucket `package-covers`. Usa un
+ * UUID aleatorio como carpeta (no depende del id del paquete, que en creación aún
+ * no existe) y reutiliza sanitizeFilename para el último segmento.
+ * @param {string} filename
+ * @returns {string} p.ej. <uuid>/mi-portada.jpg
+ */
+export function buildPackageCoverPath(filename) {
+  return `${crypto.randomUUID()}/${sanitizeFilename(filename)}`
+}
+
+/**
+ * Valida en el cliente tamaño y tipo de la portada. Devuelve un mensaje en
+ * español si es inválida, o null si es válida. No sustituye a las policies del
+ * bucket, solo da feedback inmediato.
+ * @param {File} file
+ * @returns {string|null}
+ */
+export function validatePackageCoverFile(file) {
+  if (!file) {
+    return 'Selecciona una imagen.'
+  }
+  if (!PACKAGE_COVER_ALLOWED_MIME.includes(file.type)) {
+    return 'Formato no permitido. Usa JPG, PNG o WebP.'
+  }
+  if (file.size > PACKAGE_COVER_MAX_SIZE) {
+    return 'La imagen supera el límite de 5 MB.'
+  }
+  return null
+}
+
+/**
+ * Sube (o reemplaza, con upsert) la portada al bucket público. Solo un admin
+ * pasa la RLS (package_covers_admin_insert/update).
+ * @param {string} path
+ * @param {File} file
+ * @param {{ upsert?: boolean }} [options]
+ * @returns {Promise<{ path: string }>}
+ */
+export async function uploadPackageCover(path, file, { upsert = true } = {}) {
+  const { data, error } = await supabase.storage
+    .from(PACKAGE_COVER_BUCKET)
+    .upload(path, file, { upsert, contentType: file.type })
+
+  if (error) throw error
+  return data
+}
+
+/**
+ * Borra el objeto de una portada (rollback o al reemplazar/quitar).
+ * @param {string} path
+ * @returns {Promise<void>}
+ */
+export async function removePackageCover(path) {
+  const { error } = await supabase.storage.from(PACKAGE_COVER_BUCKET).remove([path])
+  if (error) throw error
+}
+
+/**
+ * URL pública (permanente, sin firmar) de una portada del bucket público.
+ * @param {string} path
+ * @returns {string}
+ */
+export function getPackageCoverUrl(path) {
+  const { data } = supabase.storage.from(PACKAGE_COVER_BUCKET).getPublicUrl(path)
+  return data.publicUrl
+}

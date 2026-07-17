@@ -9,7 +9,7 @@ import { usePackage } from '../../composables/usePackage'
 import { useCurrency } from '../../composables/useCurrency'
 import { useCheckout } from '../../composables/useCheckout'
 import { useAuthStore } from '../../stores/authStore'
-import { coverFor } from '../../utils/packageCovers'
+import { coverUrlFor } from '../../utils/packageCovers'
 
 const props = defineProps({
   id: {
@@ -40,7 +40,7 @@ const durationLabel = computed(() => {
 
 const includes = computed(() => pkg.value?.includes ?? [])
 
-const cover = computed(() => (pkg.value ? coverFor(pkg.value.name) : null))
+const cover = computed(() => (pkg.value ? coverUrlFor(pkg.value) : null))
 
 function handlePurchase() {
   if (!auth.isAuthenticated) {

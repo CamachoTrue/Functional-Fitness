@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 
 import BaseCard from '../common/BaseCard.vue'
 import { useCurrency } from '../../composables/useCurrency'
-import { coverFor } from '../../utils/packageCovers'
+import { coverUrlFor } from '../../utils/packageCovers'
 
 const props = defineProps({
   pkg: {
@@ -20,7 +20,7 @@ const props = defineProps({
 
 const { formatCurrency } = useCurrency()
 
-const cover = computed(() => coverFor(props.pkg.name))
+const cover = computed(() => coverUrlFor(props.pkg))
 
 const formattedPrice = computed(() =>
   formatCurrency(props.pkg.price, props.pkg.currency),

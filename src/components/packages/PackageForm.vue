@@ -1,11 +1,13 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, reactive, ref } from 'vue'
 
 import BaseButton from '../common/BaseButton.vue'
 import BaseCard from '../common/BaseCard.vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseTextarea from '../common/BaseTextarea.vue'
+import FileUpload from '../common/FileUpload.vue'
 import SaveButton from '../common/SaveButton.vue'
+import { getPackageCoverUrl, validatePackageCoverFile } from '../../services/storageService'
 
 /**
  * Formulario de creación/edición de un paquete. La validación de cliente está
@@ -60,6 +62,53 @@ const errors = reactive({
   duration_days: '',
 })
 
+// Portada (imagen del plan). El File seleccionado se sube en la vista padre al
+// guardar; aquí solo se valida, se previsualiza y se marca si se quiere quitar.
+const coverFile = ref(null)
+const coverError = ref('')
+const removeCover = ref(false)
+const previewUrl = ref(null)
+
+const currentCoverUrl = computed(() =>
+  props.initialValue?.cover_path && !removeCover.value
+    ? getPackageCoverUrl(props.initialValue.cover_path)
+    : null,
+)
+// La preview local (archivo recién elegido) tiene prioridad sobre la actual.
+const shownCover = computed(() => previewUrl.value ?? currentCoverUrl.value)
+
+function revokePreview() {
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value)
+    previewUrl.value = null
+  }
+}
+
+function onCoverSelect(file) {
+  coverError.value = ''
+  if (!file) return
+  const validationError = validatePackageCoverFile(file)
+  if (validationError) {
+    coverError.value = validationError
+    coverFile.value = null
+    revokePreview()
+    return
+  }
+  coverFile.value = file
+  removeCover.value = false
+  revokePreview()
+  previewUrl.value = URL.createObjectURL(file)
+}
+
+function removeCoverImage() {
+  coverFile.value = null
+  coverError.value = ''
+  removeCover.value = true
+  revokePreview()
+}
+
+onBeforeUnmount(revokePreview)
+
 function addInclude() {
   includes.value.push('')
 }
@@ -103,18 +152,25 @@ function validate() {
 
 function handleSubmit() {
   if (!validate()) return
+  if (coverError.value) return
 
   const cleanIncludes = includes.value.map((item) => item.trim()).filter((item) => item.length > 0)
 
+  // Se emiten los valores de la tabla + la intención de portada (archivo nuevo o
+  // "quitar"); la vista padre orquesta la subida antes de llamar al service.
   emit('submit', {
-    name: form.name.trim(),
-    description: form.description.trim() || null,
-    price: Number(form.price),
-    currency: form.currency,
-    duration_days: Number(form.duration_days),
-    includes: cleanIncludes,
-    is_recommended: form.is_recommended,
-    is_active: form.is_active,
+    values: {
+      name: form.name.trim(),
+      description: form.description.trim() || null,
+      price: Number(form.price),
+      currency: form.currency,
+      duration_days: Number(form.duration_days),
+      includes: cleanIncludes,
+      is_recommended: form.is_recommended,
+      is_active: form.is_active,
+    },
+    coverFile: coverFile.value,
+    removeCover: removeCover.value,
   })
 }
 </script>
@@ -162,6 +218,39 @@ function handleSubmit() {
             inputmode="numeric"
             :error="errors.duration_days"
           />
+        </div>
+      </div>
+    </BaseCard>
+
+    <BaseCard>
+      <h2 class="text-lg font-bold">Portada del plan</h2>
+      <p class="mt-1 text-sm text-muted">
+        Imagen que se muestra en el catálogo, el detalle y el inicio. JPG, PNG o WebP. Máx 5 MB.
+      </p>
+      <div class="mt-5 flex flex-wrap items-start gap-5">
+        <div
+          class="flex aspect-[3/4] w-28 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border-subtle bg-neutral-900"
+        >
+          <img
+            v-if="shownCover"
+            :src="shownCover"
+            alt="Portada del plan"
+            class="h-full w-full object-contain"
+          />
+          <span v-else class="px-2 text-center text-xs text-neutral-500">Sin portada</span>
+        </div>
+        <div class="min-w-0 flex-1 space-y-3">
+          <FileUpload
+            id="cover"
+            label="Subir portada"
+            accept="image/jpeg,image/png,image/webp"
+            :model-value="coverFile"
+            :error="coverError"
+            @update:model-value="onCoverSelect"
+          />
+          <BaseButton v-if="shownCover" type="button" variant="ghost" @click="removeCoverImage">
+            Quitar portada
+          </BaseButton>
         </div>
       </div>
     </BaseCard>

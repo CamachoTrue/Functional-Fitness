@@ -1,3 +1,5 @@
+import { getPackageCoverUrl } from '../services/storageService'
+
 /**
  * Portadas (carátulas tipo "producto") de cada paquete, mapeadas por NOMBRE de
  * paquete normalizado (minúsculas, sin acentos, sin espacios extra). Se usan en
@@ -41,4 +43,17 @@ export function normalizeName(name) {
  */
 export function coverFor(name) {
   return COVERS[normalizeName(name)] ?? null
+}
+
+/**
+ * Resuelve la URL de portada de un PAQUETE, en este orden:
+ *  1. La imagen que el admin subió (packages.cover_path → URL pública del bucket).
+ *  2. El respaldo fijo por nombre (COVERS) — cubre los 3 planes del seed.
+ *  3. null → la UI muestra el placeholder.
+ * @param {{ name?: string, cover_path?: string|null }} pkg
+ * @returns {string|null}
+ */
+export function coverUrlFor(pkg) {
+  if (pkg?.cover_path) return getPackageCoverUrl(pkg.cover_path)
+  return coverFor(pkg?.name)
 }

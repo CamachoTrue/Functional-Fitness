@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 import FaqSection from '../../components/public/FaqSection.vue'
 import { fetchActivePackages } from '../../services/packagesService'
 import { useCurrency } from '../../composables/useCurrency'
-import { coverFor } from '../../utils/packageCovers'
+import { coverUrlFor } from '../../utils/packageCovers'
 
 const { formatCurrency } = useCurrency()
 
@@ -110,8 +110,8 @@ const reviews = [
         <!-- PORTADA: imagen del programa si existe; si no, placeholder oscuro con el nombre. -->
         <div class="relative flex aspect-[3/4] items-center justify-center overflow-hidden bg-neutral-900">
           <img
-            v-if="coverFor(pkg.name)"
-            :src="coverFor(pkg.name)"
+            v-if="coverUrlFor(pkg)"
+            :src="coverUrlFor(pkg)"
             :alt="`Portada del ${pkg.name}`"
             loading="lazy"
             class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
