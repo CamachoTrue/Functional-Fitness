@@ -1,40 +1,15 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import EmptyState from '../../components/common/EmptyState.vue'
 import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
 import PackageCard from '../../components/packages/PackageCard.vue'
-import PackagesHeroSlider from '../../components/packages/PackagesHeroSlider.vue'
 import { usePackages } from '../../composables/usePackages'
 import { useAuthStore } from '../../stores/authStore'
 import { fetchMyPurchases } from '../../services/paymentService'
-import { slideFor } from '../../utils/packageSlides'
 
 const { packages, loading, error, load } = usePackages()
 const auth = useAuthStore()
-
-// Diapositivas del slider superior: primero la intro y luego un plan por
-// diapositiva (nombre + subtítulo + descripción real + imagen + enlace al detalle).
-const slides = computed(() => {
-  const intro = {
-    title: 'Todos los planes',
-    subtitle: 'Todos nuestros programas · Sera Trainer',
-    description:
-      'Aquí están todos nuestros planes de entrenamiento. Sin importar tu objetivo, están diseñados para llevarte a tu mejor versión.',
-    image: '/images/hero.jpg',
-  }
-  const planSlides = packages.value.map((pkg) => {
-    const slide = slideFor(pkg.name) ?? {}
-    return {
-      title: pkg.name,
-      subtitle: slide.subtitle ?? '',
-      description: pkg.description ?? '',
-      image: slide.image ?? '/images/hero.jpg',
-      to: { name: 'package-detail', params: { id: pkg.id } },
-    }
-  })
-  return [intro, ...planSlides]
-})
 
 // Id del paquete del plan activo del usuario, para marcar su plan actual en la
 // comparación. Solo aplica a clientes autenticados con una compra vigente.
@@ -65,14 +40,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Slider superior a pantalla completa (intro + un plan por diapositiva). -->
-  <PackagesHeroSlider v-if="!loading && packages.length" :slides="slides" />
+  <!-- Hero fijo del catálogo (imagen a pantalla completa "Todos los planes"). -->
+  <section class="relative flex h-[82vh] min-h-[520px] items-center justify-center overflow-hidden bg-black text-white">
+    <img src="/images/hero.jpg" alt="" class="absolute inset-0 h-full w-full object-cover object-center" />
+    <div class="absolute inset-0 bg-black/60" aria-hidden="true" />
+    <div class="relative flex flex-col items-center px-6 text-center">
+      <p class="font-display text-4xl font-bold tracking-tight uppercase sm:text-6xl lg:text-7xl">
+        Todos los planes
+      </p>
+      <p class="mt-4 text-xs font-medium tracking-[0.16em] text-neutral-200 uppercase sm:mt-6 sm:text-base">
+        [ Todos nuestros programas · Sera Trainer ]
+      </p>
+      <span class="my-6 block h-px w-8 bg-white/50 sm:my-8" aria-hidden="true" />
+      <p class="max-w-xl text-sm leading-7 text-neutral-300 sm:text-base">
+        Aquí están todos nuestros planes de entrenamiento. Sin importar tu objetivo, están
+        diseñados para llevarte a tu mejor versión.
+      </p>
+    </div>
+  </section>
 
   <section class="py-16 sm:py-24">
     <div class="page-container">
       <div class="text-center">
         <h1 class="font-display text-3xl font-light tracking-[0.08em] uppercase sm:text-4xl">
-          Todos los planes
+          Elige tu plan
         </h1>
         <p class="mt-3 text-xs font-medium tracking-[0.16em] text-muted uppercase">
           Todos nuestros programas de entrenamiento
