@@ -16,15 +16,22 @@ const router = createRouter({
           component: () => import('../views/public/HomeView.vue'),
         },
         {
-          path: 'packages',
+          path: 'planes',
           name: 'packages',
           component: () => import('../views/public/PackagesView.vue'),
         },
         {
-          path: 'package/:id',
+          path: 'plan/:id',
           name: 'package-detail',
           component: () => import('../views/public/PackageDetailView.vue'),
           props: true,
+        },
+        // Redirecciones de las URLs antiguas en inglés (por si alguien tiene el
+        // enlace guardado): /packages -> /planes, /package/:id -> /plan/:id.
+        { path: 'packages', redirect: { name: 'packages' } },
+        {
+          path: 'package/:id',
+          redirect: (to) => ({ name: 'package-detail', params: to.params }),
         },
         {
           path: 'login',

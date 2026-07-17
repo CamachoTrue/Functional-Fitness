@@ -267,7 +267,7 @@ const handleChangePassword = async () => {
           <p v-if="planEndLabel" class="mt-1 text-sm text-muted">Vigente hasta el {{ planEndLabel }}.</p>
           <RouterLink
             class="focus-ring mt-5 inline-flex items-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-            to="/packages"
+            to="/planes"
           >
             Cambiar o mejorar plan
           </RouterLink>
@@ -277,7 +277,7 @@ const handleChangePassword = async () => {
           <p class="mt-2 text-sm leading-6 text-muted">Aún no tienes un plan activo.</p>
           <RouterLink
             class="focus-ring mt-5 inline-flex items-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
-            to="/packages"
+            to="/planes"
           >
             Ver paquetes
           </RouterLink>

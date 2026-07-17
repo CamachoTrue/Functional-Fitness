@@ -3,7 +3,7 @@ import { getPackageCoverUrl } from '../services/storageService'
 /**
  * Portadas (carátulas tipo "producto") de cada paquete, mapeadas por NOMBRE de
  * paquete normalizado (minúsculas, sin acentos, sin espacios extra). Se usan en
- * la Home (sección Programas), en el catálogo (/packages) y en el detalle del
+ * la Home (sección Programas), en el catálogo (/planes) y en el detalle del
  * paquete.
  *
  * A medida que el cliente envíe nuevas portadas se agregan aquí. Si en el futuro

@@ -62,7 +62,7 @@ const reviews = [
       <div class="mt-8 flex w-full max-w-md gap-3 sm:w-auto sm:max-w-none sm:gap-4">
         <RouterLink
           class="focus-ring inline-flex min-h-12 flex-1 items-center justify-center border border-white/70 px-3 text-[11px] font-medium tracking-[0.1em] whitespace-nowrap text-white uppercase transition hover:bg-white hover:text-black sm:flex-none sm:px-10 sm:text-xs sm:tracking-[0.18em]"
-          to="/packages"
+          to="/planes"
         >
           Ver paquetes
         </RouterLink>
@@ -94,7 +94,7 @@ const reviews = [
       <h2 class="font-display text-2xl font-light tracking-[0.08em] uppercase sm:text-3xl">Programas</h2>
       <RouterLink
         class="focus-ring rounded-sm text-xs font-medium tracking-[0.14em] text-muted uppercase transition hover:text-body"
-        to="/packages"
+        to="/planes"
       >
         Ver todos →
       </RouterLink>
@@ -138,7 +138,7 @@ const reviews = [
   <section class="grid gap-px bg-border-subtle sm:grid-cols-3">
     <RouterLink
       v-for="tile in [
-        { label: 'Paquetes', to: '/packages', img: '/images/paquetes.jpg' },
+        { label: 'Paquetes', to: '/planes', img: '/images/paquetes.jpg' },
         { label: 'Nuestra misión', to: '/#mission', img: '/images/mision.jpg' },
         { label: 'Comenzar', to: '/register', img: '/images/comenzar.jpg' },
       ]"

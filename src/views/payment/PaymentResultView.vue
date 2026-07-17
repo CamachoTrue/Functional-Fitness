@@ -151,7 +151,7 @@ onMounted(load)
 
             <RouterLink
               class="focus-ring inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold text-body transition hover:bg-surface-muted"
-              to="/packages"
+              to="/planes"
             >
               Ver paquetes
             </RouterLink>

@@ -16,7 +16,7 @@ import { RouterLink } from 'vue-router'
       </p>
 
       <nav class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3" aria-label="Enlaces del pie">
-        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/packages">
+        <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/planes">
           Paquetes
         </RouterLink>
         <RouterLink class="focus-ring rounded-sm text-xs font-medium tracking-[0.12em] text-muted uppercase transition hover:text-body" to="/register">

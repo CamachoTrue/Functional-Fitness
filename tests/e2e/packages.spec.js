@@ -19,7 +19,7 @@ function packageCard(page, name) {
 }
 
 test('el catálogo público muestra los 3 paquetes del seed', async ({ page }) => {
-  await page.goto('/packages')
+  await page.goto('/planes')
 
   for (const name of PACKAGE_NAMES) {
     await expect(page.getByRole('heading', { name })).toBeVisible()
@@ -27,7 +27,7 @@ test('el catálogo público muestra los 3 paquetes del seed', async ({ page }) =
 })
 
 test('solo el Plan Personalizado muestra el badge Recomendado', async ({ page }) => {
-  await page.goto('/packages')
+  await page.goto('/planes')
 
   // El badge del seed corresponde únicamente al Plan Personalizado.
   await expect(page.getByRole('heading', { name: 'Plan Personalizado' })).toBeVisible()
@@ -49,7 +49,7 @@ test('solo el Plan Personalizado muestra el badge Recomendado', async ({ page })
 })
 
 test('el catálogo muestra un precio para cada paquete', async ({ page }) => {
-  await page.goto('/packages')
+  await page.goto('/planes')
 
   // Precio por dígitos del seed (499, 899, 1499), no por string formateado exacto.
   await expect(packageCard(page, 'Plan Basico')).toContainText('499')
@@ -58,13 +58,13 @@ test('el catálogo muestra un precio para cada paquete', async ({ page }) => {
 })
 
 test('Ver detalle navega al detalle del paquete con nombre y precio', async ({ page }) => {
-  await page.goto('/packages')
+  await page.goto('/planes')
 
   const card = packageCard(page, 'Plan Basico')
   await card.getByRole('link', { name: 'Ver detalle' }).click()
 
-  // La URL cambia a /package/<id> (id del seed para Plan Basico).
-  await expect(page).toHaveURL(/\/package\/[0-9a-f-]+$/)
+  // La URL cambia a /plan/<id> (id del seed para Plan Basico).
+  await expect(page).toHaveURL(/\/plan\/[0-9a-f-]+$/)
 
   // El detalle muestra el nombre y el precio del paquete (precio por dígitos).
   await expect(page.getByRole('heading', { name: 'Plan Basico' })).toBeVisible()
@@ -72,13 +72,13 @@ test('Ver detalle navega al detalle del paquete con nombre y precio', async ({ p
 })
 
 test('sin sesión, el CTA de compra redirige a /login con redirect', async ({ page }) => {
-  await page.goto('/packages')
+  await page.goto('/planes')
 
   await packageCard(page, 'Plan Personalizado')
     .getByRole('link', { name: 'Ver detalle' })
     .click()
 
-  await expect(page).toHaveURL(/\/package\/[0-9a-f-]+$/)
+  await expect(page).toHaveURL(/\/plan\/[0-9a-f-]+$/)
   const detailUrl = new URL(page.url())
   const detailPath = detailUrl.pathname
 

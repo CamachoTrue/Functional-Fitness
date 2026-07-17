@@ -16,7 +16,7 @@ import {
 const BASIC_PACKAGE_ID = '10000000-0000-4000-8000-000000000001'
 
 // Ruta del detalle del Plan Basico (id estable del seed).
-const BASIC_DETAIL_PATH = `/package/${BASIC_PACKAGE_ID}`
+const BASIC_DETAIL_PATH = `/plan/${BASIC_PACKAGE_ID}`
 
 // Glob que casa con la invocación a la Edge Function create-payment-preference,
 // sea cual sea el host de Supabase local.

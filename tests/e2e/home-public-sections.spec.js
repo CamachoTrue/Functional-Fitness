@@ -28,7 +28,7 @@ test('desde el inicio, un programa destacado navega a su detalle', async ({ page
   await page.goto('/')
 
   // La sección "Programas" lista los paquetes activos como enlaces (cada tarjeta
-  // contiene un <h3> con el nombre del plan). Debe llevar a /package/<id>, no a 404.
+  // contiene un <h3> con el nombre del plan). Debe llevar a /plan/<id>, no a 404.
   const programLink = page
     .getByRole('link')
     .filter({ has: page.getByRole('heading', { level: 3 }) })
@@ -36,7 +36,7 @@ test('desde el inicio, un programa destacado navega a su detalle', async ({ page
   await expect(programLink).toBeVisible()
   await programLink.click()
 
-  await expect(page).toHaveURL(/\/package\/[0-9a-f-]+$/)
+  await expect(page).toHaveURL(/\/plan\/[0-9a-f-]+$/)
 })
 
 test('la sección de reseñas muestra el heading y una reseña', async ({ page }) => {
@@ -54,11 +54,11 @@ test('el CTA del hero "Quiero comenzar" navega a /register', async ({ page }) =>
   await expect(page).toHaveURL(/\/register/)
 })
 
-test('el CTA del hero "Ver paquetes" navega a /packages', async ({ page }) => {
+test('el CTA del hero "Ver paquetes" navega a /planes', async ({ page }) => {
   await page.goto('/')
 
   await page.getByRole('link', { name: 'Ver paquetes' }).click()
-  await expect(page).toHaveURL(/\/packages/)
+  await expect(page).toHaveURL(/\/planes/)
 })
 
 test('el botón flotante de WhatsApp apunta a wa.me con mensaje prellenado', async ({ page }) => {

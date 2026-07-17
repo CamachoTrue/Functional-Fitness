@@ -18,7 +18,7 @@ import { RouterLink } from 'vue-router'
         </RouterLink>
         <RouterLink
           class="focus-ring inline-flex min-h-12 items-center justify-center rounded-md border border-neutral-700 px-6 font-semibold transition hover:border-neutral-500 hover:bg-neutral-900"
-          to="/packages"
+          to="/planes"
         >
           Ver paquetes
         </RouterLink>

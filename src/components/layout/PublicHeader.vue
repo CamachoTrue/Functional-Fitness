@@ -18,7 +18,7 @@ const closeMenu = () => {
 // Las páginas con un hero a pantalla completa detrás del header (Home y catálogo
 // de Paquetes) hacen que el header FLOTE transparente sobre la imagen y se vuelva
 // sólido al hacer scroll (estilo referencia). En el resto es sólido desde el inicio.
-const overlayHero = computed(() => route.path === '/' || route.path === '/packages')
+const overlayHero = computed(() => route.path === '/' || route.path === '/planes')
 
 // El header se muestra SÓLIDO (fondo + borde + colores normales) cuando: no hay
 // hero detrás, o ya se hizo scroll, o el menú móvil está abierto. TRANSPARENTE
@@ -84,7 +84,7 @@ const ghostBtnClass = computed(() =>
 
         <nav class="hidden items-center gap-7 md:flex" aria-label="Navegación principal">
           <RouterLink :class="navLinkClass" to="/">Inicio</RouterLink>
-          <RouterLink :class="navLinkClass" to="/packages">Paquetes</RouterLink>
+          <RouterLink :class="navLinkClass" to="/planes">Paquetes</RouterLink>
         </nav>
       </div>
 
@@ -119,7 +119,7 @@ const ghostBtnClass = computed(() =>
     >
       <div class="page-container flex flex-col gap-1">
         <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/" @click="closeMenu">Inicio</RouterLink>
-        <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/packages" @click="closeMenu">Paquetes</RouterLink>
+        <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" to="/planes" @click="closeMenu">Paquetes</RouterLink>
         <template v-if="auth.isAuthenticated">
           <RouterLink class="focus-ring rounded-md px-2 py-2.5 text-sm font-medium" :to="auth.homeRoute" @click="closeMenu">Mi panel</RouterLink>
         </template>

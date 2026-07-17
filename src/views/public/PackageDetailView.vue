@@ -60,7 +60,7 @@ function handlePurchase() {
     <div class="page-container max-w-3xl">
       <RouterLink
         class="focus-ring inline-block rounded-sm text-sm font-semibold underline underline-offset-4"
-        to="/packages"
+        to="/planes"
       >
         Volver a paquetes
       </RouterLink>

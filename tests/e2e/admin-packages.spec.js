@@ -88,7 +88,7 @@ test.describe('admin: CRUD de paquetes (requiere service role)', () => {
     await expect(packageRow(page, packageName)).toContainText('888')
 
     // El catálogo público lo muestra (is_active=true) con el nuevo precio.
-    await page.goto('/packages')
+    await page.goto('/planes')
     await expect(page.getByRole('heading', { name: packageName })).toBeVisible()
     await expect(publicCard(page, packageName)).toContainText('888')
 
@@ -97,7 +97,7 @@ test.describe('admin: CRUD de paquetes (requiere service role)', () => {
     await packageRow(page, packageName).getByRole('button', { name: 'Desactivar' }).click()
     await expect(packageRow(page, packageName)).toContainText('Inactivo')
 
-    await page.goto('/packages')
+    await page.goto('/planes')
     await expect(page.getByRole('heading', { name: packageName })).toHaveCount(0)
 
     // --- Reactivar: vuelve a aparecer en el catálogo público ---
@@ -105,7 +105,7 @@ test.describe('admin: CRUD de paquetes (requiere service role)', () => {
     await packageRow(page, packageName).getByRole('button', { name: 'Activar' }).click()
     await expect(packageRow(page, packageName)).toContainText('Activo')
 
-    await page.goto('/packages')
+    await page.goto('/planes')
     await expect(page.getByRole('heading', { name: packageName })).toBeVisible()
   })
 })
