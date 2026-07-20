@@ -48,6 +48,9 @@ onMounted(reload)
   <div class="mx-auto max-w-3xl">
     <p class="text-sm font-bold text-brand-blue">TU EVALUACIÓN</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Cuestionario de evaluación</h1>
+    <p class="mt-2 text-sm text-muted">
+      Con estos datos preparamos tu rutina a tu medida. Puedes actualizarlo cuando quieras.
+    </p>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tu cuestionario" />

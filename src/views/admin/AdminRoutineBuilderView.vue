@@ -167,6 +167,10 @@ onMounted(() => {
     <!-- MODO CREACIÓN -->
     <template v-if="!isEdit">
       <h1 class="mt-4 text-3xl font-black tracking-tight">Nueva rutina</h1>
+      <p class="mt-2 text-sm text-muted">
+        Ponle un nombre, agrega los días de entrenamiento y añade ejercicios a cada día. Al
+        asignarla, el cliente podrá verla en su panel.
+      </p>
 
       <div class="mt-8">
         <LoadingSpinner v-if="checkingExisting" label="Verificando compra" />
@@ -209,6 +213,9 @@ onMounted(() => {
     <!-- MODO EDICIÓN -->
     <template v-else>
       <h1 class="mt-4 text-3xl font-black tracking-tight">Editar rutina</h1>
+      <p class="mt-2 text-sm text-muted">
+        Ajusta los días y ejercicios. Los cambios se reflejan en el panel del cliente.
+      </p>
 
       <div class="mt-8">
         <LoadingSpinner v-if="loading" label="Cargando rutina" />

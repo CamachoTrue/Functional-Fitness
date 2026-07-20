@@ -88,8 +88,38 @@ const reviews = [
     </p>
   </section>
 
+  <!-- CÓMO FUNCIONA -->
+  <section class="border-t border-border-subtle bg-surface-muted py-20 sm:py-28">
+    <div class="page-container">
+      <div class="text-center">
+        <p class="text-xs font-medium tracking-[0.2em] text-muted uppercase">Cómo funciona</p>
+        <h2 class="mt-4 font-display text-3xl font-light tracking-[0.06em] uppercase sm:text-4xl">
+          Tu plan en 4 pasos
+        </h2>
+      </div>
+      <ol class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <li
+          v-for="step in [
+            { n: '1', title: 'Elige tu plan', text: 'Escoge el paquete que se ajuste a tu objetivo y a tu nivel.' },
+            { n: '2', title: 'Completa tu cuestionario', text: 'Cuéntanos tu nivel, objetivos, equipo y tiempo disponible.' },
+            { n: '3', title: 'Recibe tu rutina', text: 'Diseñamos un plan a tu medida, con videos de cada ejercicio.' },
+            { n: '4', title: 'Entrena y avanza', text: 'Sigue tus sesiones y mejora semana a semana con acompañamiento.' },
+          ]"
+          :key="step.n"
+          class="text-center sm:text-left"
+        >
+          <span class="font-display text-4xl font-light text-brand-blue">{{ step.n }}</span>
+          <h3 class="mt-3 font-display text-sm font-medium tracking-[0.12em] uppercase">
+            {{ step.title }}
+          </h3>
+          <p class="mt-2 text-sm leading-6 text-muted">{{ step.text }}</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <!-- PROGRAMAS DESTACADOS -->
-  <section v-if="featured.length" class="page-container pb-24 sm:pb-28">
+  <section v-if="featured.length" class="page-container py-24 sm:py-28">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <h2 class="font-display text-2xl font-light tracking-[0.08em] uppercase sm:text-3xl">Programas</h2>
       <RouterLink

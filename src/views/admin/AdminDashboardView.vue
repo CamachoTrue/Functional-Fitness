@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import BaseBadge from '../../components/common/BaseBadge.vue'
 import BaseButton from '../../components/common/BaseButton.vue'
@@ -10,7 +11,8 @@ import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
 import { useAdminDashboard } from '../../composables/useAdminDashboard'
 import { useCurrency } from '../../composables/useCurrency'
 
-const { metrics, latestPurchases, topPackages, loading, error, load } = useAdminDashboard()
+const { metrics, latestPurchases, topPackages, pendingRoutinePurchases, loading, error, load } =
+  useAdminDashboard()
 const { formatCurrency } = useCurrency()
 
 // Mapea el payment_status de una compra a una variante/etiqueta de BaseBadge.
@@ -86,6 +88,33 @@ onMounted(load)
           </BaseCard>
         </div>
 
+        <section v-if="pendingRoutinePurchases.length" class="mt-10">
+          <h2 class="text-xl font-black tracking-tight">Rutinas por asignar</h2>
+          <p class="mt-1 text-sm text-muted">
+            Clientes con compra aprobada que aún no tienen rutina. Ármala directo desde aquí.
+          </p>
+          <ul class="mt-4 space-y-2">
+            <li
+              v-for="pending in pendingRoutinePurchases"
+              :key="pending.id"
+              class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border-subtle bg-surface-raised px-4 py-3 shadow-sm"
+            >
+              <div class="min-w-0">
+                <span class="font-medium text-body">{{ pending.clientName }}</span>
+                <span class="block text-xs text-faint">
+                  {{ pending.packageName ?? '—' }} · {{ formatDate(pending.createdAt) }}
+                </span>
+              </div>
+              <RouterLink
+                class="focus-ring inline-flex shrink-0 items-center rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover"
+                :to="{ name: 'admin-routine-create', query: { userId: pending.userId, purchaseId: pending.id } }"
+              >
+                Armar rutina
+              </RouterLink>
+            </li>
+          </ul>
+        </section>
+
         <section class="mt-10">
           <h2 class="text-xl font-black tracking-tight">Últimas compras</h2>
           <div class="mt-4">
@@ -96,10 +125,7 @@ onMounted(load)
               empty-description="Cuando se registre una compra aparecerá aquí."
             >
               <template #cell-client="{ row }">
-                <span class="font-medium text-body">
-                  {{ row.package_name ?? '—' }}
-                </span>
-                <span class="block text-xs text-faint">{{ row.user_id }}</span>
+                <span class="font-medium text-body">{{ row.clientName }}</span>
               </template>
               <template #cell-package_name="{ value }">{{ value ?? '—' }}</template>
               <template #cell-amount="{ row }">

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import BaseBadge from '../../components/common/BaseBadge.vue'
@@ -31,6 +31,31 @@ function formatDate(value) {
   if (!value) return null
   return new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium' }).format(new Date(value))
 }
+
+// Guía del "siguiente paso": deja obvio qué debe hacer el cliente ahora, según
+// el estado de su cuestionario y su rutina. Solo aplica con un plan activo.
+const nextStep = computed(() => {
+  if (!hasActivePlan.value) return null
+  if (questionnaireStatus.value === 'pending') {
+    return {
+      text: 'Completa tu cuestionario para que preparemos tu rutina.',
+      cta: 'Completar cuestionario',
+      to: `/cliente/cuestionario/${activePurchase.value.id}`,
+    }
+  }
+  if (routineStatus.value === 'preparing') {
+    return {
+      text: 'Recibimos tu cuestionario. Estamos preparando tu rutina; te avisaremos cuando esté lista.',
+      cta: null,
+      to: null,
+    }
+  }
+  return {
+    text: '¡Tu rutina está lista! Comienza tu próxima sesión.',
+    cta: 'Ver mi rutina',
+    to: '/cliente/rutina',
+  }
+})
 
 onMounted(load)
 </script>
@@ -72,6 +97,24 @@ onMounted(load)
       </EmptyState>
 
       <div v-else class="space-y-6">
+        <!-- Siguiente paso: acción clara según el estado del cliente. -->
+        <div
+          v-if="nextStep"
+          class="rounded-xl border border-brand-blue/30 bg-brand-blue/5 p-5 sm:flex sm:items-center sm:justify-between sm:gap-4"
+        >
+          <div>
+            <p class="text-xs font-bold tracking-wide text-brand-blue uppercase">Siguiente paso</p>
+            <p class="mt-1 text-sm leading-6 text-body">{{ nextStep.text }}</p>
+          </div>
+          <RouterLink
+            v-if="nextStep.cta"
+            :to="nextStep.to"
+            class="focus-ring mt-4 inline-flex min-h-11 shrink-0 items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:bg-accent-hover sm:mt-0"
+          >
+            {{ nextStep.cta }}
+          </RouterLink>
+        </div>
+
         <!-- Tiles de métricas (honestas: derivadas del plan y la rutina) -->
         <div class="grid gap-4 sm:grid-cols-3">
           <BaseCard>

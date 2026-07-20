@@ -18,6 +18,9 @@ onMounted(load)
   <div class="mx-auto max-w-4xl">
     <p class="text-sm font-bold text-brand-blue">TU ENTRENAMIENTO</p>
     <h1 class="mt-2 text-3xl font-black tracking-tight">Mi rutina</h1>
+    <p class="mt-2 text-sm text-muted">
+      Tu plan por días. Abre cada ejercicio para ver el video de referencia.
+    </p>
 
     <div class="mt-8">
       <LoadingSpinner v-if="loading" label="Cargando tu rutina" />

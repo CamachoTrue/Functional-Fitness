@@ -5,6 +5,7 @@ import {
   fetchAllPurchases,
   fetchApprovedPurchasesThisMonth,
   fetchAssignedRoutines,
+  fetchClients,
   fetchPendingPurchasesCount,
 } from '../services/adminService'
 
@@ -38,6 +39,9 @@ export function useAdminDashboard() {
   })
   const latestPurchases = ref([])
   const topPackages = ref([])
+  // Compras aprobadas que todavía no tienen rutina asignada (accionable: el admin
+  // arma la rutina desde aquí). Incluye el nombre del cliente.
+  const pendingRoutinePurchases = ref([])
   const loading = ref(false)
   const error = ref(null)
 
@@ -51,13 +55,22 @@ export function useAdminDashboard() {
         approvedThisMonth,
         activePurchases,
         assignedRoutines,
+        clients,
       ] = await Promise.all([
         fetchAllPurchases(),
         fetchPendingPurchasesCount(),
         fetchApprovedPurchasesThisMonth(),
         fetchActiveApprovedPurchases(),
         fetchAssignedRoutines(),
+        fetchClients(),
       ])
+
+      // Mapa user_id -> nombre para mostrar el cliente (no el UUID crudo).
+      const clientsById = new Map(clients.map((c) => [c.id, c]))
+      const clientName = (userId) => {
+        const c = clientsById.get(userId)
+        return c?.full_name || c?.email || 'Cliente'
+      }
 
       // Ingreso del mes: suma en cliente de amount (approved del mes).
       const revenueThisMonth = approvedThisMonth.reduce(
@@ -81,9 +94,17 @@ export function useAdminDashboard() {
       const approvedPurchases = allPurchases.filter(
         (purchase) => purchase.payment_status === 'approved',
       )
-      const pendingRoutines = approvedPurchases.filter(
+      const pendingRoutineList = approvedPurchases.filter(
         (purchase) => !assignedPurchaseIds.has(purchase.id),
-      ).length
+      )
+      const pendingRoutines = pendingRoutineList.length
+      pendingRoutinePurchases.value = pendingRoutineList.slice(0, 8).map((purchase) => ({
+        id: purchase.id,
+        userId: purchase.user_id,
+        packageName: purchase.package_name,
+        clientName: clientName(purchase.user_id),
+        createdAt: purchase.created_at,
+      }))
 
       // Paquetes más vendidos: agrupar approved por package_name en cliente.
       const countByPackage = new Map()
@@ -106,7 +127,10 @@ export function useAdminDashboard() {
         pendingRoutines,
       }
 
-      latestPurchases.value = allPurchases.slice(0, 5)
+      latestPurchases.value = allPurchases.slice(0, 5).map((purchase) => ({
+        ...purchase,
+        clientName: clientName(purchase.user_id),
+      }))
     } catch {
       error.value = 'No pudimos cargar el panel. Intenta de nuevo en unos minutos.'
       metrics.value = {
@@ -120,10 +144,11 @@ export function useAdminDashboard() {
       }
       latestPurchases.value = []
       topPackages.value = []
+      pendingRoutinePurchases.value = []
     } finally {
       loading.value = false
     }
   }
 
-  return { metrics, latestPurchases, topPackages, loading, error, load }
+  return { metrics, latestPurchases, topPackages, pendingRoutinePurchases, loading, error, load }
 }
