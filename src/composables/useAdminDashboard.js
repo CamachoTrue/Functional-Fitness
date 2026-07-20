@@ -8,6 +8,8 @@ import {
   fetchClients,
   fetchPendingPurchasesCount,
 } from '../services/adminService'
+import { fetchAllPackages } from '../services/packagesService'
+import { fetchAllExercises } from '../services/exercisesService'
 
 /**
  * Estado del panel de administración (dashboard). Sigue el patrón de
@@ -42,6 +44,8 @@ export function useAdminDashboard() {
   // Compras aprobadas que todavía no tienen rutina asignada (accionable: el admin
   // arma la rutina desde aquí). Incluye el nombre del cliente.
   const pendingRoutinePurchases = ref([])
+  // Estado de configuración inicial (para la guía "Primeros pasos").
+  const setup = ref({ hasPackages: true, hasExercises: true })
   const loading = ref(false)
   const error = ref(null)
 
@@ -56,6 +60,8 @@ export function useAdminDashboard() {
         activePurchases,
         assignedRoutines,
         clients,
+        allPackages,
+        allExercises,
       ] = await Promise.all([
         fetchAllPurchases(),
         fetchPendingPurchasesCount(),
@@ -63,7 +69,14 @@ export function useAdminDashboard() {
         fetchActiveApprovedPurchases(),
         fetchAssignedRoutines(),
         fetchClients(),
+        fetchAllPackages(),
+        fetchAllExercises(),
       ])
+
+      setup.value = {
+        hasPackages: allPackages.length > 0,
+        hasExercises: allExercises.length > 0,
+      }
 
       // Mapa user_id -> nombre para mostrar el cliente (no el UUID crudo).
       const clientsById = new Map(clients.map((c) => [c.id, c]))
@@ -145,10 +158,21 @@ export function useAdminDashboard() {
       latestPurchases.value = []
       topPackages.value = []
       pendingRoutinePurchases.value = []
+      // Ante error, no mostramos la guía de "primeros pasos".
+      setup.value = { hasPackages: true, hasExercises: true }
     } finally {
       loading.value = false
     }
   }
 
-  return { metrics, latestPurchases, topPackages, pendingRoutinePurchases, loading, error, load }
+  return {
+    metrics,
+    latestPurchases,
+    topPackages,
+    pendingRoutinePurchases,
+    setup,
+    loading,
+    error,
+    load,
+  }
 }

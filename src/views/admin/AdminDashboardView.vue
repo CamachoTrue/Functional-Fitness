@@ -11,7 +11,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner.vue'
 import { useAdminDashboard } from '../../composables/useAdminDashboard'
 import { useCurrency } from '../../composables/useCurrency'
 
-const { metrics, latestPurchases, topPackages, pendingRoutinePurchases, loading, error, load } =
+const { metrics, latestPurchases, topPackages, pendingRoutinePurchases, setup, loading, error, load } =
   useAdminDashboard()
 const { formatCurrency } = useCurrency()
 
@@ -64,6 +64,67 @@ onMounted(load)
       </div>
 
       <template v-else>
+        <!-- Guía de primeros pasos: solo mientras falte configurar lo básico. -->
+        <div
+          v-if="!setup.hasPackages || !setup.hasExercises"
+          class="mb-8 rounded-xl border border-brand-blue/30 bg-brand-blue/5 p-5 sm:p-6"
+        >
+          <p class="text-xs font-bold tracking-wide text-brand-blue uppercase">Primeros pasos</p>
+          <h2 class="mt-1 text-lg font-bold">Configura tu panel</h2>
+          <p class="mt-1 text-sm text-muted">
+            Prepara lo básico para empezar a vender planes y armar rutinas.
+          </p>
+          <ul class="mt-5 space-y-4">
+            <li class="flex items-center gap-3">
+              <span
+                class="flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                :class="setup.hasPackages ? 'bg-brand-blue text-white' : 'border border-border-strong text-muted'"
+              >
+                {{ setup.hasPackages ? '✓' : '1' }}
+              </span>
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-body">Crea tus paquetes</p>
+                <p class="text-sm text-muted">Los planes que vendes a tus clientes.</p>
+              </div>
+              <RouterLink
+                v-if="!setup.hasPackages"
+                class="focus-ring shrink-0 rounded-md text-sm font-semibold text-brand-blue transition hover:underline"
+                :to="{ name: 'admin-package-create' }"
+              >
+                Crear →
+              </RouterLink>
+            </li>
+            <li class="flex items-center gap-3">
+              <span
+                class="flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                :class="setup.hasExercises ? 'bg-brand-blue text-white' : 'border border-border-strong text-muted'"
+              >
+                {{ setup.hasExercises ? '✓' : '2' }}
+              </span>
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-body">Crea tu catálogo de ejercicios</p>
+                <p class="text-sm text-muted">Con su video de referencia, para armar rutinas.</p>
+              </div>
+              <RouterLink
+                v-if="!setup.hasExercises"
+                class="focus-ring shrink-0 rounded-md text-sm font-semibold text-brand-blue transition hover:underline"
+                :to="{ name: 'admin-exercise-create' }"
+              >
+                Crear →
+              </RouterLink>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="flex size-6 shrink-0 items-center justify-center rounded-full border border-border-strong text-xs font-bold text-muted">3</span>
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-body">Arma la rutina de cada cliente</p>
+                <p class="text-sm text-muted">
+                  Cuando un cliente compre y complete su cuestionario, aparecerá en “Rutinas por asignar”.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <BaseCard>
             <p class="text-sm text-muted">Ventas del mes</p>
