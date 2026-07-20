@@ -41,7 +41,7 @@ onMounted(() => {
 
 <template>
   <!-- Hero fijo del catálogo (imagen a pantalla completa "Todos los planes"). -->
-  <section class="relative flex h-[82vh] min-h-[520px] items-center justify-center overflow-hidden bg-black text-white">
+  <section class="relative flex h-screen min-h-[600px] items-center justify-center overflow-hidden bg-black text-white">
     <img src="/images/hero.jpg" alt="" class="absolute inset-0 h-full w-full object-cover object-center" />
     <div class="absolute inset-0 bg-black/60" aria-hidden="true" />
     <div class="relative flex flex-col items-center px-6 text-center">
